@@ -7,5 +7,8 @@
         <package name="com.be.user.domain"/>
     </typeAliases>
 
+    <mappers>
+        <mapper resource="mapper/userMapper.xml"/>
+    </mappers>
 
 </configuration>
