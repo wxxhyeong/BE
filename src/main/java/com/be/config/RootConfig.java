@@ -20,9 +20,9 @@ import javax.sql.DataSource;
 
 @Configuration
 @PropertySource({"classpath:/application.properties"})
-@MapperScan(basePackages  =
-        "com.be"
-)
+@MapperScan(basePackages  = {
+        "com.be.user.mapper",
+})
 @Slf4j
 @EnableTransactionManagement
 public class RootConfig {

@@ -7,6 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper {
 
-    public int insert(UserRegisterResDto userRegisterResDto);
+    int insert(UserRegisterResDto userRegisterResDto);
 
 }

@@ -20,40 +20,40 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
+//    @Override
+//    public void configure(HttpSecurity http) throws Exception {
+//
+//        http.authorizeRequests()
+//                .antMatchers("/").permitAll();
+//
+//        http.formLogin()
+//                .loginPage("/api/auth/login")
+//                .loginProcessingUrl("api/auth/login")
+//                .defaultSuccessUrl("/");
+//
+//        http.logout()
+//                .logoutUrl("/api/auth/logout")
+//                .invalidateHttpSession(true) // 세션 invalidate
+//                .deleteCookies("remember-me", "JSESSION-ID") // 삭제할 쿠키 목록
+//                .logoutSuccessUrl("/security/logout");
+//    }
+//
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth)
+//            throws Exception {
+//        log.info("configure .........................................");
+//        auth.inMemoryAuthentication()
+//                .withUser("admin")
+//                .password("{noop}1234")
+//                .roles("ADMIN","MEMBER"); // ROLE_ADMIN
+//        auth.inMemoryAuthentication()
+//                .withUser("member")
+//                .password("{noop}1234")
+//                .roles("MEMBER"); // ROLE_MEMBER
+//    }
 
-        http.authorizeRequests()
-                .antMatchers("/").permitAll();
-
-        http.formLogin()
-                .loginPage("/api/auth/login")
-                .loginProcessingUrl("api/auth/login")
-                .defaultSuccessUrl("/");
-
-        http.logout()
-                .logoutUrl("/api/auth/logout")
-                .invalidateHttpSession(true) // 세션 invalidate
-                .deleteCookies("remember-me", "JSESSION-ID") // 삭제할 쿠키 목록
-                .logoutSuccessUrl("/security/logout");
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth)
-            throws Exception {
-        log.info("configure .........................................");
-        auth.inMemoryAuthentication()
-                .withUser("admin")
-                .password("{noop}1234")
-                .roles("ADMIN","MEMBER"); // ROLE_ADMIN
-        auth.inMemoryAuthentication()
-                .withUser("member")
-                .password("{noop}1234")
-                .roles("MEMBER"); // ROLE_MEMBER
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 }
