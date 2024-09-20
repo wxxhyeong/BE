@@ -1,13 +1,18 @@
 package com.be.user.dto.req;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Slf4j
 public class UserRegisterReqDto {
+    {
+        log.info("UserRegisterReqDto constructor");
+    }
 
     private String userID;
     private String userEmail;

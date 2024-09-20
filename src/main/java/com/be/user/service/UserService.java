@@ -2,6 +2,7 @@ package com.be.user.service;
 
 import com.be.user.dto.req.UserRegisterReqDto;
 import com.be.user.dto.res.UserRegisterResDto;
+import com.be.user.mapper.UserMapper;
 import com.be.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,22 +16,22 @@ import java.time.LocalDate;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private UserMapper userMapper;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     public int registerUser(UserRegisterReqDto reqDto) {
         UserRegisterResDto resDto = UserRegisterResDto.builder()
                 .userID(reqDto.getUserID())
                 .userEmail(reqDto.getUserEmail())
                 .userName(reqDto.getUserName())
-                .userPw(passwordEncoder.encode(reqDto.getUserPw()))
+                .userPw(reqDto.getUserPw())
                 .userBirth(reqDto.getUserBirth())
                 .userGender(reqDto.getUserGender())
                 .userRegDate(LocalDate.now().toString()).build();
 
         try {
-            userRepository.insertUser(resDto);
+            userMapper.insert(resDto);
             log.info("User registration successful");
 
             return 1;
