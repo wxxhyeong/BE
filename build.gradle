@@ -77,6 +77,8 @@ dependencies {
   // Jackson - Json 처리
   implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.4'
 
+  //json
+  implementation 'org.json:json:20230227'
   // xml내 한글 처리
   implementation 'xerces:xercesImpl:2.12.2'
 
