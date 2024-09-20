@@ -23,14 +23,13 @@ public class UserController {
 
     @PostMapping("/register")
     public String register(@RequestBody UserRegisterReqDto reqDto) {
-        System.out.println("test");
+
+        log.info("register = " + reqDto.toString());
+        int state = userService.registerUser(reqDto);
+
+        if (state == 1) {
+            return "success";
+        }
         return "fail";
-//        log.info("register = " + reqDto.toString());
-//        int state = userService.registerUser(reqDto);
-//
-//        if (state == 1) {
-//            return "success";
-//        }
-//        return "fail";
     }
 }
