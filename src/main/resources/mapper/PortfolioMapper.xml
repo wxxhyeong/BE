@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- MyBatis 매퍼 설정 파일 -->
+<mapper namespace="com.be.portfolio.mapper.PortfolioMapper">
+    <select id="getPortfolioItemList" resultType="com.be.portfolio.dto.res.PortfolioItemResDto">
+    </select>
+    <select id="getPortfolio" resultType="com.be.portfolio.dto.res.PortfolioResDto"></select>
+    <insert id="createPortfolio"></insert>
+    <insert id="createPortfolioItem"></insert>
+    <delete id="deletePortfolio"></delete>
+    <delete id="deletePortfolioItem"></delete>
+</mapper>
