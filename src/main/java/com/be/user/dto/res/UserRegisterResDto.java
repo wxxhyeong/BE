@@ -12,6 +12,6 @@ public class UserRegisterResDto {
     private String userName;
     private String userPassword;
     private String userBirth;
-    private char userGender;
+    private String userGender;
     private String userRegDate;
 }

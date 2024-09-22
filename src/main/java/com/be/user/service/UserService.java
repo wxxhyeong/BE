@@ -29,7 +29,7 @@ public class UserService {
     @Bean
     private PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder();}
 
-    public int registerUser(@RequestBody @Valid UserRegisterReqDto reqDto) {
+    public int registerUser(UserRegisterReqDto reqDto) {
 
         validateUserID(reqDto.getUserID());
         validateUserEmail(reqDto.getUserEmail());
@@ -74,6 +74,7 @@ public class UserService {
         Optional<User> user = Optional.ofNullable(userMapper.selectOneByUserID(userID));
 
         if (user.isPresent()) {
+            log.info("ID already exists: {}", userID);
             throw new CustomException(EXISTING_USER_ID);
         }
     }

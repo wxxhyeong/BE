@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/user")
@@ -22,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody UserRegisterReqDto reqDto) {
+    public String register(@RequestBody @Valid UserRegisterReqDto reqDto) {
 
         log.info("register = " + reqDto.toString());
         int state = userService.registerUser(reqDto);

@@ -2,11 +2,12 @@ package com.be.user.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
 @ToString
-@Builder
+@NoArgsConstructor
 public class User {
 
     private int userNum;
@@ -15,7 +16,7 @@ public class User {
     private String userEmail;
     private String userPassword;
     private String userBirth;
-    private char userGender;
+    private String userGender;
     private int userPreference;
     private int userInvestScore;
     private String userRegDate;

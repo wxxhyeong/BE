@@ -7,7 +7,7 @@
     <insert id = "insert" parameterType="UserRegisterResDto">
         insert into user(user_id, user_name, user_email, user_password, user_birth,
                          user_gender, user_reg_date)
-        values (#{userID}, #{userEmail}, #{userName}, #{userPassword}, #{userBirth},
+        values (#{userID}, #{userName}, #{userEmail}, #{userPassword}, #{userBirth},
                 #{userGender}, #{userRegDate});
     </insert>
 

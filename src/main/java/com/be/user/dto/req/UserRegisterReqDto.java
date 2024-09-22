@@ -41,8 +41,8 @@ public class UserRegisterReqDto {
 
     private String userBirth;
 
-    @Pattern(regexp = "^(남|여)", message = "성별은 선택해주세요.")
-    private char userGender;
+    @Pattern(regexp = "^(남|여)", message = "성별을 선택해주세요.")
+    private String userGender;
 
     public UserRegisterResDto toUserResDto(String encodedPassword) {
 
