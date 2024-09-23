@@ -10,6 +10,7 @@
     
     <typeAliases>
         <package name="com.be.user.dto.res"/>
+        <package name="com.be.user.domain"/>
     </typeAliases>
     
 
