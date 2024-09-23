@@ -36,6 +36,10 @@ public class portfolioRepository {
         return sqlSessionTemplate.getMapper(PortfolioMapper.class).insertPortfolioItem(portfolioItemReqDto);
     }
 
+    public int updatePortfolio(int portfolioId, PortfolioReqDto portfolioReqDto) {
+        return sqlSessionTemplate.getMapper(PortfolioMapper.class).updatePortfolio(portfolioId, portfolioReqDto);
+    }
+
     public int deletePortfolio(int portfolioId) {
         return sqlSessionTemplate.getMapper(PortfolioMapper.class).deletePortfolio(portfolioId);
     }

@@ -1,13 +1,9 @@
 package com.be.portfolio.service;
 
-import com.be.cart.mapper.CartMapper;
-import com.be.finance.mapper.FinanceMapper;
-import com.be.portfolio.domain.PortfolioItemVO;
 import com.be.portfolio.dto.req.PortfolioItemReqDto;
 import com.be.portfolio.dto.res.PortfolioItemResDto;
 import com.be.portfolio.dto.res.PortfolioResDto;
 import com.be.portfolio.mapper.PortfolioMapper;
-import com.be.stock.mapper.StockMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,16 +16,21 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     @Override
     public PortfolioResDto getPortfolio(int portfolioId) {
-        return null;
+        return portfolioMapper.getPortfolio(portfolioId);
     }
 
     @Override
     public List<PortfolioItemResDto> getPortfolioItems(int portfolioId) {
-        return List.of();
+        return portfolioMapper.getPortfolioItemList(portfolioId);
     }
 
     @Override
     public PortfolioResDto createPortfolio(List<PortfolioItemReqDto> portfolioItems) {
+        return null;
+    }
+
+    @Override
+    public PortfolioResDto updatePortfolio(PortfolioItemReqDto portfolioItemReqDto) {
         return null;
     }
 

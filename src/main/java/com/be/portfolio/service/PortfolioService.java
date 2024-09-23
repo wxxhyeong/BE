@@ -10,7 +10,7 @@ public interface PortfolioService {
     PortfolioResDto getPortfolio(int portfolioId);
     List<PortfolioItemResDto> getPortfolioItems(int portfolioId);
     PortfolioResDto createPortfolio(List<PortfolioItemReqDto> portfolioItems);
-//    PortfolioResDto updatePortfolio(PortfolioItemReqDto portfolioItemReqDto);
+    PortfolioResDto updatePortfolio(PortfolioItemReqDto portfolioItemReqDto);
     PortfolioResDto deletePortfolio(int id);
     void calculatePortfolio(PortfolioItemResDto portfolioItemResDto);
     void calculatePortion(PortfolioItemResDto portfolioItemResDto);

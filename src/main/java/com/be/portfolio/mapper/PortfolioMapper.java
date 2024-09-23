@@ -12,6 +12,7 @@ public interface PortfolioMapper {
     PortfolioResDto getPortfolio(int portfolioId);
     int insertPortfolio(PortfolioReqDto portfolioReqDto);
     int insertPortfolioItem(PortfolioItemReqDto portfolioItemReqDto);
+    int updatePortfolio(int portfolioId, PortfolioReqDto portfolioReqDto);
     int deletePortfolio(int portfolioId);
     int deletePortfolioItem(int portfolioItemId);
 }
