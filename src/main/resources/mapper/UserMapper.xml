@@ -4,11 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.be.user.mapper.UserMapper">
-    <insert id = "insert" parameterType="com.be.user.dto.res.UserRegisterResDto">
-        insert into user(user_id, user_name, user_email, user_pw, user_birth,
+    <insert id = "insert" parameterType="UserRegisterResDto">
+        insert into user(user_id, user_name, user_email, user_password, user_birth,
                          user_gender, user_reg_date)
-        values (#{userID}, #{userEmail}, #{userName}, #{userPw}, #{userBirth},
+        values (#{userID}, #{userName}, #{userEmail}, #{userPassword}, #{userBirth},
                 #{userGender}, #{userRegDate});
     </insert>
+
+    <select id="selectOneByUserID" parameterType="String" resultType="User">
+        select * from user where user_id = #{userID};
+    </select>
+
+    <select id="selectOneByUserEmail" parameterType="String" resultType="User">
+        select * from user where user_email = #{userEmail};
+    </select>
 
 </mapper>

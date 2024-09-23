@@ -10,10 +10,13 @@
     
     <typeAliases>
         <package name="com.be.user.dto.res"/>
+        <package name="com.be.user.domain"/>
     </typeAliases>
     
 
     <mappers>
+        <mapper resource="mapper/productMapper.xml"/>
+        <mapper resource="mapper/SavingProductMapper.xml"/>
         <mapper resource="mapper/UserMapper.xml"/>
     </mappers>
 

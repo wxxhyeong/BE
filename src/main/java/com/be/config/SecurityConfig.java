@@ -52,8 +52,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .roles("MEMBER"); // ROLE_MEMBER
 //    }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
 }
