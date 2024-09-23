@@ -10,8 +10,8 @@ import java.util.List;
 public interface PortfolioMapper {
     List<PortfolioItemResDto> getPortfolioItemList(int portfolioId);
     PortfolioResDto getPortfolio(int portfolioId);
-    void createPortfolio(PortfolioReqDto portfolioReqDto);
-    void createPortfolioItem(PortfolioItemReqDto portfolioItemReqDto);
+    int insertPortfolio(PortfolioReqDto portfolioReqDto);
+    int insertPortfolioItem(PortfolioItemReqDto portfolioItemReqDto);
     int deletePortfolio(int portfolioId);
     int deletePortfolioItem(int portfolioItemId);
 }

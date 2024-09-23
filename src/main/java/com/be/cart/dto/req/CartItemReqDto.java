@@ -1,10 +1,9 @@
-package com.be.cart.domain;
+package com.be.cart.dto.req;
 
 import lombok.Data;
 
 @Data
-public class CartItemVO {
-    private int cartId;
+public class CartItemReqDto {
     private int productId;
     private int userNum;
 }

@@ -6,10 +6,12 @@
 <!-- MyBatis 매퍼 설정 파일 -->
 <mapper namespace="com.be.portfolio.mapper.PortfolioMapper">
     <select id="getPortfolioItemList" resultType="com.be.portfolio.dto.res.PortfolioItemResDto">
+        select * from portfolioitem
+        where portfolioID = #{portfolioID}
     </select>
     <select id="getPortfolio" resultType="com.be.portfolio.dto.res.PortfolioResDto"></select>
-    <insert id="createPortfolio"></insert>
-    <insert id="createPortfolioItem"></insert>
+    <insert id="insertPortfolio"></insert>
+    <insert id="insertPortfolioItem"></insert>
     <delete id="deletePortfolio"></delete>
     <delete id="deletePortfolioItem"></delete>
 </mapper>

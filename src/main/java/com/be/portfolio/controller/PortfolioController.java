@@ -1,5 +1,6 @@
 package com.be.portfolio.controller;
 
+import com.be.cart.dto.res.CartItemResDto;
 import com.be.cart.service.CartService;
 import com.be.finance.service.FinanceService;
 import com.be.portfolio.dto.req.PortfolioItemReqDto;
@@ -21,18 +22,18 @@ public class PortfolioController {
     private final StockService stockService;
     private final FinanceService financeService;
 
-//    @GetMapping("/{userNum}")
-//    public ResponseEntity<CartResDto> getCartItems(@PathVariable Integer userNum) {
-//        return ResponseEntity.ok(cartService.get(userNum));
-//    }
+    @GetMapping("/{userNum}")
+    public ResponseEntity<List<CartItemResDto>> getCartItems(@PathVariable Integer userNum) {
+        return ResponseEntity.ok(cartService.getCartList(userNum));
+    }
 
 //    @GetMapping
-//    public ResponseEntity<FinanceResDto> getFinanceProduct(@RequestParam String query) {
+//    public ResponseEntity<List<FinanceResDto>> getFinanceProduct(@RequestParam String query) {
 //        return ResponseEntity.ok(financeService.get(query));
 //    }
 
 //    @GetMapping
-//    public ResponseEntity<StockResDto> getStocks(@RequestParam String query) {
+//    public ResponseEntity<List<StockResDto>> getStocks(@RequestParam String query) {
 //        return ResponseEntity.ok(stockService.get(query));
 //    }
 
