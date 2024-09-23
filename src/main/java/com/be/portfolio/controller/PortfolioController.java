@@ -1,9 +1,10 @@
 package com.be.portfolio.controller;
 
-import com.be.cart.dto.res.CartItemResDto;
 //import com.be.cart.service.CartService;
 import com.be.finance.service.FinanceService;
+import com.be.portfolio.domain.PortfolioVO;
 import com.be.portfolio.dto.req.PortfolioItemReqDto;
+import com.be.portfolio.dto.req.PortfolioReqDto;
 import com.be.portfolio.dto.res.PortfolioResDto;
 import com.be.portfolio.service.PortfolioService;
 import com.be.stock.service.StockService;
@@ -38,17 +39,17 @@ public class PortfolioController {
 //    }
 
     @PostMapping
-    public ResponseEntity<PortfolioResDto> createPortfolio(List<PortfolioItemReqDto> portfolioItems) {
-        return ResponseEntity.ok(portfolioService.createPortfolio(portfolioItems));
+    public ResponseEntity<PortfolioResDto> createPortfolio(PortfolioReqDto portfolioReqDto, List<PortfolioItemReqDto> portfolioItems) {
+        return ResponseEntity.ok(portfolioService.createPortfolio(portfolioReqDto, portfolioItems));
     }
 
     @GetMapping("/{portfolioID}")
-    public ResponseEntity<PortfolioResDto> getPortfolio(@PathVariable Integer portfolioID) {
+    public ResponseEntity<PortfolioVO> getPortfolio(@PathVariable int portfolioID) {
         return ResponseEntity.ok(portfolioService.getPortfolio(portfolioID));
     }
 
-    @DeleteMapping("/{portfolioID")
-    public ResponseEntity<PortfolioResDto> deletePortfolio(@PathVariable Integer portfolioID) {
+    @DeleteMapping("/{portfolioID}")
+    public ResponseEntity<PortfolioVO> deletePortfolio(@PathVariable Integer portfolioID) {
         return ResponseEntity.ok(portfolioService.deletePortfolio(portfolioID));
     }
 

@@ -16,4 +16,6 @@ public class PortfolioItemVO {
     private String stockCode;
     private int amount;
     private int expectedReturn;
+    private String productType;
+    private int dailyPrice;
 }

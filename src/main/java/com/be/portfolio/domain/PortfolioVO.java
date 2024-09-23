@@ -23,5 +23,5 @@ public class PortfolioVO {
     private String portfolioName;
     private int userNum;
 
-    private List<PortfolioItemResDto> portfolioItems = new ArrayList<>();
+    private List<PortfolioItemVO> portfolioItems = new ArrayList<>();
 }

@@ -1,5 +1,7 @@
 package com.be.portfolio.repository;
 
+import com.be.portfolio.domain.PortfolioItemVO;
+import com.be.portfolio.domain.PortfolioVO;
 import com.be.portfolio.dto.req.PortfolioItemReqDto;
 import com.be.portfolio.dto.req.PortfolioReqDto;
 import com.be.portfolio.dto.res.PortfolioItemResDto;
@@ -20,24 +22,24 @@ public class portfolioRepository {
         this.sqlSessionTemplate = sqlSessionTemplate;
     }
 
-    public List<PortfolioItemResDto> getPortfolioItemList(int portfolioId) {
+    public List<PortfolioItemVO> getPortfolioItemList(int portfolioId) {
         return sqlSessionTemplate.getMapper(PortfolioMapper.class).getPortfolioItemList(portfolioId);
     }
 
-    public PortfolioResDto getPortfolio(int portfolioId) {
+    public PortfolioVO getPortfolio(int portfolioId) {
         return sqlSessionTemplate.getMapper(PortfolioMapper.class).getPortfolio(portfolioId);
     }
 
-    public int insertPortfolio(PortfolioReqDto portfolioReqDto) {
-        return sqlSessionTemplate.getMapper(PortfolioMapper.class).insertPortfolio(portfolioReqDto);
+    public int insertPortfolio(PortfolioVO portfolioVO) {
+        return sqlSessionTemplate.getMapper(PortfolioMapper.class).insertPortfolio(portfolioVO);
     }
 
-    public int insertPortfolioItem(PortfolioItemReqDto portfolioItemReqDto) {
-        return sqlSessionTemplate.getMapper(PortfolioMapper.class).insertPortfolioItem(portfolioItemReqDto);
+    public int insertPortfolioItem(PortfolioItemVO portfolioItemVO) {
+        return sqlSessionTemplate.getMapper(PortfolioMapper.class).insertPortfolioItem(portfolioItemVO);
     }
 
-    public int updatePortfolio(int portfolioId, PortfolioReqDto portfolioReqDto) {
-        return sqlSessionTemplate.getMapper(PortfolioMapper.class).updatePortfolio(portfolioId, portfolioReqDto);
+    public int updatePortfolio(int portfolioId, PortfolioVO portfolioVO) {
+        return sqlSessionTemplate.getMapper(PortfolioMapper.class).updatePortfolio(portfolioId, portfolioVO);
     }
 
     public int deletePortfolio(int portfolioId) {
