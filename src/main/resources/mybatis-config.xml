@@ -17,9 +17,11 @@
     <mappers>
         <mapper resource="mapper/productMapper.xml"/>
         <mapper resource="mapper/SavingProductMapper.xml"/>
+        <mapper resource="mapper/FundProductMapper.xml"/>
+        <mapper resource="mapper/BondProductMapper.xml"/>
         <mapper resource="mapper/UserMapper.xml"/>
         <mapper resource="mapper/StockMapper.xml"/>
-
+        <mapper resource="mapper/PortfolioMapper.xml"/>
     </mappers>
 
 </configuration>

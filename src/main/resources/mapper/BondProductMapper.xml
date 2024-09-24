@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.be.finance.mapper.BondProductMapper">
+
+    <!-- 펀드 상품 삽입 -->
+    <insert id="insertBondProduct" parameterType="com.be.finance.domain.BondProductVO">
+        INSERT INTO BondProduct
+        (
+            productId, basDt, crno, scrsItmsKcd, isinCd, scrsItmsKcdNm, bondIsurNm, isinCdNm,
+            bondIssuDt, bondIssuAmt, bondIssuCurCd, bondIssuCurCdNm, bondExprDt, bondPymtAmt,
+            irtChngDcd, irtChngDcdNm, bondSrfcInrt, bondIntTcd, bondIntTcdNm, intPayCyclCtt,
+            nxtmCopnDt, rbVopnDt, kbpScrsItmsKcdNm, niceScrsItmsKcdNm, fnScrsItmsKcdNm,
+            riskLevel, hit
+        )
+        VALUES
+            (
+                #{productId}, #{basDt}, #{crno}, #{scrsItmsKcd}, #{isinCd}, #{scrsItmsKcdNm}, #{bondIsurNm}, #{isinCdNm},
+                #{bondIssuDt}, #{bondIssuAmt}, #{bondIssuCurCd}, #{bondIssuCurCdNm}, #{bondExprDt}, #{bondPymtAmt},
+                #{irtChngDcd}, #{irtChngDcdNm}, #{bondSrfcInrt}, #{bondIntTcd}, #{bondIntTcdNm}, #{intPayCyclCtt},
+                #{nxtmCopnDt}, #{rbVopnDt}, #{kbpScrsItmsKcdNm}, #{niceScrsItmsKcdNm}, #{fnScrsItmsKcdNm},
+                0, 0
+            )
+    </insert>
+
+</mapper>

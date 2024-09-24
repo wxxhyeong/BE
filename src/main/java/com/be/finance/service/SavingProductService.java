@@ -28,6 +28,9 @@ public class SavingProductService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Value("${api.depositProductUrl}")
+    private String depositProductApiUrl;
+
     @Value("${api.savingProductUrl}")
     private String savingProductApiUrl;
 
@@ -35,6 +38,51 @@ public class SavingProductService {
     private String authKey;
 
     // 금융감독원 예금 API에서 데이터 Fetch
+    public void fetchAndSaveDepositProducts() {
+        // API 호출 URL
+        String url = depositProductApiUrl + "?auth=" + authKey + "&topFinGrpNo=020000" + "&pageNo=1";
+        System.out.println(url);
+
+        try {
+            // RestTemplate로 API 호출
+            ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+            // 응답 상태 코드 확인
+            if (responseEntity.getStatusCode() != HttpStatus.OK) {
+                throw new RuntimeException("API 호출 실패: 상태 코드 " + responseEntity.getStatusCode());
+            }
+
+            String responseJson = responseEntity.getBody();
+
+            // null 체크를 수행하여 응답이 없을 경우 오류 처리
+            if (responseJson == null) {
+                throw new RuntimeException("API 응답이 null입니다.");
+            }
+
+            // org.json.JSONObject를 이용해 JSON 응답을 파싱
+            JSONObject jsonResponse = new JSONObject(responseJson);
+
+            // "result" 부분 추출
+            if (!jsonResponse.has("result")) {
+                throw new RuntimeException("API 응답에서 'result' 필드를 찾을 수 없습니다.");
+            }
+
+            JSONObject result = jsonResponse.getJSONObject("result");
+
+            // "baseList"와 "optionList" 추출
+            JSONArray baseList = result.getJSONArray("baseList");
+            JSONArray optionList = result.getJSONArray("optionList");
+
+            // 상품 처리 로직
+            processBaseAndOptionLists(baseList, optionList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("API 호출 중 오류 발생: " + e.getMessage());
+        }
+    }
+
+
+    // 금융감독원 적금 API에서 데이터 Fetch
     public void fetchAndSaveSavingProducts() {
         // API 호출 URL
         String url = savingProductApiUrl + "?auth=" + authKey + "&topFinGrpNo=020000" + "&pageNo=1";
@@ -77,7 +125,6 @@ public class SavingProductService {
             throw new RuntimeException("API 호출 중 오류 발생: " + e.getMessage());
         }
     }
-
 
     // 상품 처리 메소드
     private void processBaseAndOptionLists(JSONArray baseList, JSONArray optionList) {
@@ -126,8 +173,13 @@ public class SavingProductService {
                     rateVO.setIntrRateTypeNm(optionProductJson.getString("intr_rate_type_nm"));  // 금리 유형명
                     rateVO.setIntrRate(optionProductJson.isNull("intr_rate") ? null : optionProductJson.getBigDecimal("intr_rate")); // intr_rate 처리
                     rateVO.setIntrRate2(optionProductJson.isNull("intr_rate2") ? null : optionProductJson.getBigDecimal("intr_rate2")); // intr_rate2 처리
-                    rateVO.setRsrvType(null);  // 적립 유형
-                    rateVO.setRsrvTypeNm(null);
+                    // rsrv_type과 rsrv_type_nm 처리
+                    rateVO.setRsrvType(optionProductJson.has("rsrv_type") && !optionProductJson.isNull("rsrv_type")
+                            ? optionProductJson.getString("rsrv_type")
+                            : "null"); // rsrv_type 처리 (String)
+                    rateVO.setRsrvTypeNm(optionProductJson.has("rsrv_type_nm") && !optionProductJson.isNull("rsrv_type_nm")
+                            ? optionProductJson.getString("rsrv_type_nm")
+                            : "null"); // rsrv_type_nm 처리 (String)
 
                     savingProductMapper.insertSavingProductRate(rateVO);
                 }
