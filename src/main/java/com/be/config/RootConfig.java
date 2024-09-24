@@ -25,7 +25,8 @@ import javax.sql.DataSource;
 @MapperScan(basePackages  = {
         "com.be.user.mapper",
         "com.be.portfolio.mapper",
-        "com.be.finance.mapper"
+        "com.be.finance.mapper",
+        "com.be.cart.mapper"
 })
 @ComponentScan(basePackages = {
         "com.be.portfolio.service",

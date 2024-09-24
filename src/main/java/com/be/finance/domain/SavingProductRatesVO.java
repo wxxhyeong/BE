@@ -1,7 +1,14 @@
 package com.be.finance.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SavingProductRatesVO {
     private int productId;       // 외래키: Product ID
     private int saveTrm;         // 저축 기간

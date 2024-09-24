@@ -5,7 +5,6 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Builder
 public class PortfolioItemVO {
     private int portfolioItemId;
