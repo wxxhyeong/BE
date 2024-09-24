@@ -1,21 +1,19 @@
 package com.be.portfolio.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @Builder
 public class PortfolioItemVO {
     private int portfolioItemId;
-    private int portfolioId;
+    public int portfolioId;
     private int productId;
     private String stockCode;
     private int amount;
-    private int expectedReturn;
+    private double expectedReturn;
     private String productType;
     private int dailyPrice;
 }

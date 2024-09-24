@@ -44,12 +44,12 @@ public class PortfolioController {
     }
 
     @GetMapping("/{portfolioID}")
-    public ResponseEntity<PortfolioVO> getPortfolio(@PathVariable int portfolioID) {
+    public ResponseEntity<PortfolioResDto> getPortfolio(@PathVariable int portfolioID) {
         return ResponseEntity.ok(portfolioService.getPortfolio(portfolioID));
     }
 
     @DeleteMapping("/{portfolioID}")
-    public ResponseEntity<PortfolioVO> deletePortfolio(@PathVariable Integer portfolioID) {
+    public ResponseEntity<PortfolioResDto> deletePortfolio(@PathVariable Integer portfolioID) {
         return ResponseEntity.ok(portfolioService.deletePortfolio(portfolioID));
     }
 
