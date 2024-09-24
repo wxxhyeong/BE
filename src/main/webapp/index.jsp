@@ -18,5 +18,10 @@
 <form action="${pageContext.request.contextPath}/api/saving-products/fetch-saveSaving" method="GET">
   <button type="submit" style="padding: 10px; background-color: lightblue;">API에서 적금 데이터 받아오기</button>
 </form>
+<form action="/api/portfolio" method="GET">
+  <label for="portfolioID">Portfolio ID:</label>
+  <input type="text" id="portfolioID" name="portfolioID" required>
+  <button type="submit">Submit</button>
+</form>
 </body>
 </html>

@@ -18,6 +18,7 @@
         <mapper resource="mapper/productMapper.xml"/>
         <mapper resource="mapper/SavingProductMapper.xml"/>
         <mapper resource="mapper/UserMapper.xml"/>
+        <mapper resource="mapper/PortfolioMapper.xml"/>
     </mappers>
 
 </configuration>
