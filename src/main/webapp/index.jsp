@@ -30,5 +30,9 @@
 <form action="${pageContext.request.contextPath}/bond/fetch-save" method="GET">
   <button type="submit" style="padding: 10px 20px;">채권 데이터 받아오기</button>
 </form>
+  <form action="/api/portfolio" method="GET">
+  <label for="portfolioID">Portfolio ID:</label>
+  <input type="text" id="portfolioID" name="portfolioID" required>
+  <button type="submit">Submit</button>
 </body>
 </html>
