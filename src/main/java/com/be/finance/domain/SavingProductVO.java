@@ -1,5 +1,12 @@
 package com.be.finance.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SavingProductVO {
     private int productId;      // 외래키: Product ID
     private String finPrdtCd;   // 금융상품 코드

@@ -1,5 +1,12 @@
 package com.be.finance.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductVO {
     private int productId;
     private char productType;
