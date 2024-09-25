@@ -307,3 +307,14 @@ CREATE TABLE `PortfolioItem` (
                                  `amount`	INT	NULL,
                                  `expectedReturn`	DECIMAL(5,2)	NULL
 );
+
+CREATE TABLE `CartItem` (
+                            `cartID`	INT	NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                            `productID`	INT	NOT NULL,
+                            `userNum`	INT	NOT NULL,
+                            `productType` CHAR(1) NOT NULL,
+                            `provider` VARCHAR(100) NOT NULL,
+                            `productName` VARCHAR(100) NOT NULL,
+                            `expectedReturn` DECIMAL(5,2) NULL,
+                            `interestRate` DECIMAL(5,2) NULL
+);

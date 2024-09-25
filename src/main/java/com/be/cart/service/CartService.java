@@ -9,4 +9,5 @@ public interface CartService {
     List<CartItemResDto> getCartList(int userNum);
     CartItemResDto addCartItem(CartItemReqDto cart);
     void deleteCartItem(int cartId);
+    boolean checkCartItem(CartItemReqDto cart);
 }

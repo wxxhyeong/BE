@@ -13,4 +13,9 @@ public class CartItemVO {
     private int cartId;
     private int productId;
     private int userNum;
+    private String productType;
+    private String provider;
+    private String productName;
+    private Double expectedReturn;
+    private Double interestRate;
 }
