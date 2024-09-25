@@ -8,11 +8,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class StockRepository {
-    private SqlSessionTemplate my;
-    public StockRepository() {System.out.println("StockRepository created");}
+
+    private final SqlSessionTemplate my;
 
     @Autowired
-    public StockRepository(SqlSessionTemplate my) {this.my = my;}
+    public StockRepository(SqlSessionTemplate my) {
+        this.my = my;
+    }
 
-    public int insert(StockVO stockVO){return my.getMapper(StockMapper.class).insert(stockVO);}
+    public int insert(StockVO stockVO) {
+        return my.getMapper(StockMapper.class).insert(stockVO);  // DB에 저장
+    }
 }

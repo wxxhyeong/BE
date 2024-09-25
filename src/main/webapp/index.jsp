@@ -13,6 +13,9 @@
 <form action="${pageContext.request.contextPath}/api/saving-products/fetch-saveDeposit" method="GET">
   <button type="submit" style="padding: 10px; background-color: lightblue;">API에서 예금 데이터 받아오기</button>
 </form>
+<form action="/api/stock/fetch" method="get">
+  <button type="submit">주식 DB 추가하기</button>
+</form>
 <br/>
 <br/>
 <form action="${pageContext.request.contextPath}/api/saving-products/fetch-saveSaving" method="GET">
@@ -34,5 +37,5 @@
   <label for="portfolioID">Portfolio ID:</label>
   <input type="text" id="portfolioID" name="portfolioID" required>
   <button type="submit">Submit</button>
-</body>
+    </body>
 </html>

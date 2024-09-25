@@ -1,30 +1,22 @@
 package com.be.stock.controller;
 
-
 import com.be.stock.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping("/stock")
+@RestController
+@RequestMapping("/api/stock")
 public class StockController {
 
-    private StockService stockService;
-    public StockController(StockService stockService) {System.out.println("StockController");}
-
     @Autowired
-    public void setStockService(StockService stockService) {
-        this.stockService = stockService;
-    }
-    @GetMapping
-    public String stock() {return "stock/stock";}
+    private StockService stockService;
 
-    @GetMapping("/insert")
-    public String insert() {
-        stockService.insert();
-        return "stock/insert";
+    // 주식 데이터를 DB에 저장하는 fetch 메서드 (GET /api/stock/fetch)
+    @GetMapping("/fetch")
+    public String fetchStockData() {
+        stockService.fetchStock();  // 주식 데이터를 가져와서 DB에 저장
+        return "fetchResult";  // fetchResult.jsp 파일로 이동
     }
 }
