@@ -11,11 +11,27 @@
             stockCode, stockName, dailyPrice, field,
             mrktCtg, clpr, vs, fltRt, mkp,
             hipr, lopr, trqu, trPrc, istgStCnt, mrktTotAmt
-        ) VALUES (
+        )
+        VALUES (
                      #{stockCode}, #{stockName}, #{dailyPrice}, #{field},
                      #{mrktCtg}, #{clpr}, #{vs}, #{fltRt}, #{mkp},
                      #{hipr}, #{lopr}, #{trqu}, #{trPrc}, #{istgStCnt}, #{mrktTotAmt}
                  )
+            ON DUPLICATE KEY UPDATE
+                  stockName = VALUES(stockName),
+                  dailyPrice = VALUES(dailyPrice),
+                  field = VALUES(field),
+                  mrktCtg = VALUES(mrktCtg),
+                  clpr = VALUES(clpr),
+                  vs = VALUES(vs),
+                  fltRt = VALUES(fltRt),
+                  mkp = VALUES(mkp),
+                  hipr = VALUES(hipr),
+                  lopr = VALUES(lopr),
+                  trqu = VALUES(trqu),
+                  trPrc = VALUES(trPrc),
+                  istgStCnt = VALUES(istgStCnt),
+                  mrktTotAmt = VALUES(mrktTotAmt);
     </insert>
 
     <!-- Select statement for retrieving all records from the stock table -->

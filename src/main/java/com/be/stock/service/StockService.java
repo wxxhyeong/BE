@@ -39,11 +39,12 @@ public class StockService {
     @Value("${api.StockKey}")
     private String StockKey;
 
+    int count = 0;
 
     // 주식시세 fetch
     public void fetchStock() {
         int pageNo = 1; // 초기 페이지 번호
-        int numOfRows = 30; // 한 페이지에 가져올 데이터 수
+        int numOfRows = 1000; // 한 페이지에 가져올 데이터 수
         boolean hasNextPage = true; // 다음 페이지가 있는지 여부
 
         try {
@@ -87,7 +88,10 @@ public class StockService {
 
                         vo.setClpr(item.optInt("clpr", 0));
                         vo.setHipr(item.optInt("hipr", 0));
-                        vo.setStockCode(item.optString("srtnCd"));  // stockCode는 srtnCd로 설정
+                        vo.setStockCode(item.optString("srtnCd")); // stockCode는 srtnCd로 설정
+                        if (item.optString("srtnCd").equals("900110")) {
+                            count++;
+                        }
                         vo.setStockName(item.optString("itmsNm"));  // stockName은 itmsNm으로 설정
                         vo.setMrktCtg(item.optString("mrktCtg"));
                         vo.setDailyPrice(item.optBigDecimal("dailyPrice", BigDecimal.ZERO));  // dailyPrice 필드
@@ -109,6 +113,7 @@ public class StockService {
                         stockRepository.insert(stockVO);
                     }
 
+                    System.out.println(count);
                     System.out.println("페이지 " + pageNo + "의 주식 데이터가 성공적으로 저장되었습니다.");
 
                     // 페이지를 다 읽었는지 확인
