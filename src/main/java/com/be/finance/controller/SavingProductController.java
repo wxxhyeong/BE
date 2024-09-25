@@ -25,5 +25,4 @@ public class SavingProductController {
         savingProductService.fetchAndSaveSavingProducts();
         return "적금 데이터 저장 완료";
     }
-
 }

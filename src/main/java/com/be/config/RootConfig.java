@@ -23,7 +23,7 @@ import javax.sql.DataSource;
 @Configuration
 @PropertySource({"classpath:/application.properties"})
 @MapperScan(basePackages  = {
-        "com.be.stock.mapper"
+        "com.be.stock.mapper",
         "com.be.user.mapper",
         "com.be.portfolio.mapper",
         "com.be.finance.mapper"
