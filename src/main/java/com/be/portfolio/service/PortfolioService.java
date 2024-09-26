@@ -12,15 +12,15 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.util.List;
 
 public interface PortfolioService {
-    PortfolioVO getPortfolio(int portfolioId);
-    List<PortfolioItemVO> getPortfolioItems(int portfolioId);
+    PortfolioResDto getPortfolio(int portfolioId);
+    List<PortfolioItemResDto> getPortfolioItems(int portfolioId);
     PortfolioResDto createPortfolio(PortfolioReqDto portfolioReqDto, List<PortfolioItemReqDto> portfolioItems);
-    PortfolioVO updatePortfolio(PortfolioVO portfolioVO);
+    PortfolioResDto updatePortfolio(PortfolioVO portfolioVO);
 
     @Scheduled(cron = "0 0 0 * * ?")
     void updateAllPortfolio();
 
-    PortfolioVO deletePortfolio(int id);
-    PortfolioResDto calculatePortfolio(PortfolioVO portfolioVO);
-    PortfolioPortionDto calculatePortion(List<PortfolioItemVO> portfolioItems);
+    PortfolioResDto deletePortfolio(int id);
+    PortfolioReqDto calculatePortfolio(PortfolioReqDto portfolioReqDto);
+    PortfolioPortionDto calculatePortion(List<PortfolioItemResDto> portfolioItems);
 }
