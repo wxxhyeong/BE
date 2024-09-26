@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<!-- fetchResult.jsp (단순 성공 메시지 표시) -->
+<!-- stockFetchResult.jsp (단순 성공 메시지 표시) -->
 <!DOCTYPE html>
 <html>
 <head>

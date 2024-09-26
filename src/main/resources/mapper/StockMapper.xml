@@ -11,20 +11,35 @@
             stockCode, stockName, dailyPrice, field,
             mrktCtg, clpr, vs, fltRt, mkp,
             hipr, lopr, trqu, trPrc, istgStCnt, mrktTotAmt
-        ) VALUES (
+        )
+        VALUES (
                      #{stockCode}, #{stockName}, #{dailyPrice}, #{field},
                      #{mrktCtg}, #{clpr}, #{vs}, #{fltRt}, #{mkp},
                      #{hipr}, #{lopr}, #{trqu}, #{trPrc}, #{istgStCnt}, #{mrktTotAmt}
                  )
+            ON DUPLICATE KEY UPDATE
+                  stockName = VALUES(stockName),
+                  dailyPrice = VALUES(dailyPrice),
+                  field = VALUES(field),
+                  mrktCtg = VALUES(mrktCtg),
+                  clpr = VALUES(clpr),
+                  vs = VALUES(vs),
+                  fltRt = VALUES(fltRt),
+                  mkp = VALUES(mkp),
+                  hipr = VALUES(hipr),
+                  lopr = VALUES(lopr),
+                  trqu = VALUES(trqu),
+                  trPrc = VALUES(trPrc),
+                  istgStCnt = VALUES(istgStCnt),
+                  mrktTotAmt = VALUES(mrktTotAmt);
     </insert>
 
-    <!-- Select statement for retrieving all records from the stock table -->
-    <select id="all" resultType="com.be.stock.domain.StockVO">
-        SELECT
-            stockCode, stockName, dailyPrice, field,
-            mrktCtg, clpr, vs, fltRt, mkp,
-            hipr, lopr, trqu, trPrc, istgStCnt, mrktTotAmt
+    <!-- stockCode 또는 stockName으로 검색하는 쿼리 -->
+    <select id="searchStock" parameterType="String" resultType="com.be.stock.domain.StockVO">
+        SELECT *
         FROM stock
+        WHERE stockCode LIKE CONCAT('%', #{searchTerm}, '%')
+           OR stockName LIKE CONCAT('%', #{searchTerm}, '%')
     </select>
 
 </mapper>
