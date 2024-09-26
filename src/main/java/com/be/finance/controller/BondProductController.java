@@ -1,15 +1,18 @@
 package com.be.finance.controller;
 
 
+import com.be.finance.domain.BondProductVO;
 import com.be.finance.service.BondProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/bond")
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/bond")
+@CrossOrigin(origins = "http://localhost:5173")
 public class BondProductController {
 
     @Autowired
@@ -27,4 +30,18 @@ public class BondProductController {
             return "채권 데이터 저장 중 오류 발생"; // 오류
         }
     }
+
+    // 채권 데이터 조회 API
+    @GetMapping("/list")
+    public ResponseEntity<List<BondProductVO>> getBondProductsList() {
+        try {
+            List<BondProductVO> bondProducts = bondProductService.getBondProductsList();
+            System.out.println("성공");
+            return ResponseEntity.ok(bondProducts);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+    }
+
 }

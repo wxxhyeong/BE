@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Service
 public class FundProductService {
@@ -66,5 +67,10 @@ public class FundProductService {
             e.printStackTrace();
             throw new RuntimeException("펀드 상품 처리 중 오류 발생: " + e.getMessage());
         }
+    }
+
+    // 펀드 리스트 가져오기
+    public List<FundProductVO> getFundProductsList() {
+        return fundProductMapper.getFundProductsList();  // DB에서 펀드 데이터를 조회하는 로직
     }
 }

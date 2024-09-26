@@ -25,4 +25,7 @@
             )
     </insert>
 
+    <select id="getBondProductsList" resultType="com.be.finance.domain.BondProductVO">
+        SELECT * FROM BondProduct
+    </select>
 </mapper>

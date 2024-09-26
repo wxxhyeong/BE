@@ -30,4 +30,34 @@
                  )
     </insert>
 
+
+    <!-- 예금 상품 조회 -->
+    <select id="getDepositProducts" resultType="com.be.finance.domain.SavingProductVO">
+        SELECT *
+        FROM SavingsProduct
+        WHERE fin_prdt_nm LIKE '%예금%'
+    </select>
+
+    <!-- 적금 상품 조회 -->
+    <select id="getSavingProducts" resultType="com.be.finance.domain.SavingProductVO">
+        SELECT *
+        FROM SavingsProduct
+        WHERE fin_prdt_nm LIKE '%적금%'
+    </select>
+
+    <!-- 예금 상품 금리 정보 조회 (rsrv_type IS NULL) -->
+    <select id="getDepositRates" resultType="com.be.finance.domain.SavingProductRatesVO">
+        SELECT *
+        FROM SavingProductRates
+        WHERE rsrv_type LIKE "NULL";
+    </select>
+
+    <!-- 적금 상품 금리 정보 조회 (rsrv_type IS NOT NULL) -->
+    <select id="getSavingRates" resultType="com.be.finance.domain.SavingProductRatesVO">
+        SELECT *
+        FROM SavingProductRates
+        WHERE rsrv_type NOT LIKE "NULL";
+    </select>
+
+
 </mapper>

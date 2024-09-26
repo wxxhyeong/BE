@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -135,5 +136,9 @@ public class BondProductService {
             // 데이터베이스에 저장
             bondProductMapper.insertBondProduct(bondProductVO);
         }
+    }
+
+    public List<BondProductVO> getBondProductsList() {
+        return bondProductMapper.getBondProductsList();
     }
 }
