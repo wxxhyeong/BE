@@ -1,6 +1,7 @@
 package com.be.portfolio.dto.req;
 
 import com.be.portfolio.domain.PortfolioVO;
+import com.be.portfolio.dto.res.PortfolioResDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class PortfolioReqDto {
+    private Integer portfolioId;
     private Date creationDate;
     private int total;
     private int expectedReturn;
@@ -35,6 +37,16 @@ public class PortfolioReqDto {
                 .build();
     }
 
+    public static PortfolioReqDto of(PortfolioResDto resDto) {
+        return resDto == null ? null : PortfolioReqDto.builder()
+                .creationDate(resDto.getCreationDate())
+                .total(resDto.getTotal())
+                .expectedReturn(resDto.getExpectedReturn())
+                .riskLevel(resDto.getRiskLevel())
+                .portfolioName(resDto.getPortfolioName())
+                .userNum(resDto.getUserNum())
+                .build();
+    }
 
     public PortfolioVO toVo() {
         return PortfolioVO.builder()

@@ -1,10 +1,6 @@
 package com.be.portfolio.domain;
 
-import com.be.portfolio.dto.res.PortfolioItemResDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Date;

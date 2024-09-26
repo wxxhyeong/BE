@@ -11,12 +11,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class BondProductService {
@@ -27,20 +26,22 @@ public class BondProductService {
     @Autowired
     private ProductMapper productMapper;
 
-    @Autowired
-    private RestTemplate restTemplate;
-
     @Value("${api.bondProductUrl}")
     private String bondProductApiUrl;
 
     @Value("${api.bondAuthKey}")
     private String bondAuthKey;
 
-    private final OkHttpClient client = new OkHttpClient();
+    // OkHttpClient에 타임아웃 설정 추가
+    private final OkHttpClient client = new OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)  // 연결 타임아웃 설정
+            .writeTimeout(30, TimeUnit.SECONDS)    // 쓰기 타임아웃 설정
+            .readTimeout(60, TimeUnit.SECONDS)     // 읽기 타임아웃 설정
+            .build();
 
     public void fetchAndSaveBondProducts() {
         // 요청 URL
-        String url = bondProductApiUrl + "?serviceKey=" + bondAuthKey + "&numOfRows=10&pageNo=1&resultType=json";
+        String url = bondProductApiUrl + "?serviceKey=" + bondAuthKey + "&numOfRows=30&pageNo=2&resultType=json";
         System.out.println(url);
 
         // OkHttp 요청 구성
@@ -135,5 +136,9 @@ public class BondProductService {
             // 데이터베이스에 저장
             bondProductMapper.insertBondProduct(bondProductVO);
         }
+    }
+
+    public List<BondProductVO> getBondProductsList() {
+        return bondProductMapper.getBondProductsList();
     }
 }

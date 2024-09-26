@@ -4,6 +4,7 @@ import com.be.portfolio.domain.PortfolioItemVO;
 import com.be.portfolio.domain.PortfolioVO;
 import com.be.portfolio.dto.req.PortfolioItemReqDto;
 import com.be.portfolio.dto.req.PortfolioReqDto;
+import com.be.portfolio.dto.res.PortfolioItemResDto;
 import com.be.portfolio.dto.res.PortfolioPortionDto;
 import com.be.portfolio.dto.res.PortfolioResDto;
 import com.be.portfolio.mapper.PortfolioMapper;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,36 +23,38 @@ public class PortfolioServiceImpl implements PortfolioService {
     final private PortfolioMapper portfolioMapper;
 
     @Override
-    public PortfolioVO getPortfolio(int portfolioId) {
-        return portfolioMapper.getPortfolio(portfolioId);
+    public PortfolioResDto getPortfolio(int portfolioId) {
+        PortfolioResDto resDto = PortfolioResDto.of(portfolioMapper.getPortfolio(portfolioId));
+        return Optional.ofNullable(resDto)
+                .orElseThrow(NoSuchElementException::new);
     }
 
     @Override
-    public List<PortfolioItemVO> getPortfolioItems(int portfolioId) {
-        return portfolioMapper.getPortfolioItemList(portfolioId);
+    public List<PortfolioItemResDto> getPortfolioItems(int portfolioId) {
+        return portfolioMapper.getPortfolioItemList(portfolioId)
+                .stream().map(PortfolioItemResDto::of).toList();
     }
 
     @Override
     public PortfolioResDto createPortfolio(PortfolioReqDto reqDto, List<PortfolioItemReqDto> portfolioItems) {
-        PortfolioVO vo = reqDto.toVo();
-        vo.setPortfolioId(portfolioMapper.insertPortfolio(vo));
+        reqDto.setPortfolioItems(portfolioItems);
+        reqDto = calculatePortfolio(reqDto);
+        reqDto.setPortfolioId(portfolioMapper.insertPortfolio(reqDto.toVo()));
+
         for(PortfolioItemReqDto portfolioItem : portfolioItems) {
-            portfolioItem.setPortfolioId(vo.getPortfolioId());
+            portfolioItem.setPortfolioId(reqDto.getPortfolioId());
             portfolioMapper.insertPortfolioItem(portfolioItem.toVo());
         }
-        vo.setPortfolioItems(getPortfolioItems(vo.getPortfolioId()));
 
-        PortfolioResDto resDto = calculatePortfolio(vo);
-        updatePortfolio(resDto.toVo());
-
+        PortfolioResDto resDto = getPortfolio(reqDto.getPortfolioId());
         resDto.setPortion(calculatePortion(getPortfolioItems(resDto.getPortfolioId())));
 
         return resDto;
     }
 
     @Override
-    public PortfolioVO updatePortfolio(PortfolioVO portfolioVO) {
-        portfolioMapper.updatePortfolio(portfolioVO.getPortfolioId(), portfolioVO);
+    public PortfolioResDto updatePortfolio(PortfolioVO portfolioVO) {
+        portfolioMapper.updatePortfolio(portfolioVO);
 
         return getPortfolio(portfolioVO.getPortfolioId());
     }
@@ -59,30 +64,30 @@ public class PortfolioServiceImpl implements PortfolioService {
     public void updateAllPortfolio() {
         List<Integer> portfolioIds = new ArrayList<>(portfolioMapper.getAllIds());
         for(Integer portfolioId : portfolioIds) {
-            PortfolioVO portfolio = getPortfolio(portfolioId);
-            List<PortfolioItemVO> portfolioItems = getPortfolioItems(portfolioId);
+            PortfolioReqDto portfolio = PortfolioReqDto.of(getPortfolio(portfolioId));
+            List<PortfolioItemReqDto> portfolioItems = getPortfolioItems(portfolioId)
+                    .stream().map(PortfolioItemReqDto::of).toList();
             portfolio.setPortfolioItems(portfolioItems);
-            PortfolioResDto resDto = calculatePortfolio(portfolio);
-            updatePortfolio(resDto.toVo());
+            PortfolioReqDto reqDto = calculatePortfolio(portfolio);
+            updatePortfolio(reqDto.toVo());
         }
     }
 
     @Override
-    public PortfolioVO deletePortfolio(int id) {
-        PortfolioVO vo = getPortfolio(id);
+    public PortfolioResDto deletePortfolio(int id) {
+        PortfolioResDto resDto = getPortfolio(id);
 
         // portfolioItems는 delete cascade 설정
         portfolioMapper.deletePortfolio(id);
 
-        return vo;
+        return resDto;
     }
 
     @Override
-    public PortfolioResDto calculatePortfolio(PortfolioVO vo) {
-        PortfolioResDto dto = new PortfolioResDto();
-        dto.of(vo);
+    public PortfolioReqDto calculatePortfolio(PortfolioReqDto dto) {
 
         // 파이썬 플라스크 서버 연결 + 계산 + 반환
+        // portfolio의 expectedReturn, riskLevel, portfolioItem의 expectedReturn 반환
         dto.setTotal(100);
         dto.setExpectedReturn(10000);
         dto.setRiskLevel(14);
@@ -92,14 +97,14 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public PortfolioPortionDto calculatePortion(List<PortfolioItemVO> portfolioItems) {
+    public PortfolioPortionDto calculatePortion(List<PortfolioItemResDto> portfolioItems) {
         PortfolioPortionDto dto = new PortfolioPortionDto();
 
-        for(PortfolioItemVO item : portfolioItems) {
-            switch(item.getProductType()) {
-                case "saving" -> dto.setTotalSaving(dto.getTotalSaving() + item.getAmount());
-                case "fund" -> dto.setTotalFund(dto.getTotalFund() + item.getAmount());
-                case "bond" -> dto.setTotalBond(dto.getTotalBond() + item.getAmount());
+        for(PortfolioItemResDto item : portfolioItems) {
+            switch(item.getProductType() == null ? "stock" : item.getProductType()) {
+                case "S" -> dto.setTotalSaving(dto.getTotalSaving() + item.getAmount());
+                case "F" -> dto.setTotalFund(dto.getTotalFund() + item.getAmount());
+                case "B" -> dto.setTotalBond(dto.getTotalBond() + item.getAmount());
                 case "stock" -> dto.setTotalStock(dto.getTotalStock() + (item.getAmount() * item.getDailyPrice()));
             }
         }

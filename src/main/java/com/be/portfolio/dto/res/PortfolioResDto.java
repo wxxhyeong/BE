@@ -27,7 +27,7 @@ public class PortfolioResDto {
     private List<PortfolioItemResDto> portfolioItems = new ArrayList<>();
     private PortfolioPortionDto portion;
 
-    public PortfolioResDto of(PortfolioVO vo) {
+    public static PortfolioResDto of(PortfolioVO vo) {
         return vo == null ? null : PortfolioResDto.builder()
                 .creationDate(vo.getCreationDate())
                 .total(vo.getTotal())
@@ -37,7 +37,6 @@ public class PortfolioResDto {
                 .userNum(vo.getUserNum())
                 .build();
     }
-
 
     public PortfolioVO toVo() {
         return PortfolioVO.builder()

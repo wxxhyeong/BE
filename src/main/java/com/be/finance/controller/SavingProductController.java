@@ -1,12 +1,18 @@
 package com.be.finance.controller;
 
+import com.be.finance.domain.SavingProductVO;
 import com.be.finance.dto.SavingProductDTO;
 import com.be.finance.service.SavingProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/saving-products")
+@CrossOrigin(origins = "http://localhost:5173")
 public class SavingProductController {
 
     @Autowired
@@ -26,4 +32,15 @@ public class SavingProductController {
         return "적금 데이터 저장 완료";
     }
 
+    // 예금 리스트 조회 API
+    @GetMapping("/deposit")
+    public Map<String, Object> getDepositProducts() {
+        return savingProductService.getDepositProducts();
+    }
+
+    // 적금 리스트 조회 API
+    @GetMapping("/saving")
+    public Map<String, Object> getSavingProducts() {
+        return savingProductService.getSavingProducts();
+    }
 }

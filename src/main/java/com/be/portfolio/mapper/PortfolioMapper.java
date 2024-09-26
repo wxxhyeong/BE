@@ -11,7 +11,7 @@ public interface PortfolioMapper {
     int insertPortfolio(PortfolioVO portfolioVO);
     int insertPortfolioItem(PortfolioItemVO portfolioItemVO);
     List<Integer> getAllIds();
-    int updatePortfolio(int portfolioId, PortfolioVO portfolioVO);
+    int updatePortfolio(PortfolioVO portfolioVO);
     int deletePortfolio(int portfolioId);
     int deletePortfolioItem(int portfolioItemId);
 }

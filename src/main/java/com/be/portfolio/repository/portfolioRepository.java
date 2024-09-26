@@ -2,10 +2,6 @@ package com.be.portfolio.repository;
 
 import com.be.portfolio.domain.PortfolioItemVO;
 import com.be.portfolio.domain.PortfolioVO;
-import com.be.portfolio.dto.req.PortfolioItemReqDto;
-import com.be.portfolio.dto.req.PortfolioReqDto;
-import com.be.portfolio.dto.res.PortfolioItemResDto;
-import com.be.portfolio.dto.res.PortfolioResDto;
 import com.be.portfolio.mapper.PortfolioMapper;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +35,7 @@ public class portfolioRepository {
     }
 
     public int updatePortfolio(int portfolioId, PortfolioVO portfolioVO) {
-        return sqlSessionTemplate.getMapper(PortfolioMapper.class).updatePortfolio(portfolioId, portfolioVO);
+        return sqlSessionTemplate.getMapper(PortfolioMapper.class).updatePortfolio(portfolioVO);
     }
 
     public int deletePortfolio(int portfolioId) {

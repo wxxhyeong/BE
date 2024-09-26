@@ -16,6 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class SavingProductService {
 
@@ -185,5 +189,34 @@ public class SavingProductService {
                 }
             }
         }
+    }
+
+    // 예금 리스트
+    public Map<String, Object> getDepositProducts() {
+        // 예금 상품 조회
+        List<SavingProductVO> depositProducts = savingProductMapper.getDepositProducts();
+
+        // 예금 상품 기간별 금리 조회
+        List<SavingProductRatesVO> depositRates = savingProductMapper.getDepositRates();
+
+        // 결과를 담을 Map 생성
+        Map<String, Object> result = new HashMap<>();
+        result.put("products", depositProducts);
+        result.put("rates", depositRates);
+        return result;
+    }
+
+    // 적금 상품 조회 (WHERE 조건에 따라 적금 상품만 조회)
+    public Map<String, Object> getSavingProducts() {
+        // 적금 상품 조회
+        List<SavingProductVO> savingProducts = savingProductMapper.getSavingProducts();
+        // 적금 상품 기간별 금리 조회
+        List<SavingProductRatesVO> savingRates = savingProductMapper.getSavingRates();
+
+        // 결과를 담을 Map 생성
+        Map<String, Object> result = new HashMap<>();
+        result.put("products", savingProducts);
+        result.put("rates", savingRates);
+        return result;
     }
 }
