@@ -13,4 +13,8 @@
                 #{riskLevel}, #{fundType}, #{advancedFee}, #{totalPayoffRate}, #{hit})
     </insert>
 
+    <!-- 펀드 상품 조회 -->
+    <select id="getFundProductsList" resultType="com.be.finance.domain.FundProductVO">
+        SELECT * FROM FundProduct
+    </select>
 </mapper>
