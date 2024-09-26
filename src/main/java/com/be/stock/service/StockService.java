@@ -41,6 +41,11 @@ public class StockService {
 
     int count = 0;
 
+    // stockCode 또는 stockName으로 검색하는 서비스
+    public List<StockVO> searchStock(String searchTerm) {
+        return stockMapper.searchStock(searchTerm);
+    }
+
     // 주식시세 fetch
     public void fetchStock() {
         int pageNo = 1; // 초기 페이지 번호
