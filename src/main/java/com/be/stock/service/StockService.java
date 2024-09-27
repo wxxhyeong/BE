@@ -41,9 +41,14 @@ public class StockService {
 
     int count = 0;
 
+    // 전체 주식 데이터를 조회
+    public List<StockVO> getAllStocks() {
+        return stockRepository.findAll();
+    }
+
     // stockCode 또는 stockName으로 검색하는 서비스
     public List<StockVO> searchStock(String searchTerm) {
-        return stockMapper.searchStock(searchTerm);
+        return stockRepository.searchByCodeOrName(searchTerm);
     }
 
     // 주식시세 fetch

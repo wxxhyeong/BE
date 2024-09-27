@@ -42,4 +42,12 @@
            OR stockName LIKE CONCAT('%', #{searchTerm}, '%')
     </select>
 
+    <!-- 전체 주식 데이터를 조회하는 쿼리 -->
+    <select id="findAll" resultType="com.be.stock.domain.StockVO">
+        SELECT *
+        FROM stock <!-- 실제 테이블 이름으로 대체하세요 -->
+    </select>
+
+
+
 </mapper>

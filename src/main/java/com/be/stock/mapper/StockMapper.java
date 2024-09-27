@@ -11,4 +11,5 @@ public interface StockMapper {
     int insert(StockVO stockVO);
 
     List<StockVO> searchStock(String searchTerm);
+    List<StockVO> findAll();
 }
