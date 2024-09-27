@@ -41,7 +41,7 @@ public class BondProductService {
 
     public void fetchAndSaveBondProducts() {
         // 요청 URL
-        String url = bondProductApiUrl + "?serviceKey=" + bondAuthKey + "&numOfRows=30&pageNo=2&resultType=json";
+        String url = bondProductApiUrl + "?serviceKey=" + bondAuthKey + "&numOfRows=30&pageNo=3&resultType=json";
         System.out.println(url);
 
         // OkHttp 요청 구성

@@ -23,14 +23,14 @@
 </form>
 <br/>
 <br/>
-<form action="${pageContext.request.contextPath}/upload" method="post" enctype="multipart/form-data">
+<form action="${pageContext.request.contextPath}/api/fund-products/upload" method="post" enctype="multipart/form-data">
 <label for="file">CSV 파일 선택:</label>
 <input type="file" id="file" name="file" accept=".csv">
 <br><br>
 <button type="submit" style="padding: 10px; background-color: lightblue;">파일 업로드</button>
 </form>
 <!-- 채권 데이터 DB에 저장하는 버튼 -->
-<form action="${pageContext.request.contextPath}/bond/fetch-save" method="GET">
+<form action="${pageContext.request.contextPath}/api/bond/fetch-save" method="GET">
   <button type="submit" style="padding: 10px 20px;">채권 데이터 받아오기</button>
 </form>
   <form action="/api/portfolio" method="GET">

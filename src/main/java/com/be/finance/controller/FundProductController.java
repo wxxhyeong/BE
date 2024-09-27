@@ -3,11 +3,11 @@ package com.be.finance.controller;
 import com.be.finance.domain.FundProductVO;
 import com.be.finance.service.FundProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -52,5 +52,12 @@ public class FundProductController {
     @GetMapping("/list")
     public List<FundProductVO> getFundProductsList() {
         return fundProductService.getFundProductsList();  // 펀드 상품 데이터를 가져와서 반환
+    }
+
+    // 검색어 기반 펀드 상품 검색
+    @GetMapping("/search")
+    public ResponseEntity<List<FundProductVO>> searchFundProducts(@RequestParam String keyword) {
+        List<FundProductVO> results = fundProductService.searchFundProducts(keyword);
+        return ResponseEntity.ok(results);
     }
 }
