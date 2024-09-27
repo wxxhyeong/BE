@@ -17,4 +17,11 @@
     <select id="getFundProductsList" resultType="com.be.finance.domain.FundProductVO">
         SELECT * FROM FundProduct
     </select>
+
+    <!-- 검색어 기반펀드 상품 조회 -->
+    <select id="searchFundProducts" resultType="com.be.finance.domain.FundProductVO">
+        SELECT *
+        FROM FundProduct
+        WHERE product_nm LIKE #{keyword}
+    </select>
 </mapper>
