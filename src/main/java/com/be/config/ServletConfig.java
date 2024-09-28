@@ -25,6 +25,14 @@ public class ServletConfig  implements WebMvcConfigurer {
                 .addResourceLocations("/resources/assets/");
     }
 
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:5173")  // Vue 개발 서버의 주소
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders("*")
+                .allowCredentials(true);
+    }
 
     //	Servlet 3.0 파일 업로드 사용시
 //    @Bean
