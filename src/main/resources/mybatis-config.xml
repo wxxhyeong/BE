@@ -9,8 +9,8 @@
     </settings>
     
     <typeAliases>
-        <package name="com.be.user.dto.res"/>
-        <package name="com.be.user.domain"/>
+        <package name="com.be.member.dto.res"/>
+        <package name="com.be.member.domain"/>
     </typeAliases>
     
 
@@ -19,10 +19,10 @@
         <mapper resource="mapper/SavingProductMapper.xml"/>
         <mapper resource="mapper/FundProductMapper.xml"/>
         <mapper resource="mapper/BondProductMapper.xml"/>
-        <mapper resource="mapper/UserMapper.xml"/>
         <mapper resource="mapper/StockMapper.xml"/>
         <mapper resource="mapper/PortfolioMapper.xml"/>
         <mapper resource="mapper/CartMapper.xml"/>
+        <mapper resource="mapper/MemberMapper.xml"/>
     </mappers>
 
 </configuration>
