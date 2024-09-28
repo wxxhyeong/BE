@@ -206,7 +206,24 @@ public class SavingProductService {
         return result;
     }
 
-    // 적금 상품 조회 (WHERE 조건에 따라 적금 상품만 조회)
+    // 예금 상품 검색
+    public Map<String, Object> searchDepositProducts(String keyword) {
+        String searchKeyword = "%" + keyword + "%";
+
+        // 검색어가 포함된 예금 상품 조회
+        List<SavingProductVO> depositProducts = savingProductMapper.searchDepositProducts(searchKeyword);
+
+        // 검색어가 포함된 예금 상품의 기간별 금리 조회
+        List<SavingProductRatesVO> depositRates = savingProductMapper.searchDepositRatesProducts(searchKeyword);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("depositProducts", depositProducts);
+        result.put("depositRates", depositRates);
+        return result;
+    }
+
+
+    // 전체 적금 리스트
     public Map<String, Object> getSavingProducts() {
         // 적금 상품 조회
         List<SavingProductVO> savingProducts = savingProductMapper.getSavingProducts();
@@ -217,6 +234,22 @@ public class SavingProductService {
         Map<String, Object> result = new HashMap<>();
         result.put("products", savingProducts);
         result.put("rates", savingRates);
+        return result;
+    }
+
+    // 적금 상품 검색
+    public Map<String, Object> searchSavingProducts(String keyword) {
+        String searchKeyword = "%" + keyword + "%";
+
+        // 검색어가 포함된 적금 상품 조회
+        List<SavingProductVO> savingProducts = savingProductMapper.searchSavingProducts(searchKeyword);
+
+        // 검색어가 포함된 적금 상품의 기간별 금리 조회
+        List<SavingProductRatesVO> savingRates = savingProductMapper.searchSavingRatesProducts(searchKeyword);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("savingProducts", savingProducts);
+        result.put("savingRates", savingRates);
         return result;
     }
 }

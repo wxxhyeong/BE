@@ -4,6 +4,7 @@ package com.be.finance.mapper;
 import com.be.finance.domain.SavingProductRatesVO;
 import com.be.finance.domain.SavingProductVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -27,4 +28,16 @@ public interface SavingProductMapper {
 
     // 적금 기간별 수익률 리스트 조회
     List<SavingProductRatesVO> getSavingRates();
+
+    // 예금 상품 검색 리스트 조회
+    List<SavingProductVO> searchDepositProducts(@Param("keyword") String keyword);
+
+    // 검색된 예금 상품 기간별 수익률 조회
+    List<SavingProductRatesVO> searchDepositRatesProducts(@Param("keyword") String keyword);
+
+    // 적금 상품 검색 리스트 조회
+    List<SavingProductVO> searchSavingProducts(@Param("keyword") String keyword);
+
+    // 검색된 적금 상품 기간별 수익률 조회
+    List<SavingProductRatesVO> searchSavingRatesProducts(@Param("keyword") String keyword);
 }

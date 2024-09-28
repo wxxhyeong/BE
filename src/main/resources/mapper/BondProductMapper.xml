@@ -25,7 +25,15 @@
             )
     </insert>
 
+    <!-- 채권 상품 조회 -->
     <select id="getBondProductsList" resultType="com.be.finance.domain.BondProductVO">
         SELECT * FROM BondProduct
+    </select>
+
+    <!-- 채권 상품 검색 -->
+    <select id="searchBondProducts" resultType="com.be.finance.domain.BondProductVO">
+        SELECT *
+        FROM BondProduct
+        WHERE isisCdNm LIKE #{keyword}
     </select>
 </mapper>

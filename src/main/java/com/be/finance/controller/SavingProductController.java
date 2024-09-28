@@ -43,4 +43,16 @@ public class SavingProductController {
     public Map<String, Object> getSavingProducts() {
         return savingProductService.getSavingProducts();
     }
+
+    // 예금 상품 검색
+    @GetMapping("/depositSearch")
+    public Map<String, Object> searchDepositProducts(@RequestParam String keyword) {
+        return savingProductService.searchDepositProducts(keyword);
+    }
+
+    // 적금 상품 검색
+    @GetMapping("/savingSearch")
+    public Map<String, Object> searchSavingProducts(@RequestParam String keyword) {
+        return savingProductService.searchSavingProducts(keyword);
+    }
 }
