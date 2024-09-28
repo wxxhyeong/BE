@@ -16,7 +16,7 @@
                      #{joinWay}, #{mtrtInt}, #{spclCnd}, #{joinDeny}, #{joinMember},
                      #{etcNote}, #{maxLimit}, #{dclsStrtDay}, #{dclsEndDay},
                      1, 0, #{finPrdtCd}
-                 )
+                 );
     </insert>
 
     <!-- SavingProductRates 테이블에 데이터 삽입 -->
@@ -27,22 +27,22 @@
         ) VALUES (
                      #{productId}, #{saveTrm}, #{intrRateType}, #{intrRateTypeNm},
                      #{intrRate}, #{intrRate2}, #{rsrvType}, #{rsrvTypeNm}
-                 )
+                 );
     </insert>
 
 
-    <!-- 예금 상품 조회 -->
+    <!-- 전체 예금 상품 조회 -->
     <select id="getDepositProducts" resultType="com.be.finance.domain.SavingProductVO">
         SELECT *
         FROM SavingsProduct
-        WHERE fin_prdt_nm LIKE '%예금%'
+        WHERE fin_prdt_nm LIKE '%예금%';
     </select>
 
-    <!-- 적금 상품 조회 -->
+    <!-- 전체 적금 상품 조회 -->
     <select id="getSavingProducts" resultType="com.be.finance.domain.SavingProductVO">
         SELECT *
         FROM SavingsProduct
-        WHERE fin_prdt_nm LIKE '%적금%'
+        WHERE fin_prdt_nm LIKE '%적금%';
     </select>
 
     <!-- 예금 상품 금리 정보 조회 (rsrv_type IS NULL) -->
@@ -57,6 +57,38 @@
         SELECT *
         FROM SavingProductRates
         WHERE rsrv_type NOT LIKE "NULL";
+    </select>
+
+    <!-- 예금 상품 검색 -->
+    <select id="searchDepositProducts" resultType="com.be.finance.domain.SavingProductVO">
+        SELECT *
+        FROM SavingsProduct
+        WHERE fin_prdt_nm LIKE #{keyword};
+    </select>
+
+    <!-- 검색된 예금 상품 기간별 수익률 조회 -->
+    <select id="searchDepositRatesProducts" resultType="com.be.finance.domain.SavingProductRatesVO">
+        SELECT *
+        FROM SavingProductRates
+        WHERE productID IN (SELECT productID
+                            FROM SavingsProduct
+                            WHERE fin_prdt_nm LIKE #{keyword});
+    </select>
+
+    <!-- 적금 상품 검색 -->
+    <select id="searchSavingProducts" resultType="com.be.finance.domain.SavingProductVO">
+        SELECT *
+        FROM SavingsProduct
+        WHERE fin_prdt_nm LIKE #{keyword};
+    </select>
+
+    <!-- 검색된 적금 상품 기간별 수익률 조회 -->
+    <select id="searchSavingRatesProducts" resultType="com.be.finance.domain.SavingProductRatesVO">
+        SELECT *
+        FROM SavingProductRates
+        WHERE productID IN (SELECT productID
+                            FROM SavingsProduct
+                            WHERE fin_prdt_nm LIKE #{keyword});
     </select>
 
 

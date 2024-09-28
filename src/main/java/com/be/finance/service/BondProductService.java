@@ -138,7 +138,15 @@ public class BondProductService {
         }
     }
 
+    // 전체 채권 리스트 조회
     public List<BondProductVO> getBondProductsList() {
         return bondProductMapper.getBondProductsList();
+    }
+
+    // 채권 상품 검색
+    public List<BondProductVO> searchBondProducts(String keyword) {
+        // 검색어가 포함된 상품명 검색
+        String searchKeyword = "%" + keyword + "%";
+        return bondProductMapper.searchBondProducts(searchKeyword);
     }
 }

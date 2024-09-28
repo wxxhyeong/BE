@@ -2,6 +2,7 @@ package com.be.finance.controller;
 
 
 import com.be.finance.domain.BondProductVO;
+import com.be.finance.domain.FundProductVO;
 import com.be.finance.service.BondProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,13 @@ public class BondProductController {
             e.printStackTrace();
             return ResponseEntity.status(500).build();
         }
+    }
+
+    // 채권 상품 검색
+    @GetMapping("/search")
+    public ResponseEntity<List<BondProductVO>> searchBondProducts(@RequestParam String keyword) {
+        List<BondProductVO> results = bondProductService.searchBondProducts(keyword);
+        return ResponseEntity.ok(results);
     }
 
 }
