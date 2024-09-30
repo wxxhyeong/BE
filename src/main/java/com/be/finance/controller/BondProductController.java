@@ -3,7 +3,9 @@ package com.be.finance.controller;
 
 import com.be.finance.domain.BondProductVO;
 import com.be.finance.domain.FundProductVO;
+import com.be.finance.mapper.BondProductMapper;
 import com.be.finance.service.BondProductService;
+import com.be.finance.service.FundProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,8 @@ public class BondProductController {
 
     @Autowired
     private BondProductService bondProductService;
+    @Autowired
+    private FundProductService fundProductService;
 
     // 채권 데이터 DB 저장
     @GetMapping("/fetch-save")
@@ -52,4 +56,9 @@ public class BondProductController {
         return ResponseEntity.ok(results);
     }
 
+    // 채권별 상세 페이지
+    @GetMapping("/list/{productId}")
+    public BondProductVO getBondProductDetail(@PathVariable int productId) {
+        return bondProductService.getBondProductDetail(productId);
+    }
 }

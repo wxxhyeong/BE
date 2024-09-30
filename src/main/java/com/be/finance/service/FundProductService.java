@@ -84,4 +84,9 @@ public class FundProductService {
         String searchKeyword = "%" + keyword + "%";
         return fundProductMapper.searchFundProducts(searchKeyword);
     }
+
+    // 특정 펀드 상품 상세 정보 조회
+    public FundProductVO getFundProductDetail(int productId) {
+        return fundProductMapper.getFundProductDetail(productId);
+    }
 }
