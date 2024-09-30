@@ -12,7 +12,7 @@
     </resultMap>
 
     <select id="getCartItemList" resultType="com.be.cart.domain.CartItemVO">
-        select cartID, productID, memberNum, productType, provider, productName, expectedReturn, interestRate from cartitem
+        select * from cartitem
         where memberNum = #{memberNum}
     </select>
     <select id="checkCartItem" resultType="com.be.cart.domain.CartItemVO">

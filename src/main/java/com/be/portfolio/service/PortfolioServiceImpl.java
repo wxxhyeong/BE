@@ -1,5 +1,6 @@
 package com.be.portfolio.service;
 
+import com.be.cart.dto.res.CartItemResDto;
 import com.be.portfolio.domain.PortfolioItemVO;
 import com.be.portfolio.domain.PortfolioVO;
 import com.be.portfolio.dto.req.PortfolioItemReqDto;
@@ -31,6 +32,12 @@ public class PortfolioServiceImpl implements PortfolioService {
         PortfolioResDto resDto = PortfolioResDto.of(portfolioMapper.getPortfolio(portfolioId));
         return Optional.ofNullable(resDto)
                 .orElseThrow(NoSuchElementException::new);
+    }
+
+    @Override
+    public List<PortfolioResDto> getPortfolioList(long memberNum) {
+        return portfolioMapper.getPortfolioList(memberNum)
+                .stream().map(PortfolioResDto::of).toList();
     }
 
     @Override

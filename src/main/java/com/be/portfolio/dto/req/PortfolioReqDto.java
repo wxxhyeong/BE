@@ -22,7 +22,7 @@ public class PortfolioReqDto {
     private int expectedReturn;
     private int riskLevel;
     private String portfolioName;
-    private int userNum;
+    private int memberNum;
 
     private List<PortfolioItemReqDto> portfolioItems = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class PortfolioReqDto {
                 .expectedReturn(resDto.getExpectedReturn())
                 .riskLevel(resDto.getRiskLevel())
                 .portfolioName(resDto.getPortfolioName())
-                .userNum(resDto.getUserNum())
+                .memberNum(resDto.getMemberNum())
                 .build();
     }
 
@@ -44,7 +44,7 @@ public class PortfolioReqDto {
                 .expectedReturn(expectedReturn)
                 .riskLevel(riskLevel)
                 .portfolioName(portfolioName)
-                .userNum(userNum)
+                .memberNum(memberNum)
                 .build();
     }
 }

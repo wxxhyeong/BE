@@ -24,9 +24,8 @@ public class CartController {
     private final CartService cartService;
 
     @GetMapping
-    public List<CartItemResDto> getCartItems(HttpServletRequest request) throws IOException {
+    public List<CartItemResDto> getCartItems(HttpServletRequest request) {
         try{
-
             HttpSession session = request.getSession();
 
             // 테스트용 코드
@@ -53,7 +52,7 @@ public class CartController {
 //            Member member = jwtProvider.authorizeUserRefreshJwt(token);
 //            Long userNum = member.getMemberNum(); // 사용자 번호 추출
             Long userNum = 1L;
-
+//
             cartItem.setMemberNum(userNum);
 
             HttpSession session = request.getSession();
