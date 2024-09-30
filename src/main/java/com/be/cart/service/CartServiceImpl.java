@@ -15,8 +15,8 @@ public class CartServiceImpl implements CartService {
     private final CartMapper cartMapper;
 
     @Override
-    public List<CartItemResDto> getCartList(int userNum) {
-        return cartMapper.getCartItemList(userNum)
+    public List<CartItemResDto> getCartList(long memberNum) {
+        return cartMapper.getCartItemList(memberNum)
                 .stream().map(CartItemResDto::of).toList();
     }
 
@@ -38,7 +38,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public boolean checkCartItem(CartItemReqDto cart) {
-        if(cartMapper.checkCartItem(cart.getUserNum(), cart.getProductId()) == null) return false;
+        if(cartMapper.checkCartItem(cart.getMemberNum(), cart.getProductId()) == null) return false;
         return true;
     }
 }

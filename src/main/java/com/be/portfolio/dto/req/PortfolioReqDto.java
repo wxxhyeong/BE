@@ -26,17 +26,6 @@ public class PortfolioReqDto {
 
     private List<PortfolioItemReqDto> portfolioItems = new ArrayList<>();
 
-    public PortfolioReqDto of(PortfolioVO vo) {
-        return vo == null ? null : PortfolioReqDto.builder()
-                .creationDate(vo.getCreationDate())
-                .total(vo.getTotal())
-                .expectedReturn(vo.getExpectedReturn())
-                .riskLevel(vo.getRiskLevel())
-                .portfolioName(vo.getPortfolioName())
-                .userNum(vo.getUserNum())
-                .build();
-    }
-
     public static PortfolioReqDto of(PortfolioResDto resDto) {
         return resDto == null ? null : PortfolioReqDto.builder()
                 .creationDate(resDto.getCreationDate())
