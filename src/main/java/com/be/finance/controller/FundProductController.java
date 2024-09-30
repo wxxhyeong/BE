@@ -61,4 +61,10 @@ public class FundProductController {
         List<FundProductVO> results = fundProductService.searchFundProducts(keyword);
         return ResponseEntity.ok(results);
     }
+
+    // 펀드별 상세 페이지
+    @GetMapping("/list/{productId}")
+    public FundProductVO getFundProductDetail(@PathVariable int productId) {
+        return fundProductService.getFundProductDetail(productId);
+    }
 }
