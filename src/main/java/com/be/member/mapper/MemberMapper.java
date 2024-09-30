@@ -3,6 +3,7 @@ package com.be.member.mapper;
 
 import com.be.member.domain.Member;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface MemberMapper {
@@ -15,4 +16,10 @@ public interface MemberMapper {
 
     Member findOneByMemberNum(long memberNum);
 
+    Member findOneByMemberNumInvest(long memberNum);
+
+
+    int updateInvestScoreAndPreference(@Param("memberNum") Long memberNum,
+                                       @Param("investScore") Integer investScore,
+                                       @Param("preference") Integer preference);
 }

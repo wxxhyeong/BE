@@ -6,22 +6,22 @@ import com.be.cart.dto.res.CartItemResDto;
 import com.be.cart.service.CartService;
 import com.be.common.dto.DefaultResDto;
 import com.be.member.domain.Member;
+import com.be.member.dto.req.InvestPreferenceReqDto;
 import com.be.member.dto.req.MemberLoginReqDto;
 import com.be.member.dto.req.MemberRegisterReqDto;
+import com.be.member.dto.req.MemberResponseReqDto;
 import com.be.member.dto.res.MemberDefaultResDto;
 import com.be.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 import static com.be.common.code.SuccessCode.MEMBER_LOGIN;
@@ -85,5 +85,34 @@ public class MemberController {
                         .responseMessage(MEMBER_LOGIN.getMessage())
                         .data(response)
                         .build());
+    }
+
+
+    // 투자 성향 점수 업데이트 요청 처리
+    @PostMapping("/investPreference")
+    public ResponseEntity<String> updateInvestPreference(@RequestBody InvestPreferenceReqDto request) {
+        if (request.getMemberNum() == null || request.getInvestScore() == null) {
+            return ResponseEntity.badRequest().body("memberNum 또는 investScore가 유효하지 않습니다.");
+        }
+
+        int updatedRows = memberService.updateMemberPreference(request.getMemberNum(), request.getInvestScore());
+        if (updatedRows > 0) {
+            return ResponseEntity.ok("Update success");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("No update item");
+        }
+    }
+
+
+    // 사용자의 투자 성향 점수와 성향을 조회하는 메서드 (GET)
+    @GetMapping("/{memberNum}/investPreference")
+    public ResponseEntity<MemberResponseReqDto> getInvestPreference(@PathVariable("memberNum") Long memberNum) {
+        MemberResponseReqDto memberResponse = memberService.getMemberPreference(memberNum);
+
+        if (memberResponse != null) {
+            return ResponseEntity.ok(memberResponse);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // 해당 사용자가 없을 경우
+        }
     }
 }
