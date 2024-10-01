@@ -15,6 +15,7 @@ import java.util.List;
 
 public interface PortfolioService {
     PortfolioResDto getPortfolio(int portfolioId);
+    List<PortfolioResDto> getPortfolioList(long memberNum);
     List<PortfolioItemResDto> getPortfolioItems(int portfolioId);
     PortfolioResDto createPortfolio(PortfolioReqDto portfolioReqDto, List<PortfolioItemReqDto> portfolioItems, JSONObject stockPrices);
     PortfolioResDto updatePortfolio(PortfolioVO portfolioVO);

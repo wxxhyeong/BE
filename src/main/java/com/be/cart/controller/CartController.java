@@ -1,7 +1,5 @@
 package com.be.cart.controller;
 
-import com.be.auth.JwtProvider;
-import com.be.cart.domain.CartItemVO;
 import com.be.cart.dto.req.CartItemReqDto;
 import com.be.cart.dto.res.CartItemResDto;
 import com.be.cart.service.CartService;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +21,8 @@ public class CartController {
     private final CartService cartService;
 
     @GetMapping
-    public List<CartItemResDto> getCartItems(HttpServletRequest request) throws IOException {
+    public List<CartItemResDto> getCartItems(HttpServletRequest request) {
         try{
-
             HttpSession session = request.getSession();
 
             // 테스트용 코드
@@ -53,7 +49,7 @@ public class CartController {
 //            Member member = jwtProvider.authorizeUserRefreshJwt(token);
 //            Long userNum = member.getMemberNum(); // 사용자 번호 추출
             Long userNum = 1L;
-
+//
             cartItem.setMemberNum(userNum);
 
             HttpSession session = request.getSession();

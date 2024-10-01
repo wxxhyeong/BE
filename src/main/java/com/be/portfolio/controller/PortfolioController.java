@@ -9,10 +9,13 @@ import com.be.portfolio.dto.res.PortfolioResDto;
 import com.be.portfolio.service.PortfolioService;
 import com.be.stock.service.StockService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -20,26 +23,32 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/portfolio")
 @RequiredArgsConstructor
+@Log4j
 public class PortfolioController {
     private final PortfolioService portfolioService;
-    private final CartService cartService;
     private final StockService stockService;
     private final FinanceService financeService;
+    private final CartService cartService;
 
-    @GetMapping("/{userNum}")
-    public ResponseEntity<List<CartItemResDto>> getCartItems(@PathVariable Integer userNum) {
-        return ResponseEntity.ok(cartService.getCartList(userNum));
+    @GetMapping
+    public List<PortfolioResDto> getPortfolioList(HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+
+            // 테스트용 코드
+            List<PortfolioResDto> testList = portfolioService.getPortfolioList(1L);
+            session.setAttribute("portfolioList", testList);
+            //
+
+            List<PortfolioResDto> portfolioList = (List<PortfolioResDto>) session.getAttribute("portfolioList");
+            log.info(portfolioList);
+            return portfolioList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("장바구니 호출 과정에서 에러 발생");
+        }
+        return null;
     }
-
-//    @GetMapping
-//    public ResponseEntity<List<FinanceResDto>> getFinanceProduct(@RequestParam String query) {
-//        return ResponseEntity.ok(financeService.get(query));
-//    }
-
-//    @GetMapping
-//    public ResponseEntity<List<StockResDto>> getStocks(@RequestParam String query) {
-//        return ResponseEntity.ok(stockService.get(query));
-//    }
 
     @PostMapping
     public ResponseEntity<PortfolioResDto> createPortfolio(PortfolioReqDto portfolioReqDto, List<PortfolioItemReqDto> portfolioItems) {

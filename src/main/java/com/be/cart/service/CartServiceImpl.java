@@ -21,6 +21,21 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public List<CartItemResDto> getSavingsInCart(long memberNum) {
+        return List.of();
+    }
+
+    @Override
+    public List<CartItemResDto> getFundInCart(long memberNum) {
+        return List.of();
+    }
+
+    @Override
+    public List<CartItemResDto> getBondInCart(long memberNum) {
+        return List.of();
+    }
+
+    @Override
     public CartItemResDto addCartItem(CartItemReqDto cart) {
 //        if(checkCartItem(cart)) throw new NotAvailableProductException("장바구니에 존재하는 상품입니다.");
 

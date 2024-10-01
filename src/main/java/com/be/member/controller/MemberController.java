@@ -10,6 +10,9 @@ import com.be.member.dto.req.MemberLoginReqDto;
 import com.be.member.dto.req.MemberRegisterReqDto;
 import com.be.member.dto.res.MemberDefaultResDto;
 import com.be.member.service.MemberService;
+import com.be.portfolio.dto.req.PortfolioItemReqDto;
+import com.be.portfolio.dto.res.PortfolioResDto;
+import com.be.portfolio.service.PortfolioService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -35,6 +38,7 @@ public class MemberController {
     private final MemberService memberService;
     private final JwtProvider jwtProvider;
     private final CartService cartService;
+    private final PortfolioService portfolioService;
 
     @GetMapping("")
     public String tesss() {
@@ -70,11 +74,15 @@ public class MemberController {
         HttpHeaders headers = jwtProvider.generateUserJwt(member.getMemberNum(), member.getRoles());
         MemberDefaultResDto response = new MemberDefaultResDto(member);
 
-        // 로그인 시 장바구니 DB 조회 및 세션에 저장
+        // 로그인 시 사용자의 포트폴리오 및 장바구니 리스트 세션에 저장
         HttpSession session = request.getSession();
+        List<PortfolioResDto> portfolioList = portfolioService.getPortfolioList(member.getMemberNum());
+        session.setAttribute("portfolioList", portfolioList);
+
         List<CartItemResDto> cartList = cartService.getCartList(member.getMemberNum());
         session.setAttribute("cartList", cartList);
 
+        log.info(session.getAttribute("portfolioList").toString());
         log.info(session.getAttribute("cartList").toString());
 
         log.info(response.toString());

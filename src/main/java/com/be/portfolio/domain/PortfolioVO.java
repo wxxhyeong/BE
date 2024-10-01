@@ -17,7 +17,7 @@ public class PortfolioVO {
     private int expectedReturn;
     private int riskLevel;
     private String portfolioName;
-    private int userNum;
+    private int memberNum;
 
     private List<PortfolioItemVO> portfolioItems = new ArrayList<>();
 }
