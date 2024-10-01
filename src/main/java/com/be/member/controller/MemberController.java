@@ -69,6 +69,7 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<DefaultResDto<Object>> login(@RequestBody @Valid MemberLoginReqDto memberLoginReqDto, HttpServletRequest request) {
         Member member = memberService.login(memberLoginReqDto);
+        log.info("member Roles = " + member.getRoles().toString());
 
         HttpHeaders headers = jwtProvider.generateUserJwt(member.getMemberNum(), member.getRoles());
         MemberDefaultResDto response = new MemberDefaultResDto(member);
@@ -83,7 +84,6 @@ public class MemberController {
 
         log.info(session.getAttribute("portfolioList").toString());
         log.info(session.getAttribute("cartList").toString());
-        //
 
         log.info(response.toString());
         return ResponseEntity.status(MEMBER_LOGIN.getHttpStatus())

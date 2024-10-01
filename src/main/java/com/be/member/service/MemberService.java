@@ -2,11 +2,12 @@ package com.be.member.service;
 
 import com.be.exception.CustomException;
 import com.be.member.domain.Member;
-import com.be.member.domain.MemberRole;
 import com.be.member.domain.type.Role;
 import com.be.member.dto.req.MemberLoginReqDto;
 import com.be.member.dto.req.MemberRegisterReqDto;
+import com.be.member.domain.MemberRole;
 import com.be.member.mapper.MemberMapper;
+import com.be.member.mapper.MemberRoleMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.be.common.code.ErrorCode.*;
@@ -25,6 +27,7 @@ public class MemberService {
 
 
     private final MemberMapper memberMapper;
+    private final MemberRoleMapper memberRoleMapper;
 
     @Bean
     private PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder();}
@@ -40,8 +43,10 @@ public class MemberService {
         saveMember(member);
         member = fineOneMemberById(member.getMemberID());
 
-        MemberRole memberRole = createUserRole(member);
-        saveUserRole(memberRole);
+        MemberRole memberRoleDto = createMemberRoleDto(member);
+        log.info(memberRoleDto.toString());
+        saveMemberRole(memberRoleDto);
+        member.addMemberRole(getMemberRolesByMemberNum(member.getMemberNum()));
 
         return member;
     }
@@ -54,6 +59,7 @@ public class MemberService {
         if (!isVerified) {
             throw new CustomException(LOGIN_UNAUTHENTICATED);
         }
+        member.addMemberRole(getMemberRolesByMemberNum(member.getMemberNum()));
 
         return member;
     }
@@ -116,9 +122,9 @@ public class MemberService {
     /**
      * 회원 권한 생성
      */
-    private MemberRole createUserRole(Member member) {
+    private MemberRole createMemberRoleDto(Member member) {
         return MemberRole.builder()
-                .member(member)
+                .memberID(member.getMemberNum())
                 .role(Role.MEMBER)
                 .build();
     }
@@ -131,8 +137,20 @@ public class MemberService {
         }
     }
 
-    private void saveUserRole(MemberRole memberRole) {
+    private void saveMemberRole(MemberRole memberRoleDto) {
+        try {
+            memberRoleMapper.save(memberRoleDto);
+        } catch (RuntimeException e) {
+            throw new CustomException(e, SERVER_ERROR);
+        }
+    }
 
+    private List<MemberRole> getMemberRolesByMemberNum(long memberNum) {
+        try {
+            return memberRoleMapper.findMemberRoleByMemberNum(memberNum);
+        } catch (RuntimeException e) {
+            throw new CustomException(e, SERVER_ERROR);
+        }
 
     }
 
