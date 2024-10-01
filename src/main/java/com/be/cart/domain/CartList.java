@@ -9,5 +9,4 @@ public class CartList {
     private List<CartItemVO> cartItems;
     private Long memberNum;
     private int totalCount;
-
 }
