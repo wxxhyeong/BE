@@ -217,8 +217,8 @@ public class SavingProductService {
         List<SavingProductRatesVO> depositRates = savingProductMapper.searchDepositRatesProducts(searchKeyword);
 
         Map<String, Object> result = new HashMap<>();
-        result.put("depositProducts", depositProducts);
-        result.put("depositRates", depositRates);
+        result.put("products", depositProducts);
+        result.put("rates", depositRates);
         return result;
     }
 
@@ -248,8 +248,8 @@ public class SavingProductService {
         List<SavingProductRatesVO> savingRates = savingProductMapper.searchSavingRatesProducts(searchKeyword);
 
         Map<String, Object> result = new HashMap<>();
-        result.put("savingProducts", savingProducts);
-        result.put("savingRates", savingRates);
+        result.put("products", savingProducts);
+        result.put("rates", savingRates);
         return result;
     }
 }

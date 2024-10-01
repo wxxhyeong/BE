@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
 public class PortfolioController {
     private final PortfolioService portfolioService;
     private final StockService stockService;
+    private final FinanceService financeService;
+    private final CartService cartService;
 
     @GetMapping
     public List<PortfolioResDto> getPortfolioList(HttpServletRequest request) {

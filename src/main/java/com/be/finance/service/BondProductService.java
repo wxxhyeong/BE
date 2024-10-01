@@ -149,4 +149,9 @@ public class BondProductService {
         String searchKeyword = "%" + keyword + "%";
         return bondProductMapper.searchBondProducts(searchKeyword);
     }
+
+    // 특정 채권 상품 상세 정보 조회
+    public BondProductVO getBondProductDetail(int productId) {
+        return bondProductMapper.getBondProductDetail(productId);
+    }
 }
