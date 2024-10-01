@@ -51,7 +51,7 @@ public class CartController {
             // 토큰에서 memberNum 가져오기
             String token = request.getHeader("Refresh-Token") == null ?
                     request.getHeader(AUTHORIZATION) : request.getHeader("Refresh-Token");
-            Member member = jwtProvider.authenticateJwt(token);
+            Member member = jwtProvider.authorizeUserAccessJwt(token);
             long memberNum = member.getMemberNum(); // 사용자 번호 추출
 
             cartItem.setMemberNum(memberNum);
