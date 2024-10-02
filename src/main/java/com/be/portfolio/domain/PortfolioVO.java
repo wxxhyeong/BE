@@ -12,11 +12,11 @@ import java.util.List;
 @Builder
 public class PortfolioVO {
     private int portfolioId;
+    private String portfolioName;
     private Date creationDate;
     private int total;
     private int expectedReturn;
     private int riskLevel;
-    private String portfolioName;
     private int memberNum;
 
     private List<PortfolioItemVO> portfolioItems = new ArrayList<>();

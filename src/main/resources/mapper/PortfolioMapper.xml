@@ -48,7 +48,7 @@
     </select>
     <insert id="insertPortfolio">
         insert into portfolio(creationDate, total, expectedReturn, riskLevel, portfolioName, memberNum)
-        values(#{creationDate}, #{total}, #{expectedReturn}, #{riskLevel}, #{portfolioName}, #{memberNum})
+        values(CURRENT_TIMESTAMP, #{total}, #{expectedReturn}, #{riskLevel}, #{portfolioName}, #{memberNum})
         <selectKey resultType="Int" keyProperty="portfolioId" keyColumn="portfolioID" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
