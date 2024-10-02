@@ -71,7 +71,18 @@ public class MemberController {
         HttpHeaders headers = jwtProvider.generateUserJwt(member.getMemberNum(), member.getRoles());
         MemberDefaultResDto response = new MemberDefaultResDto(member);
 
-        return ResponseEntity.status(USER_LOGIN.getHttpStatus())
+        // 로그인 시 장바구니 리스트 세션에 저장
+        HttpSession session = request.getSession();
+        List<CartItemResDto> cartList = cartService.getCartList(member.getMemberNum());
+        session.setAttribute("cartList", cartList);
+
+        log.info(session.getAttribute("cartList").toString());
+        //
+
+        log.info(headers.toString());
+
+        log.info(response.toString());
+        return ResponseEntity.status(MEMBER_LOGIN.getHttpStatus())
                 .headers(headers)
                 .body(DefaultResDto.singleDataBuilder()
                         .responseCode(USER_LOGIN.name())

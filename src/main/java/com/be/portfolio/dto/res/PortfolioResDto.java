@@ -16,14 +16,14 @@ import java.util.List;
 @Builder
 public class PortfolioResDto {
     private int portfolioId;
+    private String portfolioName;
     private Date creationDate;
     private int total;
     private int expectedReturn;
     private int riskLevel;
-    private String portfolioName;
     private int memberNum;
 
-    private List<PortfolioItemResDto> portfolioItems = new ArrayList<>();
+    private List<PortfolioItemResDto> portfolioItems;
     private PortfolioPortionDto portion;
 
     public static PortfolioResDto of(PortfolioVO vo) {
