@@ -10,13 +10,11 @@ import com.be.member.dto.req.MemberLoginReqDto;
 import com.be.member.dto.req.MemberRegisterReqDto;
 import com.be.member.dto.res.MemberDefaultResDto;
 import com.be.member.service.MemberService;
-import com.be.portfolio.dto.req.PortfolioItemReqDto;
 import com.be.portfolio.dto.res.PortfolioResDto;
 import com.be.portfolio.service.PortfolioService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 import static com.be.common.code.SuccessCode.*;
@@ -75,23 +71,11 @@ public class MemberController {
         HttpHeaders headers = jwtProvider.generateUserJwt(member.getMemberNum(), member.getRoles());
         MemberDefaultResDto response = new MemberDefaultResDto(member);
 
-        // 로그인 시 사용자의 포트폴리오 및 장바구니 리스트 세션에 저장
-        HttpSession session = request.getSession();
-        List<PortfolioResDto> portfolioList = portfolioService.getPortfolioList(member.getMemberNum());
-        session.setAttribute("portfolioList", portfolioList);
-
-        List<CartItemResDto> cartList = cartService.getCartList(member.getMemberNum());
-        session.setAttribute("cartList", cartList);
-
-        log.info(session.getAttribute("portfolioList").toString());
-        log.info(session.getAttribute("cartList").toString());
-
-        log.info(response.toString());
-        return ResponseEntity.status(MEMBER_LOGIN.getHttpStatus())
+        return ResponseEntity.status(USER_LOGIN.getHttpStatus())
                 .headers(headers)
                 .body(DefaultResDto.singleDataBuilder()
-                        .responseCode(MEMBER_LOGIN.name())
-                        .responseMessage(MEMBER_LOGIN.getMessage())
+                        .responseCode(USER_LOGIN.name())
+                        .responseMessage(USER_LOGIN.getMessage())
                         .data(response)
                         .build());
     }
@@ -107,6 +91,15 @@ public class MemberController {
                         .responseCode(SELF_USER_FOUND.name())
                         .responseMessage(SELF_USER_FOUND.getMessage())
                         .data(response)
+                        .build());
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<DefaultResDto<Object>> logout(HttpServletRequest request) {
+        return ResponseEntity.status(USER_LOGOUT.getHttpStatus())
+                .body(DefaultResDto.noDataBuilder()
+                        .responseCode(USER_LOGOUT.name())
+                        .responseMessage(USER_LOGOUT.getMessage())
                         .build());
     }
 
