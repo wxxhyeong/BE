@@ -35,6 +35,7 @@ public class Member implements UserDetails {
     public void addMemberRole(List<MemberRole> memberRoles) {
         log.info("addMemberRole");
         this.memberRoles = memberRoles;
+        log.info(memberRoles.toString());
     }
 
     @Override

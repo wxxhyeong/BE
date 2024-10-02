@@ -16,19 +16,16 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class PortfolioReqDto {
-    private Integer portfolioId;
-    private Date creationDate;
+    private String portfolioName;
     private int total;
     private int expectedReturn;
     private int riskLevel;
-    private String portfolioName;
     private int memberNum;
 
-    private List<PortfolioItemReqDto> portfolioItems = new ArrayList<>();
+    private List<PortfolioItemReqDto> portfolioItems;
 
     public static PortfolioReqDto of(PortfolioResDto resDto) {
         return resDto == null ? null : PortfolioReqDto.builder()
-                .creationDate(resDto.getCreationDate())
                 .total(resDto.getTotal())
                 .expectedReturn(resDto.getExpectedReturn())
                 .riskLevel(resDto.getRiskLevel())
@@ -39,7 +36,6 @@ public class PortfolioReqDto {
 
     public PortfolioVO toVo() {
         return PortfolioVO.builder()
-                .creationDate(creationDate)
                 .total(total)
                 .expectedReturn(expectedReturn)
                 .riskLevel(riskLevel)
