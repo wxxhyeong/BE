@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class PortfolioItemReqDto {
-    private int portfolioItemId;
     private int portfolioId;
     private int productId;
     private String stockCode;
