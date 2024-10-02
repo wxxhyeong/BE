@@ -18,6 +18,7 @@ public enum SuccessCode {
     // 200 OK
     USERNAME_AVAILABLE(OK, "아이디 중복 확인을 했습니다."),
     EMAIL_AVAILABLE(OK, "이메일 중복 확인을 했습니다."),
+    SELF_USER_FOUND(OK, "본인을 조회 했습니다."),
 
     //201
     USER_REGISTERED(CREATED, "회원 가입을 했습니다."),
