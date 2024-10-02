@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/fund-products")  // API 엔드포인트
@@ -51,14 +52,20 @@ public class FundProductController {
 
     // 펀드 리스트 조회 API
     @GetMapping("/list")
-    public List<FundProductVO> getFundProductsList() {
-        return fundProductService.getFundProductsList();  // 펀드 상품 데이터를 가져와서 반환
+    public ResponseEntity<Map<String, Object>> getFundProductsList(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int pageSize) {
+        Map<String, Object> fundProducts = fundProductService.getFundProductsList(page, pageSize);
+        return ResponseEntity.ok(fundProducts);
     }
 
     // 검색어 기반 펀드 상품 검색
     @GetMapping("/search")
-    public ResponseEntity<List<FundProductVO>> searchFundProducts(@RequestParam String keyword) {
-        List<FundProductVO> results = fundProductService.searchFundProducts(keyword);
+    public ResponseEntity<Map<String, Object>> searchFundProducts(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int pageSize) {
+        Map<String, Object> results = fundProductService.searchFundProducts(keyword, page, pageSize);
         return ResponseEntity.ok(results);
     }
 
