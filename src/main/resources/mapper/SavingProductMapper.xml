@@ -95,5 +95,43 @@
                                                           WHERE fin_prdt_nm LIKE #{keyword});
     </select>
 
+    <!-- 페이징된 예금 상품 ID를 기반으로 기간별 금리 조회 -->
+    <select id="getDepositRatesByProductIds" resultType="com.be.finance.domain.SavingProductRatesVO">
+        SELECT *
+        FROM SavingProductRates
+        WHERE productId IN
+        <foreach collection="productIds" item="productId" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </select>
 
+    <!-- 페이징된 적금 상품 ID를 기반으로 기간별 금리 조회 -->
+    <select id="getSavingRatesByProductIds" resultType="com.be.finance.domain.SavingProductRatesVO">
+        SELECT *
+        FROM SavingProductRates
+        WHERE productId IN
+        <foreach collection="productIds" item="productId" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </select>
+
+    <!-- 페이징된 예금 상품 ID를 기반으로 기간별 금리 조회 -->
+    <select id="searchDepositRatesByProductIds" resultType="com.be.finance.domain.SavingProductRatesVO">
+        SELECT *
+        FROM SavingProductRates
+        WHERE productId IN
+        <foreach collection="productIds" item="productId" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </select>
+
+    <!-- 페이징된 적금 상품 ID를 기반으로 기간별 금리 조회 -->
+    <select id="searchSavingRatesByProductIds" resultType="com.be.finance.domain.SavingProductRatesVO">
+        SELECT *
+        FROM SavingProductRates
+        WHERE productId IN
+        <foreach collection="productIds" item="productId" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </select>
 </mapper>
