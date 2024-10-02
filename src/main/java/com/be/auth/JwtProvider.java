@@ -110,7 +110,7 @@ public class JwtProvider {
      * JWT user Access 인가
      */
     public Member authorizeUserAccessJwt(String token) {
-        return authorizeJwt(token, Role.ADMIN, Jwt.ACCESS);
+        return authorizeJwt(token, Role.MEMBER, Jwt.ACCESS);
     }
 
     /**
