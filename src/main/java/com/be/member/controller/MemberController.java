@@ -83,7 +83,7 @@ public class MemberController {
                         .build());
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<DefaultResDto<Object>> findMyInfo(HttpServletRequest servletRequest) {
         Member member = jwtProvider.authorizeUserAccessJwt(servletRequest.getHeader(AUTHORIZATION));
 
