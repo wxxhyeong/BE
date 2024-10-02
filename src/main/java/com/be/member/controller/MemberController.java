@@ -16,6 +16,7 @@ import com.be.portfolio.service.PortfolioService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +28,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import static com.be.common.code.SuccessCode.MEMBER_LOGIN;
-import static com.be.common.code.SuccessCode.USER_REGISTERED;
+import static com.be.common.code.SuccessCode.*;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Slf4j
 @RestController
@@ -93,4 +94,23 @@ public class MemberController {
                         .data(response)
                         .build());
     }
+
+    @GetMapping()
+    public ResponseEntity<DefaultResDto<Object>> findMyInfo(HttpServletRequest servletRequest) {
+        Member member = jwtProvider.authorizeUserAccessJwt(servletRequest.getHeader(AUTHORIZATION));
+
+        MemberDefaultResDto response = new MemberDefaultResDto(member);
+
+        return ResponseEntity.status(SELF_USER_FOUND.getHttpStatus())
+                .body(DefaultResDto.singleDataBuilder()
+                        .responseCode(SELF_USER_FOUND.name())
+                        .responseMessage(SELF_USER_FOUND.getMessage())
+                        .data(response)
+                        .build());
+    }
+
+
+
+
+
 }

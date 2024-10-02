@@ -49,11 +49,8 @@ public class CartController {
     public void addCartItem(@RequestBody @Valid CartItemReqDto cartItem, HttpServletRequest request) {
         try {
             // 토큰에서 memberNum 가져오기
-            log.info(request.getHeader(AUTHORIZATION));
-            log.info("Refresh-Token");
             String token = request.getHeader("Refresh-Token") == null ?
-                    request.getHeader("Auto") : request.getHeader("Refresh-Token");
-            log.info(token);
+                    request.getHeader(AUTHORIZATION) : request.getHeader("Refresh-Token");
             Member member = jwtProvider.authorizeUserAccessJwt(token);
             long memberNum = member.getMemberNum(); // 사용자 번호 추출
 
