@@ -10,7 +10,6 @@ import com.be.member.dto.req.MemberLoginReqDto;
 import com.be.member.dto.req.MemberRegisterReqDto;
 import com.be.member.dto.res.MemberDefaultResDto;
 import com.be.member.service.MemberService;
-import com.be.portfolio.dto.res.PortfolioResDto;
 import com.be.portfolio.service.PortfolioService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,13 +35,6 @@ public class MemberController {
     private final JwtProvider jwtProvider;
     private final CartService cartService;
     private final PortfolioService portfolioService;
-
-    @GetMapping("")
-    public String tesss() {
-        log.info("aget");
-        return "tess";
-    }
-
 
     @PostMapping("/register")
     public ResponseEntity<DefaultResDto<Object>> register(HttpServletRequest servletRequest, @RequestBody @Valid MemberRegisterReqDto reqDto) {
@@ -82,7 +74,7 @@ public class MemberController {
         log.info(headers.toString());
 
         log.info(response.toString());
-        return ResponseEntity.status(MEMBER_LOGIN.getHttpStatus())
+        return ResponseEntity.status(USER_LOGIN.getHttpStatus())
                 .headers(headers)
                 .body(DefaultResDto.singleDataBuilder()
                         .responseCode(USER_LOGIN.name())
