@@ -158,7 +158,7 @@ public class MemberService {
         if (!isVerified) {
             throw new CustomException(PASSWORD_INVALID);
         }
-        log.info("@@@@@" + newPassword);
+
         member.updatePassword(encodePassword(newPassword));
 
         try {
