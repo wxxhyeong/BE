@@ -36,6 +36,9 @@ public class CustomUserDetailsService implements UserDetailsService {
                 member.getAuthorities());
     }
 
+
+
+
     // 고유 넘버로 조회
     public Member loadUserByMemberNum(Long memberNum) {
         Member member = memberMapper.findOneByMemberNum(memberNum);

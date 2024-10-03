@@ -21,7 +21,7 @@ public enum SuccessCode {
     SELF_USER_FOUND(OK, "본인을 조회 했습니다."),
     USER_LOGOUT(OK, "회원이 로그아웃 했습니다."),
     USER_LOGIN(OK, "회원이 로그인 했습니다."),
-
+    PASSWORD_UPDATED(OK, "비밀번호를 업데이트 했습니다."),
 
     //201
     USER_REGISTERED(CREATED, "회원 가입을 했습니다.");
