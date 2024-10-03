@@ -7,8 +7,6 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -21,8 +19,7 @@ public class RecentViewServiceImpl implements RecentViewService {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public List<RecentViewedItemDto> getRecentViewItem(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
+    public List<RecentViewedItemDto> getRecentViewItem(Cookie[] cookies) {
         List<RecentViewedItemDto> recentViewedItems = new ArrayList<>();
         String recentProducts = null;
 
@@ -49,9 +46,9 @@ public class RecentViewServiceImpl implements RecentViewService {
     }
 
     @Override
-    public void addRecentViewedItem(HttpServletRequest request, HttpServletResponse response, RecentViewedItemDto dto) {
+    public Cookie addRecentViewedItem(Cookie[] cookies, RecentViewedItemDto dto) {
         try{
-            List<RecentViewedItemDto> recentViewedItems = getRecentViewItem(request);
+            List<RecentViewedItemDto> recentViewedItems = getRecentViewItem(cookies);
 
             for(int i = 0; i < recentViewedItems.size(); i++) {
                 if(recentViewedItems.get(i).getProductId() == dto.getProductId()) {
@@ -71,22 +68,28 @@ public class RecentViewServiceImpl implements RecentViewService {
             // 쿠키 업데이트
             Cookie cookie = new Cookie("recentViewedItem", encodedJson);
             cookie.setMaxAge(60 * 60 * 24); // 쿠키의 유효기간 설정 (1일)
-            response.addCookie(cookie);
+            return cookie;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     @Override
-    public void resetCookies(HttpServletRequest request, HttpServletResponse response) {
-        // 도메인 내 모든 쿠키 초기화
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                cookie.setValue(null);
-                cookie.setMaxAge(0);
-                response.addCookie(cookie);
+    public Cookie resetRecentViewedItem(Cookie[] cookies) {
+        try {
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if(cookie.getName().equals("recentViewedItem")) {
+                        cookie.setValue(null);
+                        cookie.setMaxAge(0);
+                        return cookie;
+                    }
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return null;
     }
 }

@@ -63,9 +63,9 @@ public class MemberController {
         HttpHeaders headers = jwtProvider.generateUserJwt(member.getMemberNum(), member.getRoles());
         MemberDefaultResDto response = new MemberDefaultResDto(member);
 
-        // 로그인 시 장바구니 리스트 세션에 저장
+        // 로그인 시 장바구니 리스트 세션에 저장(-> cartController로 이동 예정)
         HttpSession session = request.getSession();
-        List<CartItemResDto> cartList = cartService.getCartList(member.getMemberNum());
+        List<CartItemResDto> cartList = cartService.initCartList(member.getMemberNum());
         session.setAttribute("cartList", cartList);
 
         log.info(session.getAttribute("cartList").toString());

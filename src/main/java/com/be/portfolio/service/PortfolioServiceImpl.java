@@ -33,7 +33,6 @@ public class PortfolioServiceImpl implements PortfolioService {
     public PortfolioResDto getPortfolio(int portfolioId) {
         PortfolioResDto portfolio = PortfolioResDto.of(portfolioMapper.getPortfolio(portfolioId));
         portfolio.setPortfolioItems(portfolioMapper.getPortfolioItemList(portfolio.getPortfolioId()).stream().map(PortfolioItemResDto::of).toList());
-        // getDailyPrice 작업
         portfolio.setPortion(calculatePortion(getPortfolioItems(portfolio.getPortfolioId())));
         
         return Optional.ofNullable(portfolio)
@@ -47,9 +46,10 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public PortfolioResDto createPortfolio(PortfolioReqDto portfolio) {
+    public PortfolioResDto createPortfolio(PortfolioReqDto portfolio, long memberNum) {
         // 포트폴리오 계산 기능(개발중)
 //        portfolio = calculatePortfolio(portfolio);
+        portfolio.setMemberNum(memberNum);
         int portfolioId = portfolioMapper.insertPortfolio(portfolio.toVo());
 
         for(PortfolioItemReqDto portfolioItem : portfolio.getPortfolioItems()) {
@@ -87,13 +87,9 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public PortfolioResDto deletePortfolio(int id) {
-        PortfolioResDto resDto = getPortfolio(id);
-
+    public void deletePortfolio(int id) {
         // portfolioItems는 delete cascade 설정
         portfolioMapper.deletePortfolio(id);
-
-        return resDto;
     }
 
     @Override

@@ -1,12 +1,12 @@
 package com.be.recentView.service;
 
 import com.be.recentView.dto.RecentViewedItemDto;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import javax.servlet.http.Cookie;
 import java.util.List;
 
 public interface RecentViewService {
-    void addRecentViewedItem(HttpServletRequest req, HttpServletResponse resp, RecentViewedItemDto dto);
-    List<RecentViewedItemDto> getRecentViewItem(HttpServletRequest request);
-    void resetCookies(HttpServletRequest req, HttpServletResponse resp);
+    List<RecentViewedItemDto> getRecentViewItem(Cookie[] cookies);
+    Cookie addRecentViewedItem(Cookie[] cookies, RecentViewedItemDto dto);
+    Cookie resetRecentViewedItem(Cookie[] cookies);
 }

@@ -34,7 +34,7 @@ class CartServiceImplTest {
         CartItemReqDto cart = new CartItemReqDto();
 
         cart.setProductId(13);
-        cart.setUserNum(1);
+        cart.setMemberNum(1);
         cart.setProductType("S");
         cart.setProvider("삼성");
         cart.setProductName("1펀드");
