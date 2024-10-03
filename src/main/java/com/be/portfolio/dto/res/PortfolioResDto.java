@@ -21,7 +21,7 @@ public class PortfolioResDto {
     private int total;
     private int expectedReturn;
     private int riskLevel;
-    private int memberNum;
+    private long memberNum;
 
     private List<PortfolioItemResDto> portfolioItems;
     private PortfolioPortionDto portion;

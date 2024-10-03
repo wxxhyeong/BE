@@ -20,7 +20,7 @@ public class PortfolioReqDto {
     private int total;
     private int expectedReturn;
     private int riskLevel;
-    private int memberNum;
+    private long memberNum;
 
     private List<PortfolioItemReqDto> portfolioItems;
 
