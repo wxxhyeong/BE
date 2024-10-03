@@ -38,6 +38,10 @@ public class Member implements UserDetails {
         log.info(memberRoles.toString());
     }
 
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.memberRoles.stream()

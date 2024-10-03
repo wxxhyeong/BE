@@ -35,11 +35,6 @@ public class CartController {
     public List<CartItemResDto> getCartItems(HttpServletRequest request) {
         HttpSession session = request.getSession();
 
-        /* 테스트용 코드
-            List<CartItemResDto> testList = cartService.getCartList(1L);
-            session.setAttribute("cartList", testList);
-        */
-
         List<CartItemResDto> cartList = objectMapper.convertValue(session.getAttribute("cartList"),
                 new TypeReference<List<CartItemResDto>>() {});
         return cartList;

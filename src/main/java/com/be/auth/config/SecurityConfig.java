@@ -52,13 +52,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.GET, "/api/cart", "/api/portfolio/**", "/api/recentView/**").permitAll()
 //                .antMatchers(HttpMethod.POST, "/api/cart", "/api/portfolio/**", "/api/recentView/**").permitAll()
 //                .antMatchers(HttpMethod.DELETE, "/api/cart/**", "/api/portfolio/**").permitAll()
-//
+////
 
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+
+
     }
 
     @Bean
@@ -70,9 +72,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
-
         config.addExposedHeader("Authorization");
         config.addExposedHeader("Refresh-Token");
         return new CorsFilter(source);
     }
+
 }

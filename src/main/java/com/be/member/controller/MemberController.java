@@ -8,6 +8,7 @@ import com.be.common.dto.DefaultResDto;
 import com.be.member.domain.Member;
 import com.be.member.dto.req.MemberLoginReqDto;
 import com.be.member.dto.req.MemberRegisterReqDto;
+import com.be.member.dto.req.UpdateMemberPasswordReqDto;
 import com.be.member.dto.res.MemberDefaultResDto;
 import com.be.member.service.MemberService;
 import com.be.portfolio.service.PortfolioService;
@@ -105,6 +106,21 @@ public class MemberController {
                         .responseMessage(USER_LOGOUT.getMessage())
                         .build());
     }
+
+    @PostMapping("/password/update")
+    public ResponseEntity<DefaultResDto<Object>> updatePassword(@RequestBody @Valid UpdateMemberPasswordReqDto request,
+                                                                HttpServletRequest servletRequest) {
+        Member member = jwtProvider.authorizeUserAccessJwt(servletRequest.getHeader(AUTHORIZATION));
+        memberService.updatePassword(member, request.getPassword(), request.getNewPassword());
+
+        return ResponseEntity.status(PASSWORD_UPDATED.getHttpStatus())
+                .body(DefaultResDto.noDataBuilder()
+                        .responseCode(PASSWORD_UPDATED.name())
+                        .responseMessage(PASSWORD_UPDATED.getMessage())
+                        .build());
+    }
+
+
 
 
 
