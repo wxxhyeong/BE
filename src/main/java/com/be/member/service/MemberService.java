@@ -5,7 +5,11 @@ import com.be.member.domain.Member;
 import com.be.member.domain.type.Role;
 import com.be.member.dto.req.MemberLoginReqDto;
 import com.be.member.dto.req.MemberRegisterReqDto;
+
+import com.be.member.dto.req.MemberResponseReqDto;
+
 import com.be.member.domain.MemberRole;
+
 import com.be.member.mapper.MemberMapper;
 import com.be.member.mapper.MemberRoleMapper;
 import lombok.RequiredArgsConstructor;
@@ -169,4 +173,52 @@ public class MemberService {
 
     }
 
+
+    // 투자 성향 점수와 성향을 업데이트하는 메서드
+    public int updateMemberPreference(Long memberNum, Integer investScore) {
+        // Null 체크
+        if (memberNum == null || investScore == null) {
+            throw new IllegalArgumentException("memberNum 또는 investScore가 null입니다.");
+        }
+
+        Integer preference = analyzeInvestmentPreference(investScore);
+
+        // Mapper를 통해 DB 업데이트
+        return memberMapper.updateInvestScoreAndPreference(memberNum, investScore, preference);
+    }
+
+    // 투자 성향 분석 로직 (기존)
+    public int analyzeInvestmentPreference(int investScore) {
+        if (investScore >= 1 && investScore <= 20) {
+            return 1;  // 안정형
+        } else if (investScore >= 21 && investScore <= 40) {
+            return 2;  // 안정추구형
+        } else if (investScore >= 41 && investScore <= 60) {
+            return 3;  // 위험중립형
+        } else if (investScore >= 61 && investScore <= 80) {
+            return 4;  // 적극투자형
+        } else if (investScore >= 81 && investScore <= 100) {
+            return 5;  // 공격투자형
+        } else {
+            throw new IllegalArgumentException("잘못된 투자 점수입니다.");
+        }
+    }
+
+    // 사용자의 투자 성향 점수와 성향을 조회하는 메서드
+    public MemberResponseReqDto getMemberPreference(Long memberNum) {
+        // Mapper를 통해 DB에서 사용자 데이터를 조회
+        Member member = memberMapper.findOneByMemberNum(memberNum);
+
+        // 만약 사용자가 존재하지 않으면 null을 반환
+        if (member == null) {
+            return null;
+        }
+
+        // 조회된 데이터를 MemberResponse 객체로 변환
+        MemberResponseReqDto response = new MemberResponseReqDto();
+        response.setMemberNum(member.getMemberNum());
+        response.setInvestScore(member.getInvestScore());
+        response.setPreference(member.getPreference());
+        return response;
+    }
 }

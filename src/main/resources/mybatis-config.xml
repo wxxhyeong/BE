@@ -24,7 +24,9 @@
         <mapper resource="mapper/PortfolioMapper.xml"/>
         <mapper resource="mapper/CartMapper.xml"/>
         <mapper resource="mapper/MemberMapper.xml"/>
+        <mapper resource="mapper/PersonaMapper.xml" />
         <mapper resource="mapper/MemberRoleMapper.xml"/>
+
     </mappers>
 
 </configuration>
