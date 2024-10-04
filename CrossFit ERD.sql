@@ -194,7 +194,7 @@ CREATE TABLE `CartItem`
 (
     `cartID`         INT           NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `productID`      INT           NOT NULL,
-    `userNum`        INT           NOT NULL,
+    `memberNum`        INT           NOT NULL,
     `productType`    CHAR(1)       NOT NULL,
     `provider`       VARCHAR(100)  NULL,
     `productName`    VARCHAR(100)  NOT NULL,
