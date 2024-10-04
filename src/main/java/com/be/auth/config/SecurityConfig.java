@@ -39,19 +39,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//                .and()
-//                .authorizeRequests()
-//                .antMatchers(HttpMethod.GET,"/**", "/home").permitAll()
-//                .antMatchers(HttpMethod.POST, "/api/member/login", "/api/member/register").permitAll()
-////                 테스트
-//                .antMatchers(HttpMethod.POST, "/api/cart", "/api/portfolio/**").permitAll()
+
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/**", "/home").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/member/login", "/api/member/register").permitAll()
+//                 테스트
+//                .antMatchers(HttpMethod.GET, "/api/cart", "/api/portfolio/**", "/api/recentView/**").permitAll()
+//                .antMatchers(HttpMethod.POST, "/api/cart", "/api/portfolio/**", "/api/recentView/**").permitAll()
 //                .antMatchers(HttpMethod.DELETE, "/api/cart/**", "/api/portfolio/**").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-//                .exceptionHandling()
-//                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+////
+
+                .anyRequest().authenticated()
+                .and()
+                .addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
 
 
     }
@@ -64,8 +68,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         config.addAllowedOriginPattern("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/**",
-                config);
+        source.registerCorsConfiguration("/**", config);
+        config.addExposedHeader("Authorization");
+        config.addExposedHeader("Refresh-Token");
         return new CorsFilter(source);
     }
 

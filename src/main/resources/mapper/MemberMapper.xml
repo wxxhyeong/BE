@@ -36,4 +36,8 @@
         WHERE member_num = #{memberNum}
     </select>
 
+    <update id="updatePassword" parameterType="Member">
+        update member set password = #{password} where member_num = #{memberNum};
+    </update>
+
 </mapper>

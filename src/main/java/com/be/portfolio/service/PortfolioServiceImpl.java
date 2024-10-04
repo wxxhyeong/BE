@@ -1,6 +1,5 @@
 package com.be.portfolio.service;
 
-import com.be.portfolio.domain.PortfolioItemVO;
 import com.be.portfolio.domain.PortfolioVO;
 import com.be.portfolio.dto.req.PortfolioItemReqDto;
 import com.be.portfolio.dto.req.PortfolioReqDto;
@@ -9,13 +8,10 @@ import com.be.portfolio.dto.res.PortfolioPortionDto;
 import com.be.portfolio.dto.res.PortfolioResDto;
 import com.be.portfolio.mapper.PortfolioMapper;
 import lombok.RequiredArgsConstructor;
-import org.json.JSONObject;
+import lombok.extern.log4j.Log4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -23,13 +19,23 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Log4j
 public class PortfolioServiceImpl implements PortfolioService {
     final private PortfolioMapper portfolioMapper;
 
     @Override
+    public List<PortfolioResDto> getPortfolioList(long memberNum) {
+        return portfolioMapper.getPortfolioList(memberNum)
+                .stream().map(PortfolioResDto::of).toList();
+    }
+
+    @Override
     public PortfolioResDto getPortfolio(int portfolioId) {
-        PortfolioResDto resDto = PortfolioResDto.of(portfolioMapper.getPortfolio(portfolioId));
-        return Optional.ofNullable(resDto)
+        PortfolioResDto portfolio = PortfolioResDto.of(portfolioMapper.getPortfolio(portfolioId));
+        portfolio.setPortfolioItems(portfolioMapper.getPortfolioItemList(portfolio.getPortfolioId()).stream().map(PortfolioItemResDto::of).toList());
+        portfolio.setPortion(calculatePortion(getPortfolioItems(portfolio.getPortfolioId())));
+        
+        return Optional.ofNullable(portfolio)
                 .orElseThrow(NoSuchElementException::new);
     }
 
@@ -40,17 +46,20 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public PortfolioResDto createPortfolio(PortfolioReqDto reqDto, List<PortfolioItemReqDto> portfolioItems, JSONObject stockPrices) {
-        reqDto.setPortfolioItems(portfolioItems);
-        reqDto = calculatePortfolio(reqDto, stockPrices);
-        reqDto.setPortfolioId(portfolioMapper.insertPortfolio(reqDto.toVo()));
+    public PortfolioResDto createPortfolio(PortfolioReqDto portfolio, long memberNum) {
+        // 포트폴리오 계산 기능(개발중)
+//        portfolio = calculatePortfolio(portfolio);
+        portfolio.setMemberNum(memberNum);
+        int portfolioId = portfolioMapper.insertPortfolio(portfolio.toVo());
 
-        for(PortfolioItemReqDto portfolioItem : portfolioItems) {
-            portfolioItem.setPortfolioId(reqDto.getPortfolioId());
+        for(PortfolioItemReqDto portfolioItem : portfolio.getPortfolioItems()) {
+            log.info(portfolioId);
+            portfolioItem.setPortfolioId(portfolioId);
+            log.info(portfolioItem.toVo());
             portfolioMapper.insertPortfolioItem(portfolioItem.toVo());
         }
 
-        PortfolioResDto resDto = getPortfolio(reqDto.getPortfolioId());
+        PortfolioResDto resDto = getPortfolio(portfolioId);
         resDto.setPortion(calculatePortion(getPortfolioItems(resDto.getPortfolioId())));
 
         return resDto;
@@ -78,28 +87,24 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public PortfolioResDto deletePortfolio(int id) {
-        PortfolioResDto resDto = getPortfolio(id);
-
+    public void deletePortfolio(int id) {
         // portfolioItems는 delete cascade 설정
         portfolioMapper.deletePortfolio(id);
-
-        return resDto;
     }
 
     @Override
-    public PortfolioReqDto calculatePortfolio(PortfolioReqDto dto, JSONObject stockPrices) {
+    public PortfolioReqDto calculatePortfolio(PortfolioReqDto dto) {
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder("python", "src/main/java/com/be/portfolio/service/test.py", stockPrices.toString());
-            Process process = processBuilder.start();
-
-            InputStream inputStream = process.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            String line;
-            while((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
+//            ProcessBuilder processBuilder = new ProcessBuilder("python", "src/main/java/com/be/portfolio/service/test.py");
+//            Process process = processBuilder.start();
+//
+//            InputStream inputStream = process.getInputStream();
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+//
+//            String line;
+//            while((line = reader.readLine()) != null) {
+//                System.out.println(line);
+//            }
 
             // 파이썬 플라스크 서버 연결 + 계산 + 반환
             // portfolio의 expectedReturn, riskLevel, portfolioItem의 expectedReturn 반환

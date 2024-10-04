@@ -19,11 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URLEncoder;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {
@@ -59,7 +55,7 @@ public class PortfolioServiceImplTest {
         Date now = new Date();
         reqDto.setCreationDate(now);
         reqDto.setPortfolioName("asdf");
-        reqDto.setUserNum(1);
+        reqDto.setMemberNum(1);
         reqDto.setRiskLevel(21);
         reqDto.setExpectedReturn(123);
         reqDto.setTotal(10000);

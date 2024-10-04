@@ -16,10 +16,14 @@ public interface MemberMapper {
 
     Member findOneByMemberNum(long memberNum);
 
+
     Member findOneByMemberNumInvest(long memberNum);
 
 
     int updateInvestScoreAndPreference(@Param("memberNum") Long memberNum,
                                        @Param("investScore") Integer investScore,
                                        @Param("preference") Integer preference);
+
+    int updatePassword(Member member);
+
 }

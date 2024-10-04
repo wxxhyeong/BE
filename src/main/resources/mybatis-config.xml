@@ -10,6 +10,7 @@
     
     <typeAliases>
         <package name="com.be.member.dto.res"/>
+        <package name="com.be.member.dto.req"/>
         <package name="com.be.member.domain"/>
     </typeAliases>
     
@@ -24,6 +25,8 @@
         <mapper resource="mapper/CartMapper.xml"/>
         <mapper resource="mapper/MemberMapper.xml"/>
         <mapper resource="mapper/PersonaMapper.xml" />
+        <mapper resource="mapper/MemberRoleMapper.xml"/>
+
     </mappers>
 
 </configuration>
