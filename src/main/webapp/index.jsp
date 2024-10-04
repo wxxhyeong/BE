@@ -103,5 +103,8 @@
             });
   }
 </script>
+<form action="http://localhost:8080/api/personas/get" method="get">
+    <button type="submit">페르소나 확인</button>
+</form>
     </body>
 </html>

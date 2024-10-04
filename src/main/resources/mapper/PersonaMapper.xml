@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.be.persona.mapper.PersonaMapper">
+    <select id="getPersonas" resultType="com.be.persona.domain.PersonaVO">
+        SELECT persona_id, persona_preference, stock_rate, fund_rate, bond_rate, savings_rate, persona_name
+        FROM persona;
+    </select>
+</mapper>
