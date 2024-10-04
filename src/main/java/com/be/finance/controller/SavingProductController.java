@@ -65,4 +65,16 @@ public class SavingProductController {
             @RequestParam(defaultValue = "10") int pageSize) {
         return savingProductService.searchSavingProducts(keyword, page, pageSize);
     }
+
+    // 예금 상세 페이지
+    @GetMapping("/deposit/{productId}")
+    public Map<String, Object> getDepositProductDetail(@PathVariable int productId) {
+        return savingProductService.getDepositProductDetail(productId);
+    }
+
+    // 적금 상세 페이지
+    @GetMapping("/saving/{productId}")
+    public Map<String, Object> getSavingProductDetail(@PathVariable int productId) {
+        return savingProductService.getSavingProductDetail(productId);
+    }
 }

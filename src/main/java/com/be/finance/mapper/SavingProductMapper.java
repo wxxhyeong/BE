@@ -51,4 +51,16 @@ public interface SavingProductMapper {
     List<SavingProductRatesVO> searchDepositRatesByProductIds(@Param("productIds") List<Integer> productIds);
 
     List<SavingProductRatesVO> searchSavingRatesByProductIds(@Param("productIds") List<Integer> productIds);
+
+    // 예금 상품 상세 정보 조회
+    List<SavingProductVO> getDepositProductDetail(int productId);
+
+    // 해당 예금 상품 기간별 수익률 조회
+    List<SavingProductRatesVO> getDepositProductRatesDetail(int productId);
+
+    // 적금 상품 상세 정보 조회
+    List<SavingProductVO> getSavingProductDetail(int productId);
+
+    // 해당 적금 상품 기간별 수익률 조회
+    List<SavingProductRatesVO> getSavingProductRatesDetail(int productId);
 }

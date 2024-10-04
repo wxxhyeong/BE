@@ -134,4 +134,32 @@
             #{productId}
         </foreach>
     </select>
+
+    <!-- 예금 상품 상세 조회 -->
+    <select id="getDepositProductDetail" resultType="com.be.finance.domain.SavingProductVO">
+        SELECT *
+        FROM SavingsProduct
+        WHERE productId = #{productId};
+    </select>
+
+    <!-- 예금 상품 기간별 수익률 상세 조회 -->
+    <select id="getDepositProductRatesDetail" resultType="com.be.finance.domain.SavingProductRatesVO">
+        SELECT *
+        FROM SavingProductRates
+        WHERE productId = #{productId};
+    </select>
+
+    <!-- 적금 상품 상세 조회 -->
+    <select id="getSavingProductDetail" resultType="com.be.finance.domain.SavingProductVO">
+        SELECT *
+        FROM SavingsProduct
+        WHERE productId = #{productId};
+    </select>
+
+    <!-- 적금 상품 기간별 수익률 상세 조회 -->
+    <select id="getSavingProductRatesDetail" resultType="com.be.finance.domain.SavingProductRatesVO">
+        SELECT *
+        FROM SavingProductRates
+        WHERE productId = #{productId};
+    </select>
 </mapper>
