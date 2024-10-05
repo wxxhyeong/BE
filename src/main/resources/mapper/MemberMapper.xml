@@ -40,4 +40,10 @@
         update member set password = #{password} where member_num = #{memberNum};
     </update>
 
+    <select id="getBirthDateByMemberNum" resultType="java.time.LocalDate">
+        SELECT birth
+        FROM member
+        WHERE member_num = #{memberNum}
+    </select>
+
 </mapper>

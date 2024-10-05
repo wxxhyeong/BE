@@ -63,4 +63,10 @@ public interface SavingProductMapper {
 
     // 해당 적금 상품 기간별 수익률 조회
     List<SavingProductRatesVO> getSavingProductRatesDetail(int productId);
+
+    SavingProductVO findByProductId(@Param("productId") int productId);
+
+
+
+
 }

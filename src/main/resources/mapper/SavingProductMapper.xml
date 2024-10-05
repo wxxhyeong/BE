@@ -162,4 +162,10 @@
         FROM SavingProductRates
         WHERE productId = #{productId};
     </select>
+
+    <select id="findByProductId" resultType="com.be.finance.domain.SavingProductVO">
+        SELECT *
+        FROM SavingsProduct
+        WHERE productId = #{productId};
+    </select>
 </mapper>

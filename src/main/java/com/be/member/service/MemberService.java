@@ -19,6 +19,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 
@@ -220,5 +222,32 @@ public class MemberService {
         response.setInvestScore(member.getInvestScore());
         response.setPreference(member.getPreference());
         return response;
+    }
+
+    /**
+     * 생년월일을 기준으로 연령대를 계산하는 메소드
+     */
+    public int calculateAgeGroup(Long memberNum) {
+        // 사용자의 생년월일을 데이터베이스에서 조회
+        LocalDate birthDate = memberMapper.getBirthDateByMemberNum(memberNum);
+
+        // 현재 날짜
+        LocalDate currentDate = LocalDate.now();
+
+        // 나이 계산
+        int age = Period.between(birthDate, currentDate).getYears();
+
+        // 연령대 계산 (예: 10대, 20대, 30대 등)
+        if (age < 20) {
+            return 10;  // 10대
+        } else if (age < 30) {
+            return 20;  // 20대
+        } else if (age < 40) {
+            return 30;  // 30대
+        } else if (age < 50) {
+            return 40;  // 40대
+        } else {
+            return 50;  // 50대 이상
+        }
     }
 }

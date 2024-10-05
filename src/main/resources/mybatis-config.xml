@@ -26,6 +26,7 @@
         <mapper resource="mapper/MemberMapper.xml"/>
         <mapper resource="mapper/PersonaMapper.xml" />
         <mapper resource="mapper/MemberRoleMapper.xml"/>
+        <mapper resource="mapper/AgeGroupProductHitsMapper.xml"/>
 
     </mappers>
 
