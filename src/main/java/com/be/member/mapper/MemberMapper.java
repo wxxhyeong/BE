@@ -31,4 +31,6 @@ public interface MemberMapper {
     // 회원 번호로 생년월일 조회
     LocalDate getBirthDateByMemberNum(long memberNum);
 
+    Integer findPreferenceByMemberNum(@Param("memberNum") long memberNum);
+
 }

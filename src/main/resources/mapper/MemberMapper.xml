@@ -46,4 +46,9 @@
         WHERE member_num = #{memberNum}
     </select>
 
+    <!-- 사용자의 투자성향 조회 -->
+    <select id="findPreferenceByMemberNum" parameterType="long" resultType="int">
+        SELECT preference FROM Member
+        WHERE member_num = #{memberNum}
+    </select>
 </mapper>
