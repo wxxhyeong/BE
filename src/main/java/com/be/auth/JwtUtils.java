@@ -1,12 +1,14 @@
 package com.be.auth;
 
 import com.be.member.domain.Member;
+import lombok.extern.log4j.Log4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Component
+@Log4j
 public class JwtUtils {
     private final JwtProvider jwtProvider;
 

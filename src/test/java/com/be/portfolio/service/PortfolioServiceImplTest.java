@@ -53,7 +53,6 @@ public class PortfolioServiceImplTest {
         List<PortfolioItemReqDto> itemList = new ArrayList<>();
 
         Date now = new Date();
-        reqDto.setCreationDate(now);
         reqDto.setPortfolioName("asdf");
         reqDto.setMemberNum(1);
         reqDto.setRiskLevel(21);

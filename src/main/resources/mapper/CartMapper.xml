@@ -33,6 +33,6 @@
     </insert>
     <delete id="deleteCartItem">
         delete from cartitem
-        where cartID = #{cartId}
+        where productID = #{productId}
     </delete>
 </mapper>
