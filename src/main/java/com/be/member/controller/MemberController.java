@@ -38,7 +38,6 @@ public class MemberController {
     private final MemberService memberService;
     private final JwtProvider jwtProvider;
     private final CartService cartService;
-    private final PortfolioService portfolioService;
 
     @PostMapping("/register")
     public ResponseEntity<DefaultResDto<Object>> register(HttpServletRequest servletRequest, @RequestBody @Valid MemberRegisterReqDto reqDto) {
@@ -68,11 +67,12 @@ public class MemberController {
         MemberDefaultResDto response = new MemberDefaultResDto(member);
 
         // 로그인 시 장바구니 리스트 세션에 저장(-> cartController로 이동 예정)
-        HttpSession session = request.getSession();
-        List<CartItemResDto> cartList = cartService.initCartList(member.getMemberNum());
-        session.setAttribute("cartList", cartList);
-
-        log.info(session.getAttribute("cartList").toString());
+//        HttpSession session = request.getSession();
+//        List<CartItemResDto> cartList = cartService.initCartList(member.getMemberNum());
+//        session.setAttribute("cartList", cartList);
+//
+//        log.info("{}", session);
+//        log.info(session.getAttribute("cartList").toString());
         //
 
         log.info(headers.toString());

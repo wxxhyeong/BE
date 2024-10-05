@@ -3,6 +3,7 @@ package com.be.recentView.controller;
 import com.be.recentView.dto.RecentViewedItemDto;
 import com.be.recentView.service.RecentViewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +23,15 @@ public class RecentViewController {
         return ResponseEntity.ok(recentViewService.getRecentViewItem(request.getCookies()));
     }
 
-    @PostMapping("/view")
-    public void addRecentViewedItem(HttpServletRequest request, HttpServletResponse response, @RequestBody @Valid RecentViewedItemDto dto) {
+    @PostMapping("/items")
+    public  ResponseEntity<Void> addRecentViewedItem(HttpServletRequest request, HttpServletResponse response, @RequestBody @Valid RecentViewedItemDto dto) {
         response.addCookie(recentViewService.addRecentViewedItem(request.getCookies(), dto));
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/reset")
-    public void resetRecentViewedItem(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<Void> resetRecentViewedItem(HttpServletRequest request, HttpServletResponse response) {
         response.addCookie(recentViewService.resetRecentViewedItem(request.getCookies()));
+        return ResponseEntity.noContent().build();
     }
 }

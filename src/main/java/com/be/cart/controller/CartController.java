@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,15 +33,15 @@ public class CartController {
     }
 
     @GetMapping("/list")
-    public List<CartItemResDto> getCartItems(HttpServletRequest request) {
+    public ResponseEntity<List<CartItemResDto>> getCartList(HttpServletRequest request) {
         HttpSession session = request.getSession();
-
         List<CartItemResDto> cartList = objectMapper.convertValue(session.getAttribute("cartList"),
                 new TypeReference<List<CartItemResDto>>() {});
-        return cartList;
+
+        return ResponseEntity.ok(cartList);
     }
 
-    @PostMapping("/item")
+    @PostMapping("/items")
     public void addCartItem(@RequestBody @Valid CartItemReqDto cartItem, HttpServletRequest request) {
         HttpSession session = request.getSession();
 
@@ -51,9 +52,10 @@ public class CartController {
         session.setAttribute("cartList", cartService.addCartItem(cartList, cartItem));
     }
 
-    @DeleteMapping("/item/{productID}")
+    @DeleteMapping("/items/{productID}")
     public void deleteCartItem(@PathVariable int productID, HttpServletRequest request) {
         HttpSession session = request.getSession();
+
         List<CartItemResDto> cartList = objectMapper.convertValue(session.getAttribute("cartList"),
                 new TypeReference<List<CartItemResDto>>() {});
 
