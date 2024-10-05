@@ -13,5 +13,4 @@ public interface CartService {
     List<CartItemResDto> getBondInCart (long memberNum);
     List<CartItemResDto> addCartItem(List<CartItemResDto> cartList, CartItemReqDto cartItem);
     List<CartItemResDto> deleteCartItem(List<CartItemResDto> cartList, int productId);
-    boolean checkCartItem(CartItemReqDto cart);
 }

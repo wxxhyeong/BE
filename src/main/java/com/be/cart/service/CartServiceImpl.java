@@ -4,11 +4,9 @@ import com.be.cart.domain.CartItemVO;
 import com.be.cart.dto.req.CartItemReqDto;
 import com.be.cart.dto.res.CartItemResDto;
 import com.be.cart.mapper.CartMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,8 +42,6 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public List<CartItemResDto> addCartItem(List<CartItemResDto> cartList, CartItemReqDto cartItem) {
-//        if(checkCartItem(cart)) throw new NotAvailableProductException("장바구니에 존재하는 상품입니다.");
-
         try {
             for(CartItemResDto cartItemResDto : cartList) {
                 if(cartItemResDto.getProductId() == cartItem.getProductId()) throw new Exception("중복 아이템 입니다");
@@ -73,7 +69,7 @@ public class CartServiceImpl implements CartService {
                 if(cartList.get(i).getProductId() == productId) cartList.remove(i);
             }
 
-            cartMapper.deleteCartItem(1);
+            cartMapper.deleteCartItem(productId);
 
             return cartList;
 
@@ -83,11 +79,5 @@ public class CartServiceImpl implements CartService {
         }
 
         return null;
-    }
-
-    @Override
-    public boolean checkCartItem(CartItemReqDto cart) {
-        if(cartMapper.checkCartItem(cart.getMemberNum(), cart.getProductId()) == null) return false;
-        return true;
     }
 }
