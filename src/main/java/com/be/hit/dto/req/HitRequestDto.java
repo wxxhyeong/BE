@@ -8,4 +8,5 @@ import lombok.Setter;
 public class HitRequestDto {
     private int ageGroup;
     private int productId;
+    private int preference;
 }

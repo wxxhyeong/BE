@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.be.hit.mapper.PreferenceProductHitsMapper">
+
+    <!-- 상품 ID와 연령대에 따른 조회수 레코드 조회 -->
+    <select id="findByPreferenceAndProductId" parameterType="map" resultType="com.be.hit.domain.PreferenceProductHits">
+        SELECT *
+        FROM PreferenceProductHits
+        WHERE preference = #{preference}
+          AND productID = #{productId}
+    </select>
+
+    <!-- 새로운 조회수 레코드 추가 -->
+    <insert id="insert" parameterType="com.be.hit.domain.PreferenceProductHits">
+        INSERT INTO PreferenceProductHits (preference, productID, hit)
+        VALUES (#{preference}, #{productId}, #{hit})
+    </insert>
+
+    <!-- 기존 조회수 레코드 업데이트 -->
+    <update id="update" parameterType="com.be.hit.domain.PreferenceProductHits">
+        UPDATE PreferenceProductHits
+        SET hit = hit + 1
+        WHERE preference = #{preference}
+          AND productID = #{productId}
+    </update>
+
+    <!-- 연령대별 상위 3개 상품 조회 -->
+    <select id="findTop3ByPreference" resultType="int">
+        SELECT productID
+        FROM PreferenceProductHits
+        WHERE preference = #{preference}
+        ORDER BY hit DESC
+            LIMIT 3;
+    </select>
+
+</mapper>

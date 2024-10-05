@@ -23,4 +23,14 @@ public class JwtUtils {
         Member member = jwtProvider.authenticateJwt(token);
         return member.getMemberNum(); // 사용자 번호 추출
     }
+
+    // 토큰에서 preference 가져오기
+    public int extractPreference(HttpServletRequest request) {
+        String token = request.getHeader("Refresh-Token") == null ?
+                request.getHeader(HttpHeaders.AUTHORIZATION) :
+                request.getHeader("Refresh-Token");
+
+        Member member = jwtProvider.authenticateJwt(token);
+        return member.getPreference(); // 사용자 투자 성향 추출
+    }
 }
