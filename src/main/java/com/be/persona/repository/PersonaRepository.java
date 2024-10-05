@@ -8,12 +8,17 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class PersonaRepository {
+public class PersonaRepository  {
 
     @Autowired
     private PersonaMapper personaMapper;
 
     public List<PersonaVO> findAll() {
         return personaMapper.getPersonas();
+    }
+
+    // 특정 페르소나 ID로 페르소나 가져오기
+    public PersonaVO findPersonaById(int persona_id) {
+        return personaMapper.getPersonaById(persona_id);
     }
 }

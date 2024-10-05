@@ -8,6 +8,8 @@ public class PersonaVO {
     private int bondRate;
     private int savingsRate;
     private String personaName;
+    private String job;
+
 
     // Getters and Setters
     public int getPersonaId() {
@@ -64,5 +66,12 @@ public class PersonaVO {
 
     public void setPersonaName(String personaName) {
         this.personaName = personaName;
+    }
+
+    public String getJob() {
+        return job;
+    }
+    public void setJob(String job) {
+        this.job = job;
     }
 }
