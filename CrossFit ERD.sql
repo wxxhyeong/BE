@@ -159,6 +159,23 @@ CREATE TABLE `PortfolioItem`
     FOREIGN KEY (`portfolioID`) REFERENCES `portfolio` (`portfolioID`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE AgeGroupProductHits (
+    hit_num INT auto_increment primary KEY,
+    productID INT,
+    age_group INT NOT NULL,
+    HIT INT NOT NULL,
+    FOREIGN KEY (productID) REFERENCES Product(productID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE PreferenceProductHits (
+    hit_num INT auto_increment PRIMARY KEY,
+    productID INT,
+    preference INT,
+    HIT INT NOT NULL,
+    foreign key (productID) references Product(productID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
 INSERT INTO `Portfolio` (`portfolioName`, `creationDate`, `total`, `expectedReturn`, `riskLevel`, `memberNum`)
 VALUES
     ('Portfolio 1', NOW(), 2500000, 5.50, 3, 1),
