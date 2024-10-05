@@ -18,4 +18,10 @@
         SELECT LAST_INSERT_ID()
     </select>
 
+    <select id="findById" resultType="com.be.finance.domain.ProductVO">
+        select productId, productType
+        FROM product
+        WHERE productId = #{productId};
+    </select>
+
 </mapper>
