@@ -10,12 +10,12 @@
         INSERT INTO SavingsProduct (
             ProductID, dcls_month, fin_co_no, kor_co_nm, fin_prdt_nm,
             join_way, mtrt_int, spcl_cnd, join_deny, join_member, etc_note,
-            max_limit, dcls_strt_day, dcls_end_day, RiskLevel, hit, fin_prdt_cd
+            max_limit, dcls_strt_day, dcls_end_day, hit, fin_prdt_cd
         ) VALUES (
                      #{productId}, #{dclsMonth}, #{finCoNo}, #{korCoNm}, #{finPrdtNm},
                      #{joinWay}, #{mtrtInt}, #{spclCnd}, #{joinDeny}, #{joinMember},
                      #{etcNote}, #{maxLimit}, #{dclsStrtDay}, #{dclsEndDay},
-                     1, 0, #{finPrdtCd}
+                      0, #{finPrdtCd}
                  );
     </insert>
 

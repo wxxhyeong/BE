@@ -4,6 +4,7 @@ import com.be.finance.domain.BondProductVO;
 import com.be.finance.domain.ProductVO;
 import com.be.finance.mapper.BondProductMapper;
 import com.be.finance.mapper.ProductMapper;
+import lombok.extern.log4j.Log4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -14,11 +15,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Log4j
 public class BondProductService {
 
     @Autowired
@@ -36,6 +42,12 @@ public class BondProductService {
     @Value("${api.bondAuthKey}")
     private String bondAuthKey;
 
+    @Value("${api.bondProductPriceUrl}")
+    private String bondProductPriceApiUrl;
+
+    @Value("${api.bondPriceAuthKey}")
+    private String bondPriceAuthKey;
+
     // OkHttpClient에 타임아웃 설정 추가
     private final OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)  // 연결 타임아웃 설정
@@ -44,13 +56,89 @@ public class BondProductService {
             .build();
 
     public void fetchAndSaveBondProducts() {
-        int totalPages = 10; // 총 10페이지
+        int totalPages = 870; // 총 10페이지
         int numOfRows = 30; // 1페이지당 30개의 데이터
+        LocalDate currentDate = LocalDate.now();
+        DayOfWeek dayOfWeek = currentDate.getDayOfWeek();
+
+        LocalDate previousBusinessDay;
+        if (dayOfWeek == DayOfWeek.MONDAY) {
+            previousBusinessDay = currentDate.minusDays(3);
+        } else if (dayOfWeek == DayOfWeek.SUNDAY) {
+            previousBusinessDay = currentDate.minusDays(2);
+        } else {
+            previousBusinessDay = currentDate.minusDays(1);
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String formattedDate = previousBusinessDay.format(formatter);
 
         for (int pageNo = 1; pageNo <= totalPages; pageNo++) {
             // 요청 URL
-            String url = bondProductApiUrl + "?serviceKey=" + bondAuthKey + "&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&resultType=json";
+            String url = bondProductApiUrl + "?serviceKey=" + bondAuthKey + "&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&resultType=json" + "&pageSize=" + numOfRows + "&basDt=" + formattedDate;
             System.out.println("Fetching page: " + pageNo + "form URL: " + url);
+
+            // OkHttp 요청 구성
+            Request request = new Request.Builder()
+                    .url(url)
+                    .get() // GET 요청
+                    .addHeader("Cookie", "SCOUTER=x7nhrjlt939t2f")
+                    .build();
+            try {
+                // OkHttp 요청 실행
+                Response response = client.newCall(request).execute();
+
+                if (!response.isSuccessful() || response.body() == null) {
+                    throw new RuntimeException("API 호출 실패 : 상태 코드 : " + response.code());
+                }
+
+                // 응답 내용 확인
+                String responseJson = response.body().string();
+                System.out.println("API 응답 데이터 : " + responseJson);
+
+                // 응답 예외 처리
+                if (responseJson == null || responseJson.isEmpty()) {
+                    throw new RuntimeException("API 응답이 없습니다.");
+                }
+
+                // JSON 파싱
+                JSONObject jsonResponse = new JSONObject(responseJson);  // JSON 변환 시도
+                JSONObject responseObj = jsonResponse.getJSONObject("response");
+                JSONObject body = responseObj.getJSONObject("body");
+                JSONArray items = body.getJSONObject("items").getJSONArray("item");
+
+//                // DB 저장 메소드 호출
+                processBondItems(items);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException("API 호출 중 오류 발생 : " + e.getMessage());
+            }
+        }
+    }
+
+    public void fetchAndSaveBondProductPrices() {
+        int totalPages = 14; // 총 10페이지
+        int numOfRows = 30; // 1페이지당 30개의 데이터
+        LocalDate currentDate = LocalDate.now();
+        DayOfWeek dayOfWeek = currentDate.getDayOfWeek();
+
+        LocalDate previousBusinessDay;
+        if (dayOfWeek == DayOfWeek.MONDAY) {
+            previousBusinessDay = currentDate.minusDays(3);
+        } else if (dayOfWeek == DayOfWeek.SUNDAY) {
+            previousBusinessDay = currentDate.minusDays(2);
+        } else {
+            previousBusinessDay = currentDate.minusDays(1);
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String formattedDate = previousBusinessDay.format(formatter);
+
+        for (int pageNo = 1; pageNo <= totalPages; pageNo++) {
+            // 요청 URL
+            String url = bondProductPriceApiUrl + "?serviceKey=" + bondPriceAuthKey + "&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&resultType=json" + "&basDt=" + formattedDate;
+            System.out.println("Fetching page: " + pageNo + "form URL: " + url);
+
 
             // OkHttp 요청 구성
             Request request = new Request.Builder()
@@ -83,7 +171,7 @@ public class BondProductService {
                 JSONArray items = body.getJSONObject("items").getJSONArray("item");
 
                 // DB 저장 메소드 호출
-                processBondItems(items);
+                processBondItemPrices(items);
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new RuntimeException("API 호출 중 오류 발생 : " + e.getMessage());
@@ -91,21 +179,34 @@ public class BondProductService {
         }
     }
 
+
+
     // 채권 상품 DB 저장 메소드
     private void processBondItems(JSONArray items) {
         for (int i = 0; i < items.length(); i++) {
             JSONObject bondItem = items.getJSONObject(i);
+            BondProductVO bondProductVO = new BondProductVO();
+//            for(BondProductVO bond : bondList) {
+//
+//                log.info(bond);
+//                if(bond.getIsinCd().equalsIgnoreCase(bondItem.getString("isinCd"))) {
+//                    bondProductVO.setIsinCd(bond.getIsinCd());
+//                    bondProductVO.setClprPrc(bond.getClprPrc());
+//                    break;
+//                }
+//            }
+//            if(bondProductVO.getIsinCd() == null) continue;
 
             // 1. Product 테이블 저장
-            ProductVO productVO = new ProductVO();
-            productVO.setProductType('B');
-            productMapper.insertProduct(productVO);
-
-            int productId = productVO.getProductId();
+//            ProductVO productVO = new ProductVO();
+//            productVO.setProductType('B');
+//            productMapper.insertProduct(productVO);
+//
+//            int productId = productVO.getProductId();
 
             // 2. BondProduct 테이블 저장
-            BondProductVO bondProductVO = new BondProductVO();
-            bondProductVO.setProductId(productId);
+
+//            bondProductVO.setProductId(productId);
             bondProductVO.setBasDt(bondItem.isNull("basDt") ? null : bondItem.getString("basDt"));
             bondProductVO.setCrno(bondItem.isNull("crno") ? null : bondItem.getString("crno"));
             bondProductVO.setScrsItmsKcd(bondItem.isNull("scrsItmsKcd") ? null : bondItem.getString("scrsItmsKcd"));
@@ -134,15 +235,34 @@ public class BondProductService {
             bondProductVO.setBondIntTcdNm(bondItem.isNull("bondIntTcdNm") ? null : bondItem.getString("bondIntTcdNm"));
             bondProductVO.setIntPayCyclCtt(bondItem.isNull("intPayCyclCtt") ? null : bondItem.getString("intPayCyclCtt"));
             bondProductVO.setNxtmCopnDt(bondItem.isNull("nxtmCopnDt") ? null : bondItem.getString("nxtmCopnDt"));
-            bondProductVO.setRbVopnDt(bondItem.isNull("rbVopnDt") ? null : bondItem.getString("rbVopnDt"));
             bondProductVO.setKbpScrsItmsKcdNm(bondItem.isNull("kbpScrsItmsKcdNm") ? null : bondItem.getString("kbpScrsItmsKcdNm"));
             bondProductVO.setNiceScrsItmsKcdNm(bondItem.isNull("niceScrsItmsKcdNm") ? null : bondItem.getString("niceScrsItmsKcdNm"));
             bondProductVO.setFnScrsItmsKcdNm(bondItem.isNull("fnScrsItmsKcdNm") ? null : bondItem.getString("fnScrsItmsKcdNm"));
-
-            bondProductVO.setRiskLevel(bondItem.isNull("riskLevel") ? 0 : bondItem.getInt("riskLevel"));
-            bondProductVO.setHit(0); // 조회수 기본값
+//            bondProductVO.setHit(0); // 조회수 기본값
 
             // 데이터베이스에 저장
+            bondProductMapper.updateBondProductPrice(bondProductVO);
+        }
+    }
+
+    // 채권 가격 DB 저장 메소드
+    private void processBondItemPrices(JSONArray items) {
+        for (int i = 0; i < items.length(); i++) {
+            JSONObject bondItem = items.getJSONObject(i);
+
+            // 1. Product 테이블 저장
+            ProductVO productVO = new ProductVO();
+            productVO.setProductType('B');
+            productMapper.insertProduct(productVO);
+
+            int productId = productVO.getProductId();
+
+            // 채권 종가 데이터 추출
+            BondProductVO bondProductVO = new BondProductVO();
+            bondProductVO.setProductId(productId);
+            bondProductVO.setIsinCd(bondItem.isNull("isinCd") ? null : bondItem.getString("isinCd"));
+            bondProductVO.setClprPrc(bondItem.isNull("clprPrc") ? 0 : Double.parseDouble(bondItem.getString("clprPrc")));
+
             bondProductMapper.insertBondProduct(bondProductVO);
         }
     }

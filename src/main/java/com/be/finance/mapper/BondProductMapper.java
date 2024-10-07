@@ -1,6 +1,7 @@
 package com.be.finance.mapper;
 
 import com.be.finance.domain.BondProductVO;
+import com.be.finance.domain.ProductVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -9,6 +10,7 @@ import java.util.List;
 @Mapper
 public interface BondProductMapper {
     void insertBondProduct(BondProductVO bondProductVO);
+    void updateBondProductPrice(BondProductVO bondProductVO);
 
     // 전체 채권 리스트 조회
     List<BondProductVO> getBondProductsList();
