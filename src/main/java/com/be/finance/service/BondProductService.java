@@ -18,10 +18,11 @@ import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j
@@ -186,27 +187,7 @@ public class BondProductService {
         for (int i = 0; i < items.length(); i++) {
             JSONObject bondItem = items.getJSONObject(i);
             BondProductVO bondProductVO = new BondProductVO();
-//            for(BondProductVO bond : bondList) {
-//
-//                log.info(bond);
-//                if(bond.getIsinCd().equalsIgnoreCase(bondItem.getString("isinCd"))) {
-//                    bondProductVO.setIsinCd(bond.getIsinCd());
-//                    bondProductVO.setClprPrc(bond.getClprPrc());
-//                    break;
-//                }
-//            }
-//            if(bondProductVO.getIsinCd() == null) continue;
 
-            // 1. Product 테이블 저장
-//            ProductVO productVO = new ProductVO();
-//            productVO.setProductType('B');
-//            productMapper.insertProduct(productVO);
-//
-//            int productId = productVO.getProductId();
-
-            // 2. BondProduct 테이블 저장
-
-//            bondProductVO.setProductId(productId);
             bondProductVO.setBasDt(bondItem.isNull("basDt") ? null : bondItem.getString("basDt"));
             bondProductVO.setCrno(bondItem.isNull("crno") ? null : bondItem.getString("crno"));
             bondProductVO.setScrsItmsKcd(bondItem.isNull("scrsItmsKcd") ? null : bondItem.getString("scrsItmsKcd"));
@@ -284,5 +265,18 @@ public class BondProductService {
     // 특정 채권 상품 상세 정보 조회
     public BondProductVO getBondProductDetail(int productId) {
         return bondProductMapper.getBondProductDetail(productId);
+    }
+
+    // 채권 기본 정보가 Null인 상품 제거
+    public void deleteNullProduct() {
+        String deletedIds = bondProductMapper.getNullProductIds();
+        List<Integer> deletedIdList = Arrays.stream(deletedIds.split(","))
+                .map(Integer::parseInt)
+                .toList();
+
+        bondProductMapper.deleteNullProduct();
+        for(int deletedId: deletedIdList) {
+            productMapper.deleteProduct(deletedId);
+        }
     }
 }
