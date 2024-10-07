@@ -46,7 +46,6 @@ CREATE TABLE SavingsProduct
     max_limit     VARCHAR(255),
     dcls_strt_day VARCHAR(8),
     dcls_end_day  VARCHAR(8),
-    RiskLevel     INT,
     hit           INT DEFAULT 0,
     FOREIGN KEY (ProductID) REFERENCES Product (ProductID)
 );
@@ -90,7 +89,6 @@ CREATE TABLE BondProduct
     crno              VARCHAR(13),   -- 법인등록번호
     scrsItmsKcd       VARCHAR(4),    -- 유가증권종목코드
     isinCd            VARCHAR(12),   -- ISIN코드
-    scrsItmsKcdNm     VARCHAR(50),   -- 유가증권종목코드명
     bondIsurNm        VARCHAR(100),  -- 채권발행인명
     isinCdNm          VARCHAR(100),  -- ISIN코드명
     bondIssuDt        VARCHAR(8),    -- 채권발행일자
@@ -106,11 +104,10 @@ CREATE TABLE BondProduct
     bondIntTcdNm      VARCHAR(50),   -- 채권이자형구분코드명
     intPayCyclCtt     VARCHAR(50),   -- 이자지급주기내용
     nxtmCopnDt        VARCHAR(8),    -- 차기표일자
-    rbVopnDt          VARCHAR(8),    -- 직전이표일자
     kbpScrsItmsKcdNm  VARCHAR(100),  -- 한국신용평가유가증권종목종류코드명
     niceScrsItmsKcdNm VARCHAR(100),  -- NICE평가정보유가증권종목종류코드명
     fnScrsItmsKcdNm   VARCHAR(100),  -- FN유가증권종목종류코드명
-    riskLevel         INT,           -- 위험도
+    clprPrc           DECIMAL(10, 2),-- 채권 종가
     hit               INT DEFAULT 0, -- 조회수, 기본값 0
     PRIMARY KEY (productID),         -- Primary Key 설정
     FOREIGN KEY (productID) REFERENCES Product (productID) ON DELETE CASCADE ON UPDATE CASCADE
