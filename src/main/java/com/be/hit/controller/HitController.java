@@ -9,6 +9,7 @@ import com.be.hit.service.TopFinanceService;
 import com.be.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +42,7 @@ public class HitController {
         return ResponseEntity.ok("Hit count increased successfully.");
     }
 
-    // 연령대별 상위 3개 상품을 조회하는 API
+    // 사용자의 연령대별 상위 3개 상품을 조회하는 API
     @GetMapping("ageGroup/top-products")
     public ResponseEntity<List<Object>> getTopProductsByAgeGroup(HttpServletRequest request) {
         // jwtUtils에서 memberNum 추출
@@ -54,9 +55,20 @@ public class HitController {
         List<Integer> topProductIds = ageGroupProductHitsService.findTop3ProductsByAgeGroup(ageGroup);
 
         // 각 상품 ID에 맞는 상세 정보를 조회
-        List<Object> topProducts = topFinanceService.getTop3ProductsByAgeGroup(ageGroup, topProductIds);
+        List<Object> topProductsByAgeGroup = topFinanceService.getTop3ProductsByAgeGroup(ageGroup, topProductIds);
 
-        return ResponseEntity.ok(topProducts);
+        topProductsByAgeGroup.add(ageGroup);
+
+        return ResponseEntity.ok(topProductsByAgeGroup);
+    }
+
+    // 사용자가 특정 연령대를 선택했을 때 상위 상품을 조회하는 API
+    @GetMapping("ageGroup/{age}/top-products")
+    public ResponseEntity<List<Object>> getTopProductsBySelectedAgeGroup(@PathVariable("age") int ageGroup) {
+        List<Integer> topProductIds = ageGroupProductHitsService.findTop3ProductsByAgeGroup(ageGroup);
+        List<Object> topProductsByAgeGroup = topFinanceService.getTop3ProductsByAgeGroup(ageGroup, topProductIds);
+
+        return ResponseEntity.ok(topProductsByAgeGroup);
     }
 
     // 투자성향과 상품 ID를 받아 조회수를 증가시키는 API
@@ -88,8 +100,19 @@ public class HitController {
         List<Integer> topProductIds = preferenceProductHitsService.findTop3ProductsByPreference(preference);
 
         // 각 상품 ID에 맞는 상세 정보를 조회
-        List<Object> topProducts = topFinanceService.getTop3ProductsByPreference(preference, topProductIds);
+        List<Object> topProductsByPreference = topFinanceService.getTop3ProductsByPreference(preference, topProductIds);
 
-        return ResponseEntity.ok(topProducts);
+        topProductsByPreference.add(preference);
+
+        return ResponseEntity.ok(topProductsByPreference);
+    }
+
+    // 사용자가 특정 투자성향을 선택했을 때 상위 상품을 조회하는 API
+    @GetMapping("/preference/{preference}/top-products")
+    public ResponseEntity<List<Object>> getTopProductsBySelectedPreference(@PathVariable("preference") int preference) {
+        List<Integer> topProductIds = preferenceProductHitsService.findTop3ProductsByPreference(preference);
+        List<Object> topProductsByPreference = topFinanceService.getTop3ProductsByPreference(preference, topProductIds);
+
+        return ResponseEntity.ok(topProductsByPreference);
     }
 }
