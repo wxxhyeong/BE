@@ -24,4 +24,9 @@
         WHERE productId = #{productId};
     </select>
 
+    <!--    -->
+    <delete id="deleteProduct">
+        delete from product
+        where productId = #{productId};
+    </delete>
 </mapper>

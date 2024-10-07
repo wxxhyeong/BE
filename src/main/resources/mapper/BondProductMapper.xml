@@ -81,4 +81,16 @@
         FROM BondProduct
         WHERE productId = #{productId}
     </select>
+
+    <select id="getNullProductIds" resultType="java.lang.String">
+        SELECT GROUP_CONCAT(productID) AS deleted_ids
+        FROM bondproduct
+        WHERE basDt IS NULL;
+    </select>
+
+    <!-- 기본 정보가 Null인 상품 제거 -->
+    <delete id="deleteNullProduct">
+        DELETE FROM bondproduct
+        WHERE basDt IS NULL;
+    </delete>
 </mapper>

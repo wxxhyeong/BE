@@ -29,18 +29,8 @@ public class BondProductController {
         try {
             bondProductService.fetchAndSaveBondProductPrices();
             bondProductService.fetchAndSaveBondProducts();
-            return "채권 데이터 저장 성공"; // 성공
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "채권 데이터 저장 중 오류 발생"; // 오류
-        }
-    }
-
-    @GetMapping("/fetch-test")
-    @ResponseBody
-    public String testFetch() {
-        try {
-            bondProductService.fetchAndSaveBondProductPrices();
+            // 기본정보가 Null인 상품 제거
+            bondProductService.deleteNullProduct();
             return "채권 데이터 저장 성공"; // 성공
         } catch (Exception e) {
             e.printStackTrace();
