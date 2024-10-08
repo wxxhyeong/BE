@@ -9,6 +9,7 @@ public class PersonaVO {
     private int savingsRate;
     private String personaName;
     private String job;
+    private String imagePath;
 
 
     // Getters and Setters
@@ -73,5 +74,13 @@ public class PersonaVO {
     }
     public void setJob(String job) {
         this.job = job;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }
