@@ -59,24 +59,24 @@ public class BondProductService {
     public void fetchAndSaveBondProducts() {
         int totalPages = 870; // 총 10페이지
         int numOfRows = 30; // 1페이지당 30개의 데이터
-        LocalDate currentDate = LocalDate.now();
-        DayOfWeek dayOfWeek = currentDate.getDayOfWeek();
-
-        LocalDate previousBusinessDay;
-        if (dayOfWeek == DayOfWeek.MONDAY) {
-            previousBusinessDay = currentDate.minusDays(3);
-        } else if (dayOfWeek == DayOfWeek.SUNDAY) {
-            previousBusinessDay = currentDate.minusDays(2);
-        } else {
-            previousBusinessDay = currentDate.minusDays(1);
-        }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        String formattedDate = previousBusinessDay.format(formatter);
+//        LocalDate currentDate = LocalDate.now();
+//        DayOfWeek dayOfWeek = currentDate.getDayOfWeek();
+//
+//        LocalDate previousBusinessDay;
+//        if (dayOfWeek == DayOfWeek.MONDAY) {
+//            previousBusinessDay = currentDate.minusDays(3);
+//        } else if (dayOfWeek == DayOfWeek.SUNDAY) {
+//            previousBusinessDay = currentDate.minusDays(2);
+//        } else {
+//            previousBusinessDay = currentDate.minusDays(1);
+//        }
+//
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+//        String formattedDate = previousBusinessDay.format(formatter);
 
         for (int pageNo = 1; pageNo <= totalPages; pageNo++) {
             // 요청 URL
-            String url = bondProductApiUrl + "?serviceKey=" + bondAuthKey + "&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&resultType=json" + "&pageSize=" + numOfRows + "&basDt=" + formattedDate;
+            String url = bondProductApiUrl + "?serviceKey=" + bondAuthKey + "&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&resultType=json" + "&pageSize=" + numOfRows + "&basDt=20241004";
             System.out.println("Fetching page: " + pageNo + "form URL: " + url);
 
             // OkHttp 요청 구성
@@ -120,24 +120,24 @@ public class BondProductService {
     public void fetchAndSaveBondProductPrices() {
         int totalPages = 14; // 총 10페이지
         int numOfRows = 30; // 1페이지당 30개의 데이터
-        LocalDate currentDate = LocalDate.now();
-        DayOfWeek dayOfWeek = currentDate.getDayOfWeek();
-
-        LocalDate previousBusinessDay;
-        if (dayOfWeek == DayOfWeek.MONDAY) {
-            previousBusinessDay = currentDate.minusDays(3);
-        } else if (dayOfWeek == DayOfWeek.SUNDAY) {
-            previousBusinessDay = currentDate.minusDays(2);
-        } else {
-            previousBusinessDay = currentDate.minusDays(1);
-        }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        String formattedDate = previousBusinessDay.format(formatter);
+//        LocalDate currentDate = LocalDate.now();
+//        DayOfWeek dayOfWeek = currentDate.getDayOfWeek();
+//
+//        LocalDate previousBusinessDay;
+//        if (dayOfWeek == DayOfWeek.MONDAY) {
+//            previousBusinessDay = currentDate.minusDays(3);
+//        } else if (dayOfWeek == DayOfWeek.SUNDAY) {
+//            previousBusinessDay = currentDate.minusDays(2);
+//        } else {
+//            previousBusinessDay = currentDate.minusDays(1);
+//        }
+//
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+//        String formattedDate = previousBusinessDay.format(formatter);
 
         for (int pageNo = 1; pageNo <= totalPages; pageNo++) {
             // 요청 URL
-            String url = bondProductPriceApiUrl + "?serviceKey=" + bondPriceAuthKey + "&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&resultType=json" + "&basDt=" + formattedDate;
+            String url = bondProductPriceApiUrl + "?serviceKey=" + bondPriceAuthKey + "&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&resultType=json" + "&basDt=20241004";
             System.out.println("Fetching page: " + pageNo + "form URL: " + url);
 
 
