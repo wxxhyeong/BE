@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.be.youtube.mapper.YoutubeMapper">
+
+    <insert id="insertYoutubeData">
+        INSERT INTO youtube (youtube_title, youtube_url, youtube_context, reg_date)
+        VALUES (#{youtubeTitle}, #{youtubeUrl}, #{youtubeContext}, NOW())
+    </insert>
+
+    <select id="selectAllYoutubeDataWithoutContext" resultType="com.be.youtube.domain.YoutubeVO">
+        SELECT youtube_num, youtube_title, youtube_url, reg_date
+        FROM youtube
+        ORDER BY reg_date DESC
+    </select>
+
+    <select id="selectYoutubeDataById" parameterType="int" resultType="com.be.youtube.dto.req.YoutubeRequestDto">
+        SELECT youtube_num, youtube_title, youtube_url, youtube_context
+        FROM youtube
+        WHERE youtube_num = #{youtubeNum}
+    </select>
+</mapper>

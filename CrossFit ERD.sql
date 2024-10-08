@@ -172,6 +172,13 @@ CREATE TABLE PreferenceProductHits (
     foreign key (productID) references Product(productID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE Youtube (
+    youtube_num INT PRIMARY KEY auto_increment,
+    youtube_url VARCHAR(255),
+    youtube_title VARCHAR(255),
+    youtube_context TEXT,
+    reg_date DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 
 INSERT INTO `Portfolio` (`portfolioName`, `creationDate`, `total`, `expectedReturn`, `riskLevel`, `memberNum`)
 VALUES
