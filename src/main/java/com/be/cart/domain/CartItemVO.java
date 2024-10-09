@@ -17,5 +17,5 @@ public class CartItemVO {
     private String provider;
     private String productName;
     private Double expectedReturn;
-    private Double interestRate;
+    private String rsrvType;
 }
