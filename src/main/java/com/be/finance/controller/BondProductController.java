@@ -21,15 +21,16 @@ public class BondProductController {
 
     @Autowired
     private BondProductService bondProductService;
-    @Autowired
-    private FundProductService fundProductService;
 
     // 채권 데이터 DB 저장
     @GetMapping("/fetch-save")
     @ResponseBody
     public String fetchAndSaveBondProducts() {
         try {
+            bondProductService.fetchAndSaveBondProductPrices();
             bondProductService.fetchAndSaveBondProducts();
+            // 기본정보가 Null인 상품 제거
+            bondProductService.deleteNullProduct();
             return "채권 데이터 저장 성공"; // 성공
         } catch (Exception e) {
             e.printStackTrace();

@@ -13,13 +13,13 @@ public interface PortfolioService {
     PortfolioResDto getPortfolio(int portfolioId);
     List<PortfolioResDto> getPortfolioList(long memberNum);
     List<PortfolioItemResDto> getPortfolioItems(int portfolioId);
-    PortfolioResDto createPortfolio(PortfolioReqDto portfolioReqDto);
+    PortfolioResDto createPortfolio(PortfolioReqDto portfolioReqDto, long memberNum);
     PortfolioResDto updatePortfolio(PortfolioVO portfolioVO);
 
     @Scheduled(cron = "0 0 0 * * ?")
     void updateAllPortfolio();
 
-    PortfolioResDto deletePortfolio(int id);
+    void deletePortfolio(int id);
     PortfolioReqDto calculatePortfolio(PortfolioReqDto portfolioReqDto);
     PortfolioPortionDto calculatePortion(List<PortfolioItemResDto> portfolioItems);
 }

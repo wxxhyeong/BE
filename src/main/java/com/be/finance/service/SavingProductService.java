@@ -313,4 +313,30 @@ public class SavingProductService {
 
         return result;
     }
+
+    // 예금 상품 상세 정보 조회
+    public Map<String, Object> getDepositProductDetail(int productId) {
+        List<SavingProductVO> depositProductDetail = savingProductMapper.getDepositProductDetail(productId);
+        List<SavingProductRatesVO> depositProductRatesDetail = savingProductMapper.getDepositProductRatesDetail(productId);
+
+        // 결과를 담을 Map 배열 생성
+        Map<String,Object> result = new HashMap<>();
+        result.put("products", depositProductDetail);
+        result.put("rates", depositProductRatesDetail);
+
+        return result;
+    }
+
+    // 적금 상품 상세 정보 조회
+    public Map<String, Object> getSavingProductDetail(int productId) {
+        List<SavingProductVO> savingProductDetail = savingProductMapper.getSavingProductDetail(productId);
+        List<SavingProductRatesVO> savingProductRatesDetail = savingProductMapper.getSavingProductRatesDetail(productId);
+
+        // 결과를 담을 Map 배열 생성
+        Map<String, Object> result = new HashMap<>();
+        result.put("products", savingProductDetail);
+        result.put("rates", savingProductRatesDetail);
+
+        return result;
+    }
 }

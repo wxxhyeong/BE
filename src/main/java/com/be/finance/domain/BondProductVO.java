@@ -15,7 +15,6 @@ public class BondProductVO {
     private String crno; // 법인등록번호
     private String scrsItmsKcd; // 유가증권종목코드
     private String isinCd;               // ISIN코드
-    private String scrsItmsKcdNm;        // 유가증권종목코드명
     private String bondIsurNm; // 채권발행인명
     private String isinCdNm;             // ISIN코드명
     private String bondIssuDt; // 채권발행일자
@@ -31,10 +30,9 @@ public class BondProductVO {
     private String bondIntTcdNm;         // 채권이자형구분코드명
     private String intPayCyclCtt;        // 이자지급주기내용
     private String nxtmCopnDt;            // 차기표일자
-    private String rbVopnDt;             // 직전이표일자
     private String kbpScrsItmsKcdNm;    // 한국신용평가유가증권종목종류코드명
     private String niceScrsItmsKcdNm;    //NICE평가정보유가증권종목종류코드명
     private String fnScrsItmsKcdNm;     //FN유가증권종목종류코드명
-    private int riskLevel;            // 위험도
+    private double clprPrc;             // 채권전일종가
     private int hit;                     // 조회수
 }

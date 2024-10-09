@@ -15,17 +15,9 @@
         select * from cartitem
         where memberNum = #{memberNum}
     </select>
-    <select id="getFundInCart" resultType="com.be.cart.domain.CartItemVO">
-        select c.cartID, c.productID, c.memberNum, p.productType,   from cartitem c
-        where memberNum = #{memberNum}
-    </select>
-    <select id="checkCartItem" resultType="com.be.cart.domain.CartItemVO">
-        select * from cartitem
-        where productID = #{productId} and memberNum = #{memberNum}
-    </select>
     <insert id="addCartItem">
-        insert into cartitem (productID, memberNum, productType, provider, productName, expectedReturn, interestRate)
-        values (#{productId}, #{memberNum}, #{productType}, #{provider}, #{productName}, #{expectedReturn}, #{interestRate})
+        insert into cartitem (productID, memberNum, productType, provider, productName, expectedReturn, rsrvType)
+        values (#{productId}, #{memberNum}, #{productType}, #{provider}, #{productName}, #{expectedReturn}, #{rsrvType})
 
         <selectKey resultType="Int" keyProperty="cartId" keyColumn="cartID" order="AFTER">
             SELECT LAST_INSERT_ID()

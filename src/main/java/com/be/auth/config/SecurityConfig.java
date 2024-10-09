@@ -43,12 +43,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .sessionManagement()
+
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/**", "/home").permitAll()
+                .antMatchers("/api/hit/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/member/login", "/api/member/register").permitAll()
 //                 테스트
+//                .antMatchers(HttpMethod.GET, "/api/cart", "/api/portfolio/**", "/api/recentView/**").permitAll()
 //                .antMatchers(HttpMethod.POST, "/api/cart", "/api/portfolio/**", "/api/recentView/**").permitAll()
 //                .antMatchers(HttpMethod.DELETE, "/api/cart/**", "/api/portfolio/**").permitAll()
 ////

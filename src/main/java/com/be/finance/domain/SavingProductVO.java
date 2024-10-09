@@ -23,7 +23,6 @@ public class SavingProductVO {
     private Integer maxLimit;    // 최고한도
     private String dclsStrtDay; // 공시 시작일
     private String dclsEndDay;  // 공시 종료일
-    private int riskLevel;      // 리스크 레벨 (RiskLevel)
     private int hit;            // 조회수
 
     public int getProductId() {
@@ -144,14 +143,6 @@ public class SavingProductVO {
 
     public void setDclsEndDay(String dclsEndDay) {
         this.dclsEndDay = dclsEndDay;
-    }
-
-    public int getRiskLevel() {
-        return riskLevel;
-    }
-
-    public void setRiskLevel(int riskLevel) {
-        this.riskLevel = riskLevel;
     }
 
     public int getHit() {

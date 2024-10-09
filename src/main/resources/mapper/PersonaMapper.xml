@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.be.persona.mapper.PersonaMapper">
+    <select id="getPersonas" resultType="com.be.persona.domain.PersonaVO">
+        SELECT *
+        FROM persona;
+    </select>
+
+    <!-- 특정 페르소나 ID로 페르소나 가져오기 -->
+    <select id="getPersonaById" parameterType="int" resultType="com.be.persona.domain.PersonaVO">
+        SELECT *
+        FROM persona
+        WHERE persona_id = #{persona_id}
+    </select>
+</mapper>

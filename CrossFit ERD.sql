@@ -46,7 +46,6 @@ CREATE TABLE SavingsProduct
     max_limit     VARCHAR(255),
     dcls_strt_day VARCHAR(8),
     dcls_end_day  VARCHAR(8),
-    RiskLevel     INT,
     hit           INT DEFAULT 0,
     FOREIGN KEY (ProductID) REFERENCES Product (ProductID)
 );
@@ -90,7 +89,6 @@ CREATE TABLE BondProduct
     crno              VARCHAR(13),   -- 법인등록번호
     scrsItmsKcd       VARCHAR(4),    -- 유가증권종목코드
     isinCd            VARCHAR(12),   -- ISIN코드
-    scrsItmsKcdNm     VARCHAR(50),   -- 유가증권종목코드명
     bondIsurNm        VARCHAR(100),  -- 채권발행인명
     isinCdNm          VARCHAR(100),  -- ISIN코드명
     bondIssuDt        VARCHAR(8),    -- 채권발행일자
@@ -106,11 +104,10 @@ CREATE TABLE BondProduct
     bondIntTcdNm      VARCHAR(50),   -- 채권이자형구분코드명
     intPayCyclCtt     VARCHAR(50),   -- 이자지급주기내용
     nxtmCopnDt        VARCHAR(8),    -- 차기표일자
-    rbVopnDt          VARCHAR(8),    -- 직전이표일자
     kbpScrsItmsKcdNm  VARCHAR(100),  -- 한국신용평가유가증권종목종류코드명
     niceScrsItmsKcdNm VARCHAR(100),  -- NICE평가정보유가증권종목종류코드명
     fnScrsItmsKcdNm   VARCHAR(100),  -- FN유가증권종목종류코드명
-    riskLevel         INT,           -- 위험도
+    clprPrc           DECIMAL(10, 2),-- 채권 종가
     hit               INT DEFAULT 0, -- 조회수, 기본값 0
     PRIMARY KEY (productID),         -- Primary Key 설정
     FOREIGN KEY (productID) REFERENCES Product (productID) ON DELETE CASCADE ON UPDATE CASCADE
@@ -159,30 +156,85 @@ CREATE TABLE `PortfolioItem`
     FOREIGN KEY (`portfolioID`) REFERENCES `portfolio` (`portfolioID`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE AgeGroupProductHits (
+    hit_num INT auto_increment primary KEY,
+    productID INT,
+    age_group INT NOT NULL,
+    HIT INT NOT NULL,
+    FOREIGN KEY (productID) REFERENCES Product(productID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE PreferenceProductHits (
+    hit_num INT auto_increment PRIMARY KEY,
+    productID INT,
+    preference INT,
+    HIT INT NOT NULL,
+    foreign key (productID) references Product(productID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Youtube (
+    youtube_num INT PRIMARY KEY auto_increment,
+    youtube_url VARCHAR(255),
+    youtube_title VARCHAR(255),
+    youtube_context TEXT,
+    reg_date DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO `Portfolio` (`portfolioName`, `creationDate`, `total`, `expectedReturn`, `riskLevel`, `memberNum`)
+VALUES
+    ('Portfolio 1', NOW(), 2500000, 5.50, 3, 1),
+    ('Portfolio 2', NOW(), 4500000, 6.20, 2, 2),
+    ('Portfolio 3', NOW(), 6700000, 4.75, 4, 1),
+    ('Portfolio 4', NOW(), 8900000, 5.10, 5, 2),
+    ('Portfolio 5', NOW(), 3200000, 7.00, 1, 1);
+
+INSERT INTO `PortfolioItem` (`portfolioID`, `productID`, `stockCode`, `amount`, `expectedReturn`)
+VALUES
+(1, NULL, '000020', 7, 5.10),
+(1, 1001, NULL, 100000, 6.00),
+(1, NULL, '000040', 3, 4.80),
+(1, 1002, NULL, 150000, 5.50),
+(2, 1003, NULL, 120000, 6.30),
+(2, NULL, '000050', 9, 7.20),
+(2, 1004, NULL, 180000, 6.10),
+(2, NULL, '000070', 5, 5.40),
+(3, NULL, '000075', 4, 5.00),
+(3, 1005, NULL, 130000, 7.00),
+(3, NULL, '000080', 8, 6.80),
+(3, 1006, NULL, 110000, 5.90),
+(4, 1007, NULL, 140000, 5.50),
+(4, NULL, '000087', 6, 6.10),
+(4, 1008, NULL, 160000, 7.50),
+(4, NULL, '000100', 2, 4.90),
+(5, NULL, '000105', 5, 5.60),
+(5, 1009, NULL, 170000, 6.70),
+(5, NULL, '000120', 8, 4.70),
+(5, 1010, NULL, 190000, 7.20);
+
 CREATE TABLE `CartItem`
 (
     `cartID`         INT           NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `productID`      INT           NOT NULL,
-    `userNum`        INT           NOT NULL,
+    `memberNum`        INT           NOT NULL,
     `productType`    CHAR(1)       NOT NULL,
     `provider`       VARCHAR(100)  NULL,
     `productName`    VARCHAR(100)  NOT NULL,
     `expectedReturn` DECIMAL(5, 2) NULL,
-    `interestRate`   DECIMAL(5, 2) NULL
+    `rsrvType`   VARCHAR(10) NULL
 );
 
 INSERT INTO `CartItem` (`cartID`, `productID`, `memberNum`, `productType`, `provider`, `productName`, `expectedReturn`,
-                        `interestRate`)
-VALUES (1, 1, 1, 'S', 'Provider A', 'Savings Product 1', 3.50, NULL),
-       (2, 12, 2, 'F', 'Provider B', 'Fund Product 1', NULL, 2.75),
-       (3, 14, 1, 'B', 'Provider C', 'Bond Product 1', 4.20, NULL),
-       (4, 74, 2, 'C', 'Provider D', 'Cash Product 1', NULL, 1.50),
-       (5, 165, 1, 'S', 'Provider E', 'Savings Product 2', 2.80, NULL),
-       (6, 63, 2, 'F', 'Provider F', 'Fund Product 2', NULL, 3.10),
-       (7, 107, 1, 'B', 'Provider G', 'Bond Product 2', 3.95, NULL),
-       (8, 8, 2, 'C', 'Provider H', 'Cash Product 2', NULL, 0.85),
-       (9, 91, 1, 'S', 'Provider I', 'Savings Product 3', 4.50, NULL),
-       (10, 10, 2, 'F', 'Provider J', 'Fund Product 3', NULL, 2.90);
+                        `rsrvType`)
+VALUES (1, 1, 1, 'S', 'Provider A', 'Savings Product 1', 3.50, 'S'),
+       (2, 12, 2, 'F', 'Provider B', 'Fund Product 1', 2.75, Null),
+       (3, 14, 1, 'B', 'Provider C', 'Bond Product 1', 4.20, Null),
+       (4, 74, 2, 'S', 'Provider D', 'Cash Product 1', 1.50, Null),
+       (5, 165, 1, 'S', 'Provider E', 'Savings Product 2', 2.80, Null),
+       (6, 63, 2, 'F', 'Provider F', 'Fund Product 2', 3.10, Null),
+       (7, 107, 1, 'B', 'Provider G', 'Bond Product 2', 3.95, Null),
+       (8, 8, 2, 'S', 'Provider H', 'Cash Product 2', 0.85, 'F'),
+       (9, 91, 1, 'S', 'Provider I', 'Savings Product 3', 4.50, 'S'),
+       (10, 10, 2, 'F', 'Provider J', 'Fund Product 3', 2.90, Null);
 
 CREATE TABLE `Insight`
 (

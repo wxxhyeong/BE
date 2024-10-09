@@ -21,7 +21,7 @@ public class CartItemReqDto {
     private String provider;
     private String productName;
     private Double expectedReturn;
-    private Double interestRate;
+    private String rsrvType;
 
     public CartItemVO toVO() {
         return CartItemVO.builder()
@@ -31,7 +31,7 @@ public class CartItemReqDto {
                 .provider(provider)
                 .productName(productName)
                 .expectedReturn(expectedReturn)
-                .interestRate(interestRate)
+                .rsrvType(rsrvType)
                 .build();
     }
 }

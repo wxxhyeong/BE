@@ -10,12 +10,12 @@
         INSERT INTO SavingsProduct (
             ProductID, dcls_month, fin_co_no, kor_co_nm, fin_prdt_nm,
             join_way, mtrt_int, spcl_cnd, join_deny, join_member, etc_note,
-            max_limit, dcls_strt_day, dcls_end_day, RiskLevel, hit, fin_prdt_cd
+            max_limit, dcls_strt_day, dcls_end_day, hit, fin_prdt_cd
         ) VALUES (
                      #{productId}, #{dclsMonth}, #{finCoNo}, #{korCoNm}, #{finPrdtNm},
                      #{joinWay}, #{mtrtInt}, #{spclCnd}, #{joinDeny}, #{joinMember},
                      #{etcNote}, #{maxLimit}, #{dclsStrtDay}, #{dclsEndDay},
-                     1, 0, #{finPrdtCd}
+                      0, #{finPrdtCd}
                  );
     </insert>
 
@@ -133,5 +133,39 @@
         <foreach collection="productIds" item="productId" open="(" separator="," close=")">
             #{productId}
         </foreach>
+    </select>
+
+    <!-- 예금 상품 상세 조회 -->
+    <select id="getDepositProductDetail" resultType="com.be.finance.domain.SavingProductVO">
+        SELECT *
+        FROM SavingsProduct
+        WHERE productId = #{productId};
+    </select>
+
+    <!-- 예금 상품 기간별 수익률 상세 조회 -->
+    <select id="getDepositProductRatesDetail" resultType="com.be.finance.domain.SavingProductRatesVO">
+        SELECT *
+        FROM SavingProductRates
+        WHERE productId = #{productId};
+    </select>
+
+    <!-- 적금 상품 상세 조회 -->
+    <select id="getSavingProductDetail" resultType="com.be.finance.domain.SavingProductVO">
+        SELECT *
+        FROM SavingsProduct
+        WHERE productId = #{productId};
+    </select>
+
+    <!-- 적금 상품 기간별 수익률 상세 조회 -->
+    <select id="getSavingProductRatesDetail" resultType="com.be.finance.domain.SavingProductRatesVO">
+        SELECT *
+        FROM SavingProductRates
+        WHERE productId = #{productId};
+    </select>
+
+    <select id="findByProductId" resultType="com.be.finance.domain.SavingProductVO">
+        SELECT *
+        FROM SavingsProduct
+        WHERE productId = #{productId};
     </select>
 </mapper>
