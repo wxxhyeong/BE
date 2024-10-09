@@ -21,26 +21,6 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<CartItemResDto> getCartList(long memberNum) {
-        return List.of();
-    }
-
-    @Override
-    public List<CartItemResDto> getSavingsInCart(long memberNum) {
-        return List.of();
-    }
-
-    @Override
-    public List<CartItemResDto> getFundInCart(long memberNum) {
-        return List.of();
-    }
-
-    @Override
-    public List<CartItemResDto> getBondInCart(long memberNum) {
-        return List.of();
-    }
-
-    @Override
     public List<CartItemResDto> addCartItem(List<CartItemResDto> cartList, CartItemReqDto cartItem) {
         try {
             for(CartItemResDto cartItemResDto : cartList) {

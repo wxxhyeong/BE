@@ -21,7 +21,7 @@ public class CartItemResDto {
     private String provider;
     private String productName;
     private Double expectedReturn;
-    private Double interestRate;
+    private String rsrvType;
 
     public static CartItemResDto of(CartItemReqDto reqDto) {
         return reqDto == null ? null : CartItemResDto.builder()
@@ -32,7 +32,7 @@ public class CartItemResDto {
                 .provider(reqDto.getProvider())
                 .productName(reqDto.getProductName())
                 .expectedReturn(reqDto.getExpectedReturn())
-                .interestRate(reqDto.getInterestRate())
+                .rsrvType(reqDto.getRsrvType())
                 .build();
     }
 
@@ -45,7 +45,7 @@ public class CartItemResDto {
                 .provider(cartVO.getProvider())
                 .productName(cartVO.getProductName())
                 .expectedReturn(cartVO.getExpectedReturn())
-                .interestRate(cartVO.getInterestRate())
+                .rsrvType(cartVO.getRsrvType())
                 .build();
     }
 
@@ -58,7 +58,7 @@ public class CartItemResDto {
                 .provider(cartItemResDto.getProvider())
                 .productName(cartItemResDto.getProductName())
                 .expectedReturn(cartItemResDto.getExpectedReturn())
-                .interestRate(cartItemResDto.getInterestRate())
+                .rsrvType(cartItemResDto.getRsrvType())
                 .build();
     }
 }

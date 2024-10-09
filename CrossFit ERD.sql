@@ -220,21 +220,21 @@ CREATE TABLE `CartItem`
     `provider`       VARCHAR(100)  NULL,
     `productName`    VARCHAR(100)  NOT NULL,
     `expectedReturn` DECIMAL(5, 2) NULL,
-    `interestRate`   DECIMAL(5, 2) NULL
+    `rsrvType`   VARCHAR(10) NULL
 );
 
 INSERT INTO `CartItem` (`cartID`, `productID`, `memberNum`, `productType`, `provider`, `productName`, `expectedReturn`,
-                        `interestRate`)
-VALUES (1, 1, 1, 'S', 'Provider A', 'Savings Product 1', 3.50, NULL),
-       (2, 12, 2, 'F', 'Provider B', 'Fund Product 1', NULL, 2.75),
-       (3, 14, 1, 'B', 'Provider C', 'Bond Product 1', 4.20, NULL),
-       (4, 74, 2, 'C', 'Provider D', 'Cash Product 1', NULL, 1.50),
-       (5, 165, 1, 'S', 'Provider E', 'Savings Product 2', 2.80, NULL),
-       (6, 63, 2, 'F', 'Provider F', 'Fund Product 2', NULL, 3.10),
-       (7, 107, 1, 'B', 'Provider G', 'Bond Product 2', 3.95, NULL),
-       (8, 8, 2, 'C', 'Provider H', 'Cash Product 2', NULL, 0.85),
-       (9, 91, 1, 'S', 'Provider I', 'Savings Product 3', 4.50, NULL),
-       (10, 10, 2, 'F', 'Provider J', 'Fund Product 3', NULL, 2.90);
+                        `rsrvType`)
+VALUES (1, 1, 1, 'S', 'Provider A', 'Savings Product 1', 3.50, 'S'),
+       (2, 12, 2, 'F', 'Provider B', 'Fund Product 1', 2.75, Null),
+       (3, 14, 1, 'B', 'Provider C', 'Bond Product 1', 4.20, Null),
+       (4, 74, 2, 'S', 'Provider D', 'Cash Product 1', 1.50, Null),
+       (5, 165, 1, 'S', 'Provider E', 'Savings Product 2', 2.80, Null),
+       (6, 63, 2, 'F', 'Provider F', 'Fund Product 2', 3.10, Null),
+       (7, 107, 1, 'B', 'Provider G', 'Bond Product 2', 3.95, Null),
+       (8, 8, 2, 'S', 'Provider H', 'Cash Product 2', 0.85, 'F'),
+       (9, 91, 1, 'S', 'Provider I', 'Savings Product 3', 4.50, 'S'),
+       (10, 10, 2, 'F', 'Provider J', 'Fund Product 3', 2.90, Null);
 
 CREATE TABLE `Insight`
 (
