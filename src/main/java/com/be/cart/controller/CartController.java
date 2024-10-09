@@ -29,6 +29,9 @@ public class CartController {
     public void initCartList(HttpServletRequest request) {
         HttpSession session = request.getSession();
         List<CartItemResDto> cartList = cartService.initCartList(jwtUtils.extractMemberNum(request));
+
+        log.info(cartList);
+
         session.setAttribute("cartList", cartList);
     }
 
@@ -50,6 +53,8 @@ public class CartController {
         cartItem.setMemberNum(jwtUtils.extractMemberNum(request));
         List<CartItemResDto> cartList = objectMapper.convertValue(session.getAttribute("cartList"),
                 new TypeReference<List<CartItemResDto>>() {});
+
+        log.info(cartList);
 
         session.setAttribute("cartList", cartService.addCartItem(cartList, cartItem));
     }
