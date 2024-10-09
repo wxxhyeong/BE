@@ -42,14 +42,14 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<CartItemResDto> deleteCartItem(List<CartItemResDto> cartList, int productId) {
+    public List<CartItemResDto> deleteCartItem(List<CartItemResDto> cartList, int cartId) {
         try {
 
             for(int i = 0; i < cartList.size(); i++) {
-                if(cartList.get(i).getProductId() == productId) cartList.remove(i);
+                if(cartList.get(i).getCartId() == cartId) cartList.remove(i);
             }
 
-            cartMapper.deleteCartItem(productId);
+            cartMapper.deleteCartItem(cartId);
 
             return cartList;
 
