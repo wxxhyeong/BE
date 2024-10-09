@@ -38,7 +38,7 @@ public class CartServiceImpl implements CartService {
             e.printStackTrace();
             System.out.println("장바구니 담기에서 에러 발생");
         }
-        return null;
+        return cartList;
     }
 
     @Override
@@ -58,6 +58,6 @@ public class CartServiceImpl implements CartService {
             System.out.println("장바구니 삭제 과정에서 에러 발생");
         }
 
-        return null;
+        return cartList;
     }
 }
