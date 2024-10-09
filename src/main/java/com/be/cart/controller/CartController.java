@@ -38,6 +38,8 @@ public class CartController {
         List<CartItemResDto> cartList = objectMapper.convertValue(session.getAttribute("cartList"),
                 new TypeReference<List<CartItemResDto>>() {});
 
+        log.info(cartList);
+
         return ResponseEntity.ok(cartList);
     }
 
@@ -52,14 +54,14 @@ public class CartController {
         session.setAttribute("cartList", cartService.addCartItem(cartList, cartItem));
     }
 
-    @DeleteMapping("/items/{productID}")
-    public void deleteCartItem(@PathVariable int productID, HttpServletRequest request) {
+    @DeleteMapping("/items/{cartID}")
+    public void deleteCartItem(@PathVariable int cartID, HttpServletRequest request) {
         HttpSession session = request.getSession();
 
         List<CartItemResDto> cartList = objectMapper.convertValue(session.getAttribute("cartList"),
                 new TypeReference<List<CartItemResDto>>() {});
 
-        session.setAttribute("cartList", cartService.deleteCartItem(cartList, productID));
+        session.setAttribute("cartList", cartService.deleteCartItem(cartList, cartID));
     }
 }
 
