@@ -1,5 +1,12 @@
 package com.be.persona.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PersonaVO {
     private int personaId;
     private int personaPreference;
@@ -9,78 +16,6 @@ public class PersonaVO {
     private int savingsRate;
     private String personaName;
     private String job;
+    private String comments;
     private String imagePath;
-
-
-    // Getters and Setters
-    public int getPersonaId() {
-        return personaId;
-    }
-
-    public void setPersonaId(int personaId) {
-        this.personaId = personaId;
-    }
-
-    public int getPersonaPreference() {
-        return personaPreference;
-    }
-
-    public void setPersonaPreference(int personaPreference) {
-        this.personaPreference = personaPreference;
-    }
-
-    public int getStockRate() {
-        return stockRate;
-    }
-
-    public void setStockRate(int stockRate) {
-        this.stockRate = stockRate;
-    }
-
-    public int getFundRate() {
-        return fundRate;
-    }
-
-    public void setFundRate(int fundRate) {
-        this.fundRate = fundRate;
-    }
-
-    public int getBondRate() {
-        return bondRate;
-    }
-
-    public void setBondRate(int bondRate) {
-        this.bondRate = bondRate;
-    }
-
-    public int getSavingsRate() {
-        return savingsRate;
-    }
-
-    public void setSavingsRate(int savingsRate) {
-        this.savingsRate = savingsRate;
-    }
-
-    public String getPersonaName() {
-        return personaName;
-    }
-
-    public void setPersonaName(String personaName) {
-        this.personaName = personaName;
-    }
-
-    public String getJob() {
-        return job;
-    }
-    public void setJob(String job) {
-        this.job = job;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
 }
