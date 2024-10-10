@@ -134,6 +134,33 @@ CREATE TABLE `stock`
     PRIMARY KEY (`stockCode`)             -- stockCode를 기본 키로 설정
 );
 
+CREATE TABLE PreferenceProductHits
+(
+    hit_num    INT auto_increment PRIMARY KEY,
+    productID  INT,
+    preference INT,
+    HIT        INT NOT NULL,
+    foreign key (productID) references Product (productID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Youtube
+(
+    youtube_num     INT PRIMARY KEY auto_increment,
+    youtube_url     VARCHAR(255),
+    youtube_title   VARCHAR(255),
+    youtube_context TEXT,
+    reg_date        DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE AgeGroupProductHits
+(
+    hit_num   INT auto_increment primary KEY,
+    productID INT,
+    age_group INT NOT NULL,
+    HIT       INT NOT NULL,
+    FOREIGN KEY (productID) REFERENCES Product (productID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 CREATE TABLE `Portfolio`
 (
     `portfolioID`    INT             NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -141,7 +168,7 @@ CREATE TABLE `Portfolio`
     `creationDate`   DATETIME        NULL,
     `total`          DECIMAL(15, 2)  NULL,
     `expectedReturn` DECIMAL(5, 2)   NULL,
-    `riskLevel`      INT             NULL,
+    `riskLevel`      DECIMAL(5, 2)   NULL,
     `memberNum`      BIGINT UNSIGNED NOT NULL
 );
 
@@ -153,78 +180,52 @@ CREATE TABLE `PortfolioItem`
     `stockCode`       VARCHAR(10)   NULL,
     `amount`          INT           NULL,
     `expectedReturn`  DECIMAL(5, 2) NULL,
+    `riskLevel`       INT           NULL,
     FOREIGN KEY (`portfolioID`) REFERENCES `portfolio` (`portfolioID`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE AgeGroupProductHits (
-    hit_num INT auto_increment primary KEY,
-    productID INT,
-    age_group INT NOT NULL,
-    HIT INT NOT NULL,
-    FOREIGN KEY (productID) REFERENCES Product(productID) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE TABLE PreferenceProductHits (
-    hit_num INT auto_increment PRIMARY KEY,
-    productID INT,
-    preference INT,
-    HIT INT NOT NULL,
-    foreign key (productID) references Product(productID) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE TABLE Youtube (
-    youtube_num INT PRIMARY KEY auto_increment,
-    youtube_url VARCHAR(255),
-    youtube_title VARCHAR(255),
-    youtube_context TEXT,
-    reg_date DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-
 INSERT INTO `Portfolio` (`portfolioName`, `creationDate`, `total`, `expectedReturn`, `riskLevel`, `memberNum`)
-VALUES
-    ('Portfolio 1', NOW(), 2500000, 5.50, 3, 1),
-    ('Portfolio 2', NOW(), 4500000, 6.20, 2, 2),
-    ('Portfolio 3', NOW(), 6700000, 4.75, 4, 1),
-    ('Portfolio 4', NOW(), 8900000, 5.10, 5, 2),
-    ('Portfolio 5', NOW(), 3200000, 7.00, 1, 1);
+VALUES ('Portfolio 1', NOW(), 2500000, 5.50, 3.10, 1),
+       ('Portfolio 2', NOW(), 4500000, 6.20, 2.20, 2),
+       ('Portfolio 3', NOW(), 6700000, 4.75, 4.30, 1),
+       ('Portfolio 4', NOW(), 8900000, 5.10, 5.42, 2),
+       ('Portfolio 5', NOW(), 3200000, 7.00, 1.11, 1);
 
-INSERT INTO `PortfolioItem` (`portfolioID`, `productID`, `stockCode`, `amount`, `expectedReturn`)
-VALUES
-(1, NULL, '000020', 7, 5.10),
-(1, 1001, NULL, 100000, 6.00),
-(1, NULL, '000040', 3, 4.80),
-(1, 1002, NULL, 150000, 5.50),
-(2, 1003, NULL, 120000, 6.30),
-(2, NULL, '000050', 9, 7.20),
-(2, 1004, NULL, 180000, 6.10),
-(2, NULL, '000070', 5, 5.40),
-(3, NULL, '000075', 4, 5.00),
-(3, 1005, NULL, 130000, 7.00),
-(3, NULL, '000080', 8, 6.80),
-(3, 1006, NULL, 110000, 5.90),
-(4, 1007, NULL, 140000, 5.50),
-(4, NULL, '000087', 6, 6.10),
-(4, 1008, NULL, 160000, 7.50),
-(4, NULL, '000100', 2, 4.90),
-(5, NULL, '000105', 5, 5.60),
-(5, 1009, NULL, 170000, 6.70),
-(5, NULL, '000120', 8, 4.70),
-(5, 1010, NULL, 190000, 7.20);
+INSERT INTO `PortfolioItem` (`portfolioID`, `productID`, `stockCode`, `amount`, `expectedReturn`, `riskLevel`)
+VALUES (1, NULL, '000020', 7, 5.10, 1),
+       (1, 1001, NULL, 100000, 6.00, 2),
+       (1, NULL, '000040', 3, 4.80, 3),
+       (1, 1002, NULL, 150000, 5.50, 3),
+       (2, 1003, NULL, 120000, 6.30, 4),
+       (2, NULL, '000050', 9, 7.20, 3),
+       (2, 1004, NULL, 180000, 6.10, 4),
+       (2, NULL, '000070', 5, 5.40, 3),
+       (3, NULL, '000075', 4, 5.00, 3),
+       (3, 1005, NULL, 130000, 7.00, 1),
+       (3, NULL, '000080', 8, 6.80, 2),
+       (3, 1006, NULL, 110000, 5.90, 3),
+       (4, 1007, NULL, 140000, 5.50, 3),
+       (4, NULL, '000087', 6, 6.10, 1),
+       (4, 1008, NULL, 160000, 7.50, 5),
+       (4, NULL, '000100', 2, 4.90, 6),
+       (5, NULL, '000105', 5, 5.60, 1),
+       (5, 1009, NULL, 170000, 6.70, 2),
+       (5, NULL, '000120', 8, 4.70, 5),
+       (5, 1010, NULL, 190000, 7.20, 2);
 
 CREATE TABLE `CartItem`
 (
     `cartID`         INT           NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `productID`      INT           NOT NULL,
-    `memberNum`        INT           NOT NULL,
+    `memberNum`      INT           NOT NULL,
     `productType`    CHAR(1)       NOT NULL,
     `provider`       VARCHAR(100)  NULL,
     `productName`    VARCHAR(100)  NOT NULL,
     `expectedReturn` DECIMAL(5, 2) NULL,
-    `rsrvType`   VARCHAR(10) NULL
+    `rsrvType`       VARCHAR(10)   NULL
 );
 
-INSERT INTO `CartItem` (`cartID`, `productID`, `memberNum`, `productType`, `provider`, `productName`, `expectedReturn`,
-                        `rsrvType`)
+INSERT INTO `CartItem` (`cartID`, `productID`, `memberNum`, `productType`, `provider`, `productName`, `expectedReturn`, `rsrvType`)
 VALUES (1, 1, 1, 'S', 'Provider A', 'Savings Product 1', 3.50, 'S'),
        (2, 12, 2, 'F', 'Provider B', 'Fund Product 1', 2.75, Null),
        (3, 14, 1, 'B', 'Provider C', 'Bond Product 1', 4.20, Null),
@@ -251,3 +252,52 @@ CREATE TABLE `AgeGroupProductHits`
     `HitCount`    INT NULL,
     `ProductID`   INT NOT NULL
 );
+
+-- 페르소나 테이블
+CREATE TABLE persona (
+                         persona_id INT NOT NULL AUTO_INCREMENT,   -- 기본키, 자동 증가
+                         persona_preference INT,                   -- 투자 성향
+                         stock_rate INT,                           -- 주식 비율
+                         fund_rate INT,                            -- 펀드 비율
+                         bond_rate INT,                            -- 채권 비율
+                         savings_rate INT,                         -- 예적금 비율
+                         persona_name VARCHAR(50),                 -- 페르소나 이름
+                         job VARCHAR(255),                         -- 직업
+                         comments VARCHAR(255),
+                         PRIMARY KEY (persona_id)                  -- 기본키 설정
+);
+
+INSERT INTO persona (persona_id, persona_preference, stock_rate, fund_rate, bond_rate, savings_rate, persona_name, job, comments)
+VALUES
+    (1, 4, 50, 20, 10, 5, 'Warren Buffett', '가치투자의 대가, CEO', '가격은 당신이 지불하는 것이고, 가치는 당신이 얻는 것이다.'),
+    (2, 5, 70, 15, 10, 5, 'George Soros', '매크로 분석의 귀재, 펀드매니저','당신이 맞는지 틀리는지가 중요한 것이 아니라, 당신이 맞을 때 얼마나 많은 돈을 버는지와 틀릴 때 얼마나 많은 돈을 잃는지가 중요하다.'),
+    (3, 4, 30, 20, 40, 10, 'Ray Dalio', '헤지펀드 매니저','공정함을 추구하는 사람은 공정함을 실천해야 한다.'),
+    (4, 4, 50, 20, 20, 10, '이채원', '대한민국 가치투자 대부, 라이프자산운용 의장', '투자는 과거의 데이터를 바탕으로 미래를 예측하는 것이기 때문에, 우리가 겪는 모든 경험은 투자에 큰 도움이 된다.'),
+    (5, 5, 70, 15, 10, 5, '김범석', '쿠팡 CEO', ''),
+    (6, 4, 40, 20, 30, 10, '강방천', '에셋플러스자산운용 CIO', '위험을 관리하는 것은 성공적인 투자의 핵심이다.');
+
+ALTER TABLE persona ADD image_path VARCHAR(255);
+
+UPDATE persona
+SET image_path = 'crossfit_images/id_1.jpg'
+WHERE persona_id = 1;
+
+UPDATE persona
+SET image_path = 'crossfit_images/id_2.jpg'
+WHERE persona_id = 2;
+
+UPDATE persona
+SET image_path = 'crossfit_images/id_3.jpg'
+WHERE persona_id = 3;
+
+UPDATE persona
+SET image_path = 'crossfit_images/id_4.jpg'
+WHERE persona_id = 4;
+
+UPDATE persona
+SET image_path = 'crossfit_images/id_5.jpg'
+WHERE persona_id = 5;
+
+UPDATE persona
+SET image_path = 'crossfit_images/id_6.jpg'
+WHERE persona_id = 6;

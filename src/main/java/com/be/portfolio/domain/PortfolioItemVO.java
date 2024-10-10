@@ -9,10 +9,9 @@ import lombok.*;
 public class PortfolioItemVO {
     private int portfolioItemId;
     public int portfolioId;
-    private int productId;
+    private Integer productId;
     private String stockCode;
     private int amount;
     private double expectedReturn;
-    private String productType;
-    private int dailyPrice;
+    private int riskLevel;
 }

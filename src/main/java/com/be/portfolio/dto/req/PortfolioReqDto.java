@@ -17,9 +17,9 @@ import java.util.List;
 @Builder
 public class PortfolioReqDto {
     private String portfolioName;
-    private int total;
-    private int expectedReturn;
-    private int riskLevel;
+    private double total;
+    private double expectedReturn;
+    private double riskLevel;
     private long memberNum;
 
     private List<PortfolioItemReqDto> portfolioItems;
