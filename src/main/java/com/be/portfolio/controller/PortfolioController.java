@@ -1,7 +1,6 @@
 package com.be.portfolio.controller;
 
 import com.be.auth.JwtUtils;
-import com.be.portfolio.dto.req.PortfolioReqDto;
 import com.be.portfolio.dto.res.PortfolioResDto;
 import com.be.portfolio.service.PortfolioService;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +31,8 @@ public class PortfolioController {
     }
 
     @PostMapping
-    public ResponseEntity<PortfolioResDto> createPortfolio(@RequestBody @Valid PortfolioReqDto portfolioReqDto, HttpServletRequest request) {
-        return ResponseEntity.ok(portfolioService.createPortfolio(portfolioReqDto, jwtUtils.extractMemberNum(request)));
+    public ResponseEntity<PortfolioResDto> createPortfolio(@RequestBody @Valid List<Object> portfolioItems, @RequestParam String name, HttpServletRequest request) {
+        return ResponseEntity.ok(portfolioService.createPortfolio(portfolioItems, name, jwtUtils.extractMemberNum(request)));
     }
 
     @DeleteMapping("/{portfolioId}")

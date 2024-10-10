@@ -14,9 +14,9 @@ public class PortfolioVO {
     private int portfolioId;
     private String portfolioName;
     private Date creationDate;
-    private int total;
-    private int expectedReturn;
-    private int riskLevel;
+    private double total;
+    private double expectedReturn;
+    private double riskLevel;
     private long memberNum;
 
     private List<PortfolioItemVO> portfolioItems = new ArrayList<>();

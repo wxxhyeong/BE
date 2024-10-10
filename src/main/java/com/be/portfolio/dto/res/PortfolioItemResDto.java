@@ -9,12 +9,11 @@ import lombok.Data;
 public class PortfolioItemResDto {
     private int portfolioItemId;
     private int portfolioId;
-    private int productId;
+    private Integer productId;
     private String stockCode;
     private int amount;
     private double expectedReturn;
-    private String productType;
-    private int dailyPrice;
+    private int riskLevel;
 
     public static PortfolioItemResDto of(PortfolioItemVO vo) {
         return vo == null ? null : PortfolioItemResDto.builder()
@@ -24,11 +23,9 @@ public class PortfolioItemResDto {
                 .stockCode(vo.getStockCode())
                 .amount(vo.getAmount())
                 .expectedReturn(vo.getExpectedReturn())
-                .productType(vo.getProductType())
-                .dailyPrice(vo.getDailyPrice())
+                .riskLevel(vo.getRiskLevel())
                 .build();
     }
-
 
     public PortfolioItemVO toVo() {
         return PortfolioItemVO.builder()
@@ -38,8 +35,7 @@ public class PortfolioItemResDto {
                 .stockCode(stockCode)
                 .amount(amount)
                 .expectedReturn(expectedReturn)
-                .productType(productType)
-                .dailyPrice(dailyPrice)
+                .riskLevel(riskLevel)
                 .build();
     }
 }
