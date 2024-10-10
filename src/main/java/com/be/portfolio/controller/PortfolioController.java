@@ -1,7 +1,6 @@
 package com.be.portfolio.controller;
 
 import com.be.auth.JwtUtils;
-import com.be.portfolio.dto.req.PortfolioReqDto;
 import com.be.portfolio.dto.res.PortfolioResDto;
 import com.be.portfolio.service.PortfolioService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/portfolio")
