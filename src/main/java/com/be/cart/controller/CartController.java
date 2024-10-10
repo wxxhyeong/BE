@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,7 +48,7 @@ public class CartController {
     }
 
     @PostMapping("/items")
-    public void addCartItem(@RequestBody @Valid CartItemReqDto cartItem, HttpServletRequest request) {
+    public ResponseEntity<Void> addCartItem(@RequestBody @Valid CartItemReqDto cartItem, HttpServletRequest request) {
         HttpSession session = request.getSession();
 
         cartItem.setMemberNum(jwtUtils.extractMemberNum(request));
@@ -56,7 +57,15 @@ public class CartController {
 
         log.info(cartList);
 
-        session.setAttribute("cartList", cartService.addCartItem(cartList, cartItem));
+        try {
+            List<CartItemResDto> updatedCartList =  cartService.addCartItem(cartList, cartItem);
+            if(cartList.size() == updatedCartList.size()) throw new Exception("중복된 상품입니다!");
+            session.setAttribute("cartList", updatedCartList);
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/items/{cartID}")

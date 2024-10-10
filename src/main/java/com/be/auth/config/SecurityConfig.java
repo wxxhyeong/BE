@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/**", "/home").permitAll()
                 .antMatchers("/api/hit/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/member/login", "/api/member/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/member/login", "/api/member/register", "/api/recentView/items").permitAll()
 //                 테스트
 //                .antMatchers(HttpMethod.GET, "/api/cart", "/api/portfolio/**", "/api/recentView/**").permitAll()
 //                .antMatchers(HttpMethod.POST, "/api/cart", "/api/portfolio/**", "/api/recentView/**").permitAll()
