@@ -141,7 +141,7 @@ CREATE TABLE `Portfolio`
     `creationDate`   DATETIME        NULL,
     `total`          DECIMAL(15, 2)  NULL,
     `expectedReturn` DECIMAL(5, 2)   NULL,
-    `riskLevel`      INT             NULL,
+    `riskLevel`      DECIMAL(5, 2)   NULL,
     `memberNum`      BIGINT UNSIGNED NOT NULL
 );
 
@@ -153,6 +153,7 @@ CREATE TABLE `PortfolioItem`
     `stockCode`       VARCHAR(10)   NULL,
     `amount`          INT           NULL,
     `expectedReturn`  DECIMAL(5, 2) NULL,
+    `riskLevel`       INT           NULL,
     FOREIGN KEY (`portfolioID`) REFERENCES `portfolio` (`portfolioID`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -182,34 +183,34 @@ CREATE TABLE Youtube (
 
 INSERT INTO `Portfolio` (`portfolioName`, `creationDate`, `total`, `expectedReturn`, `riskLevel`, `memberNum`)
 VALUES
-    ('Portfolio 1', NOW(), 2500000, 5.50, 3, 1),
-    ('Portfolio 2', NOW(), 4500000, 6.20, 2, 2),
-    ('Portfolio 3', NOW(), 6700000, 4.75, 4, 1),
-    ('Portfolio 4', NOW(), 8900000, 5.10, 5, 2),
-    ('Portfolio 5', NOW(), 3200000, 7.00, 1, 1);
+    ('Portfolio 1', NOW(), 2500000, 5.50, 3.10, 1),
+    ('Portfolio 2', NOW(), 4500000, 6.20, 2.20, 2),
+    ('Portfolio 3', NOW(), 6700000, 4.75, 4.30, 1),
+    ('Portfolio 4', NOW(), 8900000, 5.10, 5.42, 2),
+    ('Portfolio 5', NOW(), 3200000, 7.00, 1.11, 1);
 
-INSERT INTO `PortfolioItem` (`portfolioID`, `productID`, `stockCode`, `amount`, `expectedReturn`)
+INSERT INTO `PortfolioItem` (`portfolioID`, `productID`, `stockCode`, `amount`, `expectedReturn`, `riskLevel`)
 VALUES
-(1, NULL, '000020', 7, 5.10),
-(1, 1001, NULL, 100000, 6.00),
-(1, NULL, '000040', 3, 4.80),
-(1, 1002, NULL, 150000, 5.50),
-(2, 1003, NULL, 120000, 6.30),
-(2, NULL, '000050', 9, 7.20),
-(2, 1004, NULL, 180000, 6.10),
-(2, NULL, '000070', 5, 5.40),
-(3, NULL, '000075', 4, 5.00),
-(3, 1005, NULL, 130000, 7.00),
-(3, NULL, '000080', 8, 6.80),
-(3, 1006, NULL, 110000, 5.90),
-(4, 1007, NULL, 140000, 5.50),
-(4, NULL, '000087', 6, 6.10),
-(4, 1008, NULL, 160000, 7.50),
-(4, NULL, '000100', 2, 4.90),
-(5, NULL, '000105', 5, 5.60),
-(5, 1009, NULL, 170000, 6.70),
-(5, NULL, '000120', 8, 4.70),
-(5, 1010, NULL, 190000, 7.20);
+(1, NULL, '000020', 7, 5.10, 1),
+(1, 1001, NULL, 100000, 6.00, 2),
+(1, NULL, '000040', 3, 4.80, 3),
+(1, 1002, NULL, 150000, 5.50, 3),
+(2, 1003, NULL, 120000, 6.30, 4),
+(2, NULL, '000050', 9, 7.20, 3),
+(2, 1004, NULL, 180000, 6.10, 4),
+(2, NULL, '000070', 5, 5.40, 3),
+(3, NULL, '000075', 4, 5.00, 3),
+(3, 1005, NULL, 130000, 7.00,1),
+(3, NULL, '000080', 8, 6.80, 2),
+(3, 1006, NULL, 110000, 5.90, 3),
+(4, 1007, NULL, 140000, 5.50, 3),
+(4, NULL, '000087', 6, 6.10, 1),
+(4, 1008, NULL, 160000, 7.50, 5),
+(4, NULL, '000100', 2, 4.90, 6),
+(5, NULL, '000105', 5, 5.60, 1),
+(5, 1009, NULL, 170000, 6.70, 2),
+(5, NULL, '000120', 8, 4.70, 5),
+(5, 1010, NULL, 190000, 7.20, 2);
 
 CREATE TABLE `CartItem`
 (

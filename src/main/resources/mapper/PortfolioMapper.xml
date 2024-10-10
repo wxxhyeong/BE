@@ -38,24 +38,19 @@
         where memberNum = #{memberNum}
     </select>
     <select id="getPortfolioItemList" resultType="com.be.portfolio.domain.PortfolioItemVO">
-        select pi.portfolioitemID, pi.portfolioID, pi.productID, pi.stockCode, pi.amount, pi.expectedReturn, p.productType, s.dailyPrice
-        from portfolioitem pi
-                 left outer join product p
-                                 on pi.productID = p.productID
-                 left outer join stock s
-                                 on pi.stockCode = s.stockCode
-        where pi.portfolioID = #{portfolioId}
+        select * from portfolioitem
+        where portfolioID = #{portfolioId}
     </select>
     <insert id="insertPortfolio">
-        insert into portfolio(creationDate, total, expectedReturn, riskLevel, portfolioName, memberNum)
-        values(CURRENT_TIMESTAMP, #{total}, #{expectedReturn}, #{riskLevel}, #{portfolioName}, #{memberNum})
+        insert into portfolio(portfolioName, creationDate, total, expectedReturn, riskLevel, memberNum)
+        values(#{portfolioName}, CURRENT_TIMESTAMP, #{total}, #{expectedReturn}, #{riskLevel}, #{memberNum})
         <selectKey resultType="Int" keyProperty="portfolioId" keyColumn="portfolioID" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
     <insert id="insertPortfolioItem">
-        insert into portfolioitem(portfolioID, productID, stockCode, amount, expectedReturn)
-        values(#{portfolioId}, #{productId}, #{stockCode}, #{amount}, #{expectedReturn})
+        insert into portfolioitem(portfolioID, productID, stockCode, amount, expectedReturn, riskLevel)
+        values(#{portfolioId}, #{productId}, #{stockCode}, #{amount}, #{expectedReturn}, #{riskLevel})
     </insert>
     <update id="updatePortfolio">
         update portfolio set total=#{total}, expectedReturn=#{expectedReturn}, riskLevel=#{riskLevel} where portfolioID=#{portfolioId}

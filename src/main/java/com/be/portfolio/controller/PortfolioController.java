@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/portfolio")
@@ -32,8 +33,8 @@ public class PortfolioController {
     }
 
     @PostMapping
-    public ResponseEntity<PortfolioResDto> createPortfolio(@RequestBody @Valid PortfolioReqDto portfolioReqDto, HttpServletRequest request) {
-        return ResponseEntity.ok(portfolioService.createPortfolio(portfolioReqDto, jwtUtils.extractMemberNum(request)));
+    public ResponseEntity<PortfolioResDto> createPortfolio(@RequestBody @Valid List<Object> portfolioItems, @RequestParam String name, HttpServletRequest request) {
+        return ResponseEntity.ok(portfolioService.createPortfolio(portfolioItems, name, jwtUtils.extractMemberNum(request)));
     }
 
     @DeleteMapping("/{portfolioId}")

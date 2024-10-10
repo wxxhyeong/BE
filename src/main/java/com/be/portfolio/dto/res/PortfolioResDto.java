@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,13 +17,13 @@ public class PortfolioResDto {
     private int portfolioId;
     private String portfolioName;
     private Date creationDate;
-    private int total;
-    private int expectedReturn;
-    private int riskLevel;
+    private double total;
+    private double expectedReturn;
+    private double riskLevel;
     private long memberNum;
 
     private List<PortfolioItemResDto> portfolioItems;
-    private PortfolioPortionDto portion;
+//    private PortfolioPortionDto portion;
 
     public static PortfolioResDto of(PortfolioVO vo) {
         return vo == null ? null : PortfolioResDto.builder()
