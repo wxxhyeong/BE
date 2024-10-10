@@ -22,6 +22,7 @@ public enum SuccessCode {
     USER_LOGOUT(OK, "회원이 로그아웃 했습니다."),
     USER_LOGIN(OK, "회원이 로그인 했습니다."),
     PASSWORD_UPDATED(OK, "비밀번호를 업데이트 했습니다."),
+    ADD_CART_ITEM(OK, "장바구니에 상품을 추가했습니다."),
 
     //201
     USER_REGISTERED(CREATED, "회원 가입을 했습니다.");

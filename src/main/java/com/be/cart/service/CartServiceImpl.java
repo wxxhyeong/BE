@@ -4,13 +4,18 @@ import com.be.cart.domain.CartItemVO;
 import com.be.cart.dto.req.CartItemReqDto;
 import com.be.cart.dto.res.CartItemResDto;
 import com.be.cart.mapper.CartMapper;
+import com.be.exception.CustomException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.be.common.code.ErrorCode.EXISTING_CART_ITEM;
+
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CartServiceImpl implements CartService {
     private final CartMapper cartMapper;
 
@@ -21,24 +26,21 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<CartItemResDto> addCartItem(List<CartItemResDto> cartList, CartItemReqDto cartItem) {
-        try {
-            for(CartItemResDto cartItemResDto : cartList) {
-                if(cartItemResDto.getProductId() == cartItem.getProductId()) throw new Exception("중복 아이템 입니다");
+    public List<CartItemResDto> addCartItem(List<CartItemResDto> sessionCartItems, CartItemReqDto cartItemReqDto) {
+
+        for (CartItemResDto sessionCartItem : sessionCartItems) {
+            if (sessionCartItem.getProductId() == cartItemReqDto.getProductId()) {
+                throw new CustomException(EXISTING_CART_ITEM);
             }
-
-            CartItemVO cartVO = cartItem.toVO();
-            CartItemResDto cartResDto = CartItemResDto.of(cartVO);
-            cartResDto.setCartId(cartMapper.addCartItem(cartVO));
-
-            cartList.add(cartResDto);
-
-            return cartList;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("장바구니 담기에서 에러 발생");
         }
-        return cartList;
+
+        CartItemVO cartVO = cartItemReqDto.toVO();
+        CartItemResDto cartResDto = CartItemResDto.of(cartVO);
+        cartResDto.setCartId(cartMapper.addCartItem(cartVO));
+
+        sessionCartItems.add(cartResDto);
+
+        return sessionCartItems;
     }
 
     @Override
