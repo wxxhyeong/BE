@@ -4,6 +4,7 @@ import com.be.auth.JwtUtils;
 import com.be.cart.dto.req.CartItemReqDto;
 import com.be.cart.dto.res.CartItemResDto;
 import com.be.cart.service.CartService;
+import com.be.common.dto.DefaultResDto;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.be.common.code.SuccessCode.ADD_CART_ITEM;
+import static com.be.common.code.SuccessCode.PASSWORD_UPDATED;
 
 @RestController
 @RequestMapping("/api/cart")
@@ -48,24 +52,23 @@ public class CartController {
     }
 
     @PostMapping("/items")
-    public ResponseEntity<Void> addCartItem(@RequestBody @Valid CartItemReqDto cartItem, HttpServletRequest request) {
+    public ResponseEntity<DefaultResDto<Object>> addCartItem(@RequestBody @Valid CartItemReqDto cartItemReqDto, HttpServletRequest request) {
         HttpSession session = request.getSession();
 
-        cartItem.setMemberNum(jwtUtils.extractMemberNum(request));
-        List<CartItemResDto> cartList = objectMapper.convertValue(session.getAttribute("cartList"),
+        log.info(session.getAttribute("cartList"));
+        cartItemReqDto.setMemberNum(jwtUtils.extractMemberNum(request));
+        List<CartItemResDto> sessionCartItems = objectMapper.convertValue(session.getAttribute("cartList"),
                 new TypeReference<List<CartItemResDto>>() {});
 
-        log.info(cartList);
+        List<CartItemResDto> updatedCartList = cartService.addCartItem(sessionCartItems, cartItemReqDto);
 
-        try {
-            List<CartItemResDto> updatedCartList =  cartService.addCartItem(cartList, cartItem);
-            if(cartList.size() == updatedCartList.size()) throw new Exception("중복된 상품입니다!");
-            session.setAttribute("cartList", updatedCartList);
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+        session.setAttribute("cartList", updatedCartList);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(ADD_CART_ITEM.getHttpStatus())
+                .body(DefaultResDto.noDataBuilder()
+                        .responseCode(ADD_CART_ITEM.name())
+                        .responseMessage(ADD_CART_ITEM.getMessage())
+                        .build());
     }
 
     @DeleteMapping("/items/{cartID}")
