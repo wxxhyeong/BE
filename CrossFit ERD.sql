@@ -251,3 +251,52 @@ CREATE TABLE `AgeGroupProductHits`
     `HitCount`    INT NULL,
     `ProductID`   INT NOT NULL
 );
+
+-- 페르소나 테이블
+CREATE TABLE persona (
+                         persona_id INT NOT NULL AUTO_INCREMENT,   -- 기본키, 자동 증가
+                         persona_preference INT,                   -- 투자 성향
+                         stock_rate INT,                           -- 주식 비율
+                         fund_rate INT,                            -- 펀드 비율
+                         bond_rate INT,                            -- 채권 비율
+                         savings_rate INT,                         -- 예적금 비율
+                         persona_name VARCHAR(50),                 -- 페르소나 이름
+                         job VARCHAR(255),                         -- 직업
+                         comments VARCHAR(255),
+                         PRIMARY KEY (persona_id)                  -- 기본키 설정
+);
+
+INSERT INTO persona (persona_id, persona_preference, stock_rate, fund_rate, bond_rate, savings_rate, persona_name, job, comments)
+VALUES
+    (1, 4, 50, 20, 10, 5, 'Warren Buffett', '가치투자의 대가, CEO', '가격은 당신이 지불하는 것이고, 가치는 당신이 얻는 것이다.'),
+    (2, 5, 70, 15, 10, 5, 'George Soros', '매크로 분석의 귀재, 펀드매니저','당신이 맞는지 틀리는지가 중요한 것이 아니라, 당신이 맞을 때 얼마나 많은 돈을 버는지와 틀릴 때 얼마나 많은 돈을 잃는지가 중요하다.'),
+    (3, 4, 30, 20, 40, 10, 'Ray Dalio', '헤지펀드 매니저','공정함을 추구하는 사람은 공정함을 실천해야 한다.'),
+    (4, 4, 50, 20, 20, 10, '이채원', '대한민국 가치투자 대부, 라이프자산운용 의장', '투자는 과거의 데이터를 바탕으로 미래를 예측하는 것이기 때문에, 우리가 겪는 모든 경험은 투자에 큰 도움이 된다.'),
+    (5, 5, 70, 15, 10, 5, '김범석', '쿠팡 CEO', ''),
+    (6, 4, 40, 20, 30, 10, '강방천', '에셋플러스자산운용 CIO', '위험을 관리하는 것은 성공적인 투자의 핵심이다.');
+
+ALTER TABLE persona ADD image_path VARCHAR(255);
+
+UPDATE persona
+SET image_path = 'crossfit_images/id_1.jpg'
+WHERE persona_id = 1;
+
+UPDATE persona
+SET image_path = 'crossfit_images/id_2.jpg'
+WHERE persona_id = 2;
+
+UPDATE persona
+SET image_path = 'crossfit_images/id_3.jpg'
+WHERE persona_id = 3;
+
+UPDATE persona
+SET image_path = 'crossfit_images/id_4.jpg'
+WHERE persona_id = 4;
+
+UPDATE persona
+SET image_path = 'crossfit_images/id_5.jpg'
+WHERE persona_id = 5;
+
+UPDATE persona
+SET image_path = 'crossfit_images/id_6.jpg'
+WHERE persona_id = 6;
