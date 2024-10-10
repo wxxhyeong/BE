@@ -131,8 +131,14 @@ public class MemberController {
                         .build());
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public ResponseEntity<DefaultResDto<Object>> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if (session != null) {
+            session.removeAttribute("cartList");
+            session.invalidate();
+        }
         return ResponseEntity.status(USER_LOGOUT.getHttpStatus())
                 .body(DefaultResDto.noDataBuilder()
                         .responseCode(USER_LOGOUT.name())
