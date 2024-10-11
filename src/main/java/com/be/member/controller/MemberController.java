@@ -2,6 +2,7 @@ package com.be.member.controller;
 
 
 import com.be.auth.JwtProvider;
+import com.be.auth.JwtUtils;
 import com.be.cart.dto.res.CartItemResDto;
 import com.be.cart.service.CartService;
 import com.be.common.dto.DefaultResDto;
@@ -38,6 +39,7 @@ public class MemberController {
     private final MemberService memberService;
     private final JwtProvider jwtProvider;
     private final CartService cartService;
+    private final JwtUtils jwtUtils;
 
     @PostMapping("/register")
     public ResponseEntity<DefaultResDto<Object>> register(HttpServletRequest servletRequest, @RequestBody @Valid MemberRegisterReqDto reqDto) {
@@ -91,12 +93,10 @@ public class MemberController {
 
     // 투자 성향 점수 업데이트 요청 처리
     @PostMapping("/investPreference")
-    public ResponseEntity<String> updateInvestPreference(@RequestBody InvestPreferenceReqDto request) {
-        if (request.getMemberNum() == null || request.getInvestScore() == null) {
-            return ResponseEntity.badRequest().body("memberNum 또는 investScore가 유효하지 않습니다.");
-        }
+    public ResponseEntity<String> updateInvestPreference(@RequestBody InvestPreferenceReqDto request, HttpServletRequest servletRequest) {
+        long memberNum = jwtUtils.extractMemberNum(servletRequest);
 
-        int updatedRows = memberService.updateMemberPreference(request.getMemberNum(), request.getInvestScore());
+        int updatedRows = memberService.updateMemberPreference(memberNum, request.getInvestScore());
         if (updatedRows > 0) {
             return ResponseEntity.ok("Update success");
         } else {

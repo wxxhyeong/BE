@@ -178,10 +178,6 @@ public class MemberService {
 
     // 투자 성향 점수와 성향을 업데이트하는 메서드
     public int updateMemberPreference(Long memberNum, Integer investScore) {
-        // Null 체크
-        if (memberNum == null || investScore == null) {
-            throw new IllegalArgumentException("memberNum 또는 investScore가 null입니다.");
-        }
 
         Integer preference = analyzeInvestmentPreference(investScore);
 
