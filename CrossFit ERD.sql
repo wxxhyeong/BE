@@ -152,15 +152,6 @@ CREATE TABLE Youtube
     reg_date        DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE AgeGroupProductHits
-(
-    hit_num   INT auto_increment primary KEY,
-    productID INT,
-    age_group INT NOT NULL,
-    HIT       INT NOT NULL,
-    FOREIGN KEY (productID) REFERENCES Product (productID) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
 CREATE TABLE `Portfolio`
 (
     `portfolioID`    INT             NOT NULL AUTO_INCREMENT PRIMARY KEY,

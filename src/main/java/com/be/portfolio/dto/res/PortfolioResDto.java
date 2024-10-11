@@ -19,7 +19,7 @@ public class PortfolioResDto {
     private Date creationDate;
     private double total;
     private double expectedReturn;
-    private double riskLevel;
+    private int riskLevel;
     private long memberNum;
 
     private List<PortfolioItemResDto> portfolioItems;
