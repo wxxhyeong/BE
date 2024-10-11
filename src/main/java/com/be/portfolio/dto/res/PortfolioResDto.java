@@ -23,7 +23,7 @@ public class PortfolioResDto {
     private long memberNum;
 
     private List<PortfolioItemResDto> portfolioItems;
-//    private PortfolioPortionDto portion;
+    private PortfolioPortionDto portion;
 
     public static PortfolioResDto of(PortfolioVO vo) {
         return vo == null ? null : PortfolioResDto.builder()

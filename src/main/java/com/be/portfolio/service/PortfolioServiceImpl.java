@@ -32,7 +32,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     public PortfolioResDto getPortfolio(int portfolioId) {
         PortfolioResDto portfolio = PortfolioResDto.of(portfolioMapper.getPortfolio(portfolioId));
         portfolio.setPortfolioItems(getPortfolioItems(portfolioId));
-//        portfolio.setPortion(calculatePortion(getPortfolioItems(portfolio.getPortfolioId())));
+        portfolio.setPortion(calculatePortion(portfolio.getPortfolioItems()));
 
         return Optional.of(portfolio)
                 .orElseThrow(NoSuchElementException::new);
@@ -62,7 +62,8 @@ public class PortfolioServiceImpl implements PortfolioService {
         }
 
         PortfolioResDto resDto = getPortfolio(portfolioId);
-//        resDto.setPortion(calculatePortion(getPortfolioItems(resDto.getPortfolioId())));
+        resDto.setPortfolioItems(getPortfolioItems(portfolioId));
+        resDto.setPortion(calculatePortion(resDto.getPortfolioItems()));
 
         return resDto;
     }
@@ -107,8 +108,7 @@ public class PortfolioServiceImpl implements PortfolioService {
             if (responseEntity.getStatusCode().is2xxSuccessful()) {
                 System.out.println("Response: " + responseEntity.getBody());
             } else {
-                // 예외 처리해야됨
-                System.out.println("Request failed: " + responseEntity.getStatusCode());
+                throw new Exception("계산 실패!!! " + responseEntity.getStatusCode());
             }
 
             // portfolio의 expectedReturn, riskLevel, total, portfolioItem의 expectedReturn, riskLevel, amount을  Map에 반환
@@ -116,7 +116,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 
             double portfolioExpectedReturn = (Double) data.get("expectedReturn");
             int portfolioRiskLevel = (Integer) data.get("riskLevel");
-            int total = (Integer) data.get("total");
+            double total = (Double) data.get("total");
 
             portfolio.setTotal(total);
             portfolio.setExpectedReturn(portfolioExpectedReturn);
@@ -126,13 +126,14 @@ public class PortfolioServiceImpl implements PortfolioService {
             List<PortfolioItemReqDto> portfolioItemList = new ArrayList<>();
             for(Map item : tempList) {
                 PortfolioItemReqDto portfolioItem = new PortfolioItemReqDto();
-                portfolioItem.setAmount((Integer) item.get("amount"));
+                portfolioItem.setAmount((Double) item.get("amount"));
                 portfolioItem.setExpectedReturn((Double) item.get("expectedReturn"));
                 portfolioItem.setRiskLevel((Integer) item.get("riskLevel"));
                 if(item.get("productId") == null) {
                     portfolioItem.setStockCode((String) item.get("stockCode"));
                 } else {
-                    portfolioItem.setProductId((int) item.get("productId"));
+                    portfolioItem.setProductId((Integer) item.get("productId"));
+                    portfolioItem.setProductType(((String)item.get("productType")).charAt(0));
                 }
                 portfolioItemList.add(portfolioItem);
             }
@@ -146,19 +147,19 @@ public class PortfolioServiceImpl implements PortfolioService {
         return portfolio;
     }
 
-//    @Override
-//    public PortfolioPortionDto calculatePortion(List<PortfolioItemResDto> portfolioItems) {
-//        PortfolioPortionDto dto = new PortfolioPortionDto();
-//
-//        for(PortfolioItemResDto item : portfolioItems) {
-//            switch(item.getProductType() == null ? "stock" : item.getProductType()) {
-//                case "S" -> dto.setTotalSaving(dto.getTotalSaving() + item.getAmount());
-//                case "F" -> dto.setTotalFund(dto.getTotalFund() + item.getAmount());
-//                case "B" -> dto.setTotalBond(dto.getTotalBond() + item.getAmount());
-//                case "stock" -> dto.setTotalStock(dto.getTotalStock() + (item.getAmount() * item.getDailyPrice()));
-//            }
-//        }
-//
-//        return dto;
-//    }
+    @Override
+    public PortfolioPortionDto calculatePortion(List<PortfolioItemResDto> portfolioItems) {
+        PortfolioPortionDto dto = new PortfolioPortionDto();
+
+        for(PortfolioItemResDto item : portfolioItems) {
+            switch(item.getProductType()) {
+                case 'S' -> dto.setTotalSaving(dto.getTotalSaving() + item.getAmount());
+                case 'F' -> dto.setTotalFund(dto.getTotalFund() + item.getAmount());
+                case 'B' -> dto.setTotalBond(dto.getTotalBond() + item.getAmount());
+                default -> dto.setTotalStock(dto.getTotalStock() + item.getAmount());
+            }
+        }
+
+        return dto;
+    }
 }

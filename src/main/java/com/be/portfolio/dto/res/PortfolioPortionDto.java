@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PortfolioPortionDto {
-    private int totalSaving;
-    private int totalBond;
-    private int totalFund;
-    private int totalStock;
+    private double totalSaving;
+    private double totalBond;
+    private double totalFund;
+    private double totalStock;
 }
