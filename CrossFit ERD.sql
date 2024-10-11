@@ -176,6 +176,7 @@ CREATE TABLE `PortfolioItem`
     FOREIGN KEY (`portfolioID`) REFERENCES `portfolio` (`portfolioID`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+
 INSERT INTO `Portfolio` (`portfolioName`, `creationDate`, `total`, `expectedReturn`, `riskLevel`, `memberNum`)
 VALUES ('Portfolio 1', NOW(), 2500000, 5.50, 3, 1),
        ('Portfolio 2', NOW(), 4500000, 6.20, 2, 2),
