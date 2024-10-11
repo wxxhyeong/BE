@@ -15,9 +15,10 @@ public class PortfolioItemReqDto {
     private int portfolioId;
     private Integer productId;
     private String stockCode;
-    private int amount;
+    private double amount;
     private double expectedReturn;
     private int riskLevel;
+    private char productType;
 
     public static PortfolioItemReqDto of(PortfolioItemResDto resDto) {
         return resDto == null ? null : PortfolioItemReqDto.builder()
@@ -27,6 +28,7 @@ public class PortfolioItemReqDto {
                 .amount(resDto.getAmount())
                 .expectedReturn(resDto.getExpectedReturn())
                 .riskLevel(resDto.getRiskLevel())
+                .productType(resDto.getProductType())
                 .build();
     }
 
@@ -38,6 +40,7 @@ public class PortfolioItemReqDto {
                 .amount(amount)
                 .expectedReturn(expectedReturn)
                 .riskLevel(riskLevel)
+                .productType(productType)
                 .build();
     }
 }

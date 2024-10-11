@@ -21,5 +21,5 @@ public interface PortfolioService {
 
     void deletePortfolio(int id);
     PortfolioReqDto calculatePortfolio(PortfolioReqDto portfolioReqDto, List<Object> portfolioItems);
-//    PortfolioPortionDto calculatePortion(List<PortfolioItemResDto> portfolioItems);
+    PortfolioPortionDto calculatePortion(List<PortfolioItemResDto> portfolioItems);
 }

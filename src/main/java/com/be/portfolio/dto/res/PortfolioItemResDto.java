@@ -11,9 +11,10 @@ public class PortfolioItemResDto {
     private int portfolioId;
     private Integer productId;
     private String stockCode;
-    private int amount;
+    private double amount;
     private double expectedReturn;
     private int riskLevel;
+    private char productType;
 
     public static PortfolioItemResDto of(PortfolioItemVO vo) {
         return vo == null ? null : PortfolioItemResDto.builder()
@@ -24,6 +25,7 @@ public class PortfolioItemResDto {
                 .amount(vo.getAmount())
                 .expectedReturn(vo.getExpectedReturn())
                 .riskLevel(vo.getRiskLevel())
+                .productType(vo.getProductType())
                 .build();
     }
 
@@ -36,6 +38,7 @@ public class PortfolioItemResDto {
                 .amount(amount)
                 .expectedReturn(expectedReturn)
                 .riskLevel(riskLevel)
+                .productType(productType)
                 .build();
     }
 }
