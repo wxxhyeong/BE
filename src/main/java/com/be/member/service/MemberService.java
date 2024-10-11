@@ -242,8 +242,10 @@ public class MemberService {
             return 30;  // 30대
         } else if (age < 50) {
             return 40;  // 40대
+        } else if (age < 60){
+            return 50;  // 50대
         } else {
-            return 50;  // 50대 이상
+            return 60;  // 60대 이상
         }
     }
 }
