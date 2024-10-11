@@ -115,8 +115,8 @@ public class PortfolioServiceImpl implements PortfolioService {
             Map<String, Object> data = responseEntity.getBody();
 
             double portfolioExpectedReturn = (Double) data.get("expectedReturn");
-            double portfolioRiskLevel = (Double) data.get("riskLevel");
-            double total = (Double) data.get("total");
+            int portfolioRiskLevel = (Integer) data.get("riskLevel");
+            int total = (Integer) data.get("total");
 
             portfolio.setTotal(total);
             portfolio.setExpectedReturn(portfolioExpectedReturn);

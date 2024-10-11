@@ -31,8 +31,8 @@ public class PortfolioController {
     }
 
     @PostMapping
-    public ResponseEntity<PortfolioResDto> createPortfolio(@RequestBody @Valid List<Object> portfolioItems, @RequestParam String name, HttpServletRequest request) {
-        return ResponseEntity.ok(portfolioService.createPortfolio(portfolioItems, name, jwtUtils.extractMemberNum(request)));
+    public ResponseEntity<PortfolioResDto> createPortfolio(@RequestBody @Valid List<Object> portfolioItems, @RequestParam String portfolioName, HttpServletRequest request) {
+        return ResponseEntity.ok(portfolioService.createPortfolio(portfolioItems, portfolioName, jwtUtils.extractMemberNum(request)));
     }
 
     @DeleteMapping("/{portfolioId}")

@@ -16,7 +16,7 @@ public class PortfolioVO {
     private Date creationDate;
     private double total;
     private double expectedReturn;
-    private double riskLevel;
+    private int riskLevel;
     private long memberNum;
 
     private List<PortfolioItemVO> portfolioItems = new ArrayList<>();
