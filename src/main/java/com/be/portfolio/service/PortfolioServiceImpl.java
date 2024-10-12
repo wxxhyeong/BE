@@ -46,7 +46,6 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     @Override
     public PortfolioResDto createPortfolio(List<Object> portfolioItems, String portfolioName, long memberNum) {
-        // 포트폴리오 계산 기능(개발중)
         PortfolioReqDto portfolio = new PortfolioReqDto();
         portfolio.setMemberNum(memberNum);
         portfolio.setPortfolioName(portfolioName);
@@ -131,6 +130,7 @@ public class PortfolioServiceImpl implements PortfolioService {
                 portfolioItem.setRiskLevel((Integer) item.get("riskLevel"));
                 if(item.get("productId") == null) {
                     portfolioItem.setStockCode((String) item.get("stockCode"));
+                    portfolioItem.setProductType(null);
                 } else {
                     portfolioItem.setProductId((Integer) item.get("productId"));
                     portfolioItem.setProductType(((String)item.get("productType")).charAt(0));

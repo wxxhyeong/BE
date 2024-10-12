@@ -103,7 +103,7 @@ CREATE TABLE BondProduct
     bondIntTcd        CHAR(1),       -- 채권이자형구분코드
     bondIntTcdNm      VARCHAR(50),   -- 채권이자형구분코드명
     intPayCyclCtt     VARCHAR(50),   -- 이자지급주기내용
-    nxtmCopnDt        VARCHAR(8),    -- 차기표일자
+    nxtmCopnDt        VARCHAR(8),    -- 차기이표일자
     kbpScrsItmsKcdNm  VARCHAR(100),  -- 한국신용평가유가증권종목종류코드명
     niceScrsItmsKcdNm VARCHAR(100),  -- NICE평가정보유가증권종목종류코드명
     fnScrsItmsKcdNm   VARCHAR(100),  -- FN유가증권종목종류코드명
@@ -134,48 +134,29 @@ CREATE TABLE `stock`
     PRIMARY KEY (`stockCode`)             -- stockCode를 기본 키로 설정
 );
 
-CREATE TABLE PreferenceProductHits
-(
-    hit_num    INT auto_increment PRIMARY KEY,
-    productID  INT,
-    preference INT,
-    HIT        INT NOT NULL,
-    foreign key (productID) references Product (productID) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE TABLE Youtube
-(
-    youtube_num     INT PRIMARY KEY auto_increment,
-    youtube_url     VARCHAR(255),
-    youtube_title   VARCHAR(255),
-    youtube_context TEXT,
-    reg_date        DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-
 CREATE TABLE `Portfolio`
 (
     `portfolioID`    INT             NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `portfolioName`  VARCHAR(100)    NULL,
-    `creationDate`   DATETIME        NULL,
-    `total`          DECIMAL(15, 2)  NULL,
-    `expectedReturn` DECIMAL(5, 2)   NULL,
-    `riskLevel`      DECIMAL(5, 2)   NULL,
-    `memberNum`      BIGINT UNSIGNED NOT NULL
+    `portfolioName`  VARCHAR(100)    NULL,    -- 포트폴리오 이름
+    `creationDate`   DATETIME        NULL,    -- 생성일
+    `total`          DECIMAL(15, 2)  NULL,    -- 투자총액
+    `expectedReturn` DECIMAL(5, 2)   NULL,    -- 기대수익률
+    `riskLevel`      DECIMAL(5, 2)   NULL,    -- 위험도
+    `memberNum`      BIGINT UNSIGNED NOT NULL -- 사용자고유번호
 );
 
 CREATE TABLE `PortfolioItem`
 (
-    `portfolioItemID` INT               NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `portfolioID`     INT               NOT NULL,
-    `productID`       INT               NULL,
-    `stockCode`       VARCHAR(10)       NULL,
-    `amount`          DECIMAL(15, 2)    NULL,
-    `expectedReturn`  DECIMAL(5, 2)     NULL,
-    `riskLevel`       INT               NULL,
-    `productType`     CHAR(1)           NULL,
+    `portfolioItemID` INT            NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `portfolioID`     INT            NOT NULL,
+    `productID`       INT            NULL, -- 상품ID
+    `stockCode`       VARCHAR(10)    NULL, -- 주식코드
+    `amount`          DECIMAL(15, 2) NULL, -- 투자금액
+    `expectedReturn`  DECIMAL(5, 2)  NULL, -- 기대수익률
+    `riskLevel`       INT            NULL, -- 위험도
+    `productType`     CHAR(1)        NULL, -- 상품종류
     FOREIGN KEY (`portfolioID`) REFERENCES `portfolio` (`portfolioID`) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
 
 INSERT INTO `Portfolio` (`portfolioName`, `creationDate`, `total`, `expectedReturn`, `riskLevel`, `memberNum`)
 VALUES ('Portfolio 1', NOW(), 2500000, 5.50, 3, 1),
@@ -184,7 +165,8 @@ VALUES ('Portfolio 1', NOW(), 2500000, 5.50, 3, 1),
        ('Portfolio 4', NOW(), 8900000, 5.10, 5, 2),
        ('Portfolio 5', NOW(), 3200000, 7.00, 1, 1);
 
-INSERT INTO `PortfolioItem` (`portfolioID`, `productID`, `stockCode`, `amount`, `expectedReturn`, `riskLevel`, `productType`)
+INSERT INTO `PortfolioItem` (`portfolioID`, `productID`, `stockCode`, `amount`, `expectedReturn`, `riskLevel`,
+                             `productType`)
 VALUES (1, NULL, '000020', 7, 5.10, 1, NULL),
        (1, 1001, NULL, 100000, 6.00, 2, 'S'),
        (1, NULL, '000040', 3, 4.80, 3, NULL),
@@ -209,16 +191,17 @@ VALUES (1, NULL, '000020', 7, 5.10, 1, NULL),
 CREATE TABLE `CartItem`
 (
     `cartID`         INT           NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `productID`      INT           NOT NULL,
-    `memberNum`      INT           NOT NULL,
-    `productType`    CHAR(1)       NOT NULL,
-    `provider`       VARCHAR(100)  NULL,
-    `productName`    VARCHAR(100)  NOT NULL,
-    `expectedReturn` DECIMAL(5, 2) NULL,
-    `rsrvType`       VARCHAR(10)   NULL
+    `productID`      INT           NOT NULL, -- 상품ID
+    `memberNum`      INT           NOT NULL, -- 사용자고유번호
+    `productType`    CHAR(1)       NOT NULL, -- 상품종류
+    `provider`       VARCHAR(100)  NULL,     -- 제공자
+    `productName`    VARCHAR(100)  NOT NULL, -- 상품명
+    `expectedReturn` DECIMAL(5, 2) NULL,     -- 수익률
+    `rsrvType`       VARCHAR(10)   NULL      -- 적립유형
 );
 
-INSERT INTO `CartItem` (`cartID`, `productID`, `memberNum`, `productType`, `provider`, `productName`, `expectedReturn`, `rsrvType`)
+INSERT INTO `CartItem` (`cartID`, `productID`, `memberNum`, `productType`, `provider`, `productName`, `expectedReturn`,
+                        `rsrvType`)
 VALUES (1, 1, 1, 'S', 'Provider A', 'Savings Product 1', 3.50, 'S'),
        (2, 12, 2, 'F', 'Provider B', 'Fund Product 1', 2.75, Null),
        (3, 14, 1, 'B', 'Provider C', 'Bond Product 1', 4.20, Null),
@@ -238,54 +221,61 @@ CREATE TABLE `Insight`
     `URL`       VARCHAR(255) NULL
 );
 
-CREATE TABLE AgeGroupProductHits (
-                                     hit_num INT auto_increment primary KEY,
-                                     productID INT,
-                                     age_group INT NOT NULL,
-                                     HIT INT NOT NULL,
-                                     FOREIGN KEY (productID) REFERENCES Product(productID) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE AgeGroupProductHits
+(
+    hit_num   INT auto_increment primary KEY,
+    productID INT,
+    age_group INT NOT NULL,
+    HIT       INT NOT NULL,
+    FOREIGN KEY (productID) REFERENCES Product (productID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE PreferenceProductHits (
-                                       hit_num INT auto_increment PRIMARY KEY,
-                                       productID INT,
-                                       preference INT,
-                                       HIT INT NOT NULL,
-                                       foreign key (productID) references Product(productID) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE PreferenceProductHits
+(
+    hit_num    INT auto_increment PRIMARY KEY,
+    productID  INT,
+    preference INT,
+    HIT        INT NOT NULL,
+    foreign key (productID) references Product (productID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE Youtube (
-                         youtube_num INT PRIMARY KEY auto_increment,
-                         youtube_url VARCHAR(255),
-                         youtube_title VARCHAR(255),
-                         youtube_context TEXT,
-                         reg_date DATETIME DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE Youtube
+(
+    youtube_num     INT PRIMARY KEY auto_increment,
+    youtube_url     VARCHAR(255),
+    youtube_title   VARCHAR(255),
+    youtube_context TEXT,
+    reg_date        DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 페르소나 테이블
-CREATE TABLE persona (
-                         persona_id INT NOT NULL AUTO_INCREMENT,   -- 기본키, 자동 증가
-                         persona_preference INT,                   -- 투자 성향
-                         stock_rate INT,                           -- 주식 비율
-                         fund_rate INT,                            -- 펀드 비율
-                         bond_rate INT,                            -- 채권 비율
-                         savings_rate INT,                         -- 예적금 비율
-                         persona_name VARCHAR(50),                 -- 페르소나 이름
-                         job VARCHAR(255),                         -- 직업
-                         comments VARCHAR(255),
-                         PRIMARY KEY (persona_id)                  -- 기본키 설정
+CREATE TABLE persona
+(
+    persona_id         INT NOT NULL AUTO_INCREMENT, -- 기본키, 자동 증가
+    persona_preference INT,                         -- 투자 성향
+    stock_rate         INT,                         -- 주식 비율
+    fund_rate          INT,                         -- 펀드 비율
+    bond_rate          INT,                         -- 채권 비율
+    savings_rate       INT,                         -- 예적금 비율
+    persona_name       VARCHAR(50),                 -- 페르소나 이름
+    job                VARCHAR(255),                -- 직업
+    comments           VARCHAR(255),
+    PRIMARY KEY (persona_id)                        -- 기본키 설정
 );
 
-INSERT INTO persona (persona_id, persona_preference, stock_rate, fund_rate, bond_rate, savings_rate, persona_name, job, comments)
-VALUES
-    (1, 4, 50, 20, 10, 5, 'Warren Buffett', '가치투자의 대가, CEO', '가격은 당신이 지불하는 것이고, 가치는 당신이 얻는 것이다.'),
-    (2, 5, 70, 15, 10, 5, 'George Soros', '매크로 분석의 귀재, 펀드매니저','당신이 맞는지 틀리는지가 중요한 것이 아니라, 당신이 맞을 때 얼마나 많은 돈을 버는지와 틀릴 때 얼마나 많은 돈을 잃는지가 중요하다.'),
-    (3, 4, 30, 20, 40, 10, 'Ray Dalio', '헤지펀드 매니저','공정함을 추구하는 사람은 공정함을 실천해야 한다.'),
-    (4, 4, 50, 20, 20, 10, '이채원', '대한민국 가치투자 대부, 라이프자산운용 의장', '투자는 과거의 데이터를 바탕으로 미래를 예측하는 것이기 때문에, 우리가 겪는 모든 경험은 투자에 큰 도움이 된다.'),
-    (5, 5, 70, 15, 10, 5, '김범석', '쿠팡 CEO', ''),
-    (6, 4, 40, 20, 30, 10, '강방천', '에셋플러스자산운용 CIO', '위험을 관리하는 것은 성공적인 투자의 핵심이다.');
+INSERT INTO persona (persona_id, persona_preference, stock_rate, fund_rate, bond_rate, savings_rate, persona_name, job,
+                     comments)
+VALUES (1, 4, 50, 20, 10, 5, 'Warren Buffett', '가치투자의 대가, CEO', '가격은 당신이 지불하는 것이고, 가치는 당신이 얻는 것이다.'),
+       (2, 5, 70, 15, 10, 5, 'George Soros', '매크로 분석의 귀재, 펀드매니저',
+        '당신이 맞는지 틀리는지가 중요한 것이 아니라, 당신이 맞을 때 얼마나 많은 돈을 버는지와 틀릴 때 얼마나 많은 돈을 잃는지가 중요하다.'),
+       (3, 4, 30, 20, 40, 10, 'Ray Dalio', '헤지펀드 매니저', '공정함을 추구하는 사람은 공정함을 실천해야 한다.'),
+       (4, 4, 50, 20, 20, 10, '이채원', '대한민국 가치투자 대부, 라이프자산운용 의장',
+        '투자는 과거의 데이터를 바탕으로 미래를 예측하는 것이기 때문에, 우리가 겪는 모든 경험은 투자에 큰 도움이 된다.'),
+       (5, 5, 70, 15, 10, 5, '김범석', '쿠팡 CEO', ''),
+       (6, 4, 40, 20, 30, 10, '강방천', '에셋플러스자산운용 CIO', '위험을 관리하는 것은 성공적인 투자의 핵심이다.');
 
-ALTER TABLE persona ADD image_path VARCHAR(255);
+ALTER TABLE persona
+    ADD image_path VARCHAR(255);
 
 UPDATE persona
 SET image_path = 'crossfit_images/id_1.jpg'

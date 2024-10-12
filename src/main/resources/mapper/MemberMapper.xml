@@ -6,7 +6,7 @@
 <mapper namespace="com.be.member.mapper.MemberMapper">
     <insert id = "insert" parameterType="Member">
         insert into member(member_id, member_name, email, password, birth,
-                         gender, preference, invest_score, reg_date)
+                           gender, preference, invest_score, reg_date)
         values (#{memberID}, #{memberName}, #{email}, #{password}, #{birth},
                 #{gender}, #{preference}, #{investScore}, #{regDate});
     </insert>

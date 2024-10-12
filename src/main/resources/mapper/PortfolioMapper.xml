@@ -49,8 +49,8 @@
         </selectKey>
     </insert>
     <insert id="insertPortfolioItem">
-        insert into portfolioitem(portfolioID, productID, stockCode, amount, expectedReturn, riskLevel)
-        values(#{portfolioId}, #{productId}, #{stockCode}, #{amount}, #{expectedReturn}, #{riskLevel})
+        insert into portfolioitem(portfolioID, productID, stockCode, amount, expectedReturn, riskLevel, productType)
+        values(#{portfolioId}, #{productId}, #{stockCode}, #{amount}, #{expectedReturn}, #{riskLevel}, #{productType})
     </insert>
     <update id="updatePortfolio">
         update portfolio set total=#{total}, expectedReturn=#{expectedReturn}, riskLevel=#{riskLevel} where portfolioID=#{portfolioId}
