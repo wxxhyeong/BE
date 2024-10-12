@@ -18,7 +18,7 @@ public class PortfolioItemReqDto {
     private double amount;
     private double expectedReturn;
     private int riskLevel;
-    private char productType;
+    private Character productType;
 
     public static PortfolioItemReqDto of(PortfolioItemResDto resDto) {
         return resDto == null ? null : PortfolioItemReqDto.builder()

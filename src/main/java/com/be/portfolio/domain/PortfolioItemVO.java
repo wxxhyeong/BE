@@ -14,5 +14,5 @@ public class PortfolioItemVO {
     private double amount;
     private double expectedReturn;
     private int riskLevel;
-    private char productType;
+    private Character productType;
 }
