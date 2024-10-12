@@ -238,12 +238,28 @@ CREATE TABLE `Insight`
     `URL`       VARCHAR(255) NULL
 );
 
-CREATE TABLE `AgeGroupProductHits`
-(
-    `SelectedNum` INT NULL,
-    `AgeGroup`    INT NULL,
-    `HitCount`    INT NULL,
-    `ProductID`   INT NOT NULL
+CREATE TABLE AgeGroupProductHits (
+                                     hit_num INT auto_increment primary KEY,
+                                     productID INT,
+                                     age_group INT NOT NULL,
+                                     HIT INT NOT NULL,
+                                     FOREIGN KEY (productID) REFERENCES Product(productID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE PreferenceProductHits (
+                                       hit_num INT auto_increment PRIMARY KEY,
+                                       productID INT,
+                                       preference INT,
+                                       HIT INT NOT NULL,
+                                       foreign key (productID) references Product(productID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Youtube (
+                         youtube_num INT PRIMARY KEY auto_increment,
+                         youtube_url VARCHAR(255),
+                         youtube_title VARCHAR(255),
+                         youtube_context TEXT,
+                         reg_date DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 페르소나 테이블
