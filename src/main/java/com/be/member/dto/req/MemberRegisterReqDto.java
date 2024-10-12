@@ -55,6 +55,8 @@ public class MemberRegisterReqDto {
                 .password(encodedPassword)
                 .birth(this.getBirth())
                 .gender(this.getGender())
+                .preference(5)
+                .investScore(85)
                 .regDate(LocalDate.now().toString()).build();
 
     }
