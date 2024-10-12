@@ -65,8 +65,4 @@ public interface SavingProductMapper {
     List<SavingProductRatesVO> getSavingProductRatesDetail(int productId);
 
     SavingProductVO findByProductId(@Param("productId") int productId);
-
-
-
-
 }

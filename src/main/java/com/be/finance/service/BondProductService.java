@@ -186,6 +186,15 @@ public class BondProductService {
     private void processBondItems(JSONArray items) {
         for (int i = 0; i < items.length(); i++) {
             JSONObject bondItem = items.getJSONObject(i);
+
+            // 1. Product 테이블 저장
+            ProductVO productVO = new ProductVO();
+            productVO.setProductType('B');
+            productMapper.insertProduct(productVO);
+
+            int productId = productVO.getProductId();
+
+            // 2. BondProduct 테이블 저장
             BondProductVO bondProductVO = new BondProductVO();
 
             bondProductVO.setBasDt(bondItem.isNull("basDt") ? null : bondItem.getString("basDt"));
