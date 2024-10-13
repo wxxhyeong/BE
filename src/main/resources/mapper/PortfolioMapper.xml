@@ -41,12 +41,9 @@
         select * from portfolioitem
         where portfolioID = #{portfolioId}
     </select>
-    <insert id="insertPortfolio">
+    <insert id="insertPortfolio" useGeneratedKeys="true" keyProperty="portfolioId">
         insert into portfolio(portfolioName, creationDate, total, expectedReturn, riskLevel, memberNum)
         values(#{portfolioName}, CURRENT_TIMESTAMP, #{total}, #{expectedReturn}, #{riskLevel}, #{memberNum})
-        <selectKey resultType="Int" keyProperty="portfolioId" keyColumn="portfolioID" order="AFTER">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
     </insert>
     <insert id="insertPortfolioItem">
         insert into portfolioitem(portfolioID, productID, stockCode, amount, expectedReturn, riskLevel, productType)

@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.sound.sampled.Port;
 import java.util.*;
 
 @Service
@@ -51,16 +52,16 @@ public class PortfolioServiceImpl implements PortfolioService {
         portfolio.setPortfolioName(portfolioName);
         portfolio = calculatePortfolio(portfolio, portfolioItems);
 
-        int portfolioId = portfolioMapper.insertPortfolio(portfolio.toVo());
+        PortfolioVO vo = portfolio.toVo();
+        portfolioMapper.insertPortfolio(vo);
+        int portfolioId = vo.getPortfolioId();
 
         for(PortfolioItemReqDto portfolioItem : portfolio.getPortfolioItems()) {
-            log.info(portfolioId);
             portfolioItem.setPortfolioId(portfolioId);
-            log.info(portfolioItem.toVo());
             portfolioMapper.insertPortfolioItem(portfolioItem.toVo());
         }
 
-        PortfolioResDto resDto = getPortfolio(portfolioId);
+        PortfolioResDto resDto = PortfolioResDto.of(vo);
         resDto.setPortfolioItems(getPortfolioItems(portfolioId));
         resDto.setPortion(calculatePortion(resDto.getPortfolioItems()));
 
@@ -151,15 +152,22 @@ public class PortfolioServiceImpl implements PortfolioService {
     public PortfolioPortionDto calculatePortion(List<PortfolioItemResDto> portfolioItems) {
         PortfolioPortionDto dto = new PortfolioPortionDto();
 
-        for(PortfolioItemResDto item : portfolioItems) {
-            switch(item.getProductType()) {
-                case 'S' -> dto.setTotalSaving(dto.getTotalSaving() + item.getAmount());
-                case 'F' -> dto.setTotalFund(dto.getTotalFund() + item.getAmount());
-                case 'B' -> dto.setTotalBond(dto.getTotalBond() + item.getAmount());
-                default -> dto.setTotalStock(dto.getTotalStock() + item.getAmount());
+        try {
+            for(PortfolioItemResDto item : portfolioItems) {
+                if (item.getProductType() == null) {
+                    dto.setTotalStock(dto.getTotalStock() + item.getAmount());
+                } else {
+                    switch(item.getProductType()) {
+                        case 'S' -> dto.setTotalSaving(dto.getTotalSaving() + item.getAmount());
+                        case 'F' -> dto.setTotalFund(dto.getTotalFund() + item.getAmount());
+                        case 'B' -> dto.setTotalBond(dto.getTotalBond() + item.getAmount());
+                        default -> throw new Exception("타입을 특정할 수 없습니다.");
+                    }
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
         return dto;
     }
 }
