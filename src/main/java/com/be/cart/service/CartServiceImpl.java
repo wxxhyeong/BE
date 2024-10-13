@@ -35,8 +35,8 @@ public class CartServiceImpl implements CartService {
         }
 
         CartItemVO cartVO = cartItemReqDto.toVO();
+        cartMapper.addCartItem(cartVO);
         CartItemResDto cartResDto = CartItemResDto.of(cartVO);
-        cartResDto.setCartId(cartMapper.addCartItem(cartVO));
 
         sessionCartItems.add(cartResDto);
 
