@@ -31,13 +31,14 @@ public class CartController {
     private final JwtUtils jwtUtils;
 
     @GetMapping("/init")
-    public void initCartList(HttpServletRequest request) {
+    public ResponseEntity<List<CartItemResDto>> initCartList(HttpServletRequest request) {
         HttpSession session = request.getSession();
         List<CartItemResDto> cartList = cartService.initCartList(jwtUtils.extractMemberNum(request));
 
         log.info(cartList);
 
         session.setAttribute("cartList", cartList);
+        return ResponseEntity.ok(cartList);
     }
 
     @GetMapping("/list")
@@ -52,7 +53,7 @@ public class CartController {
     }
 
     @PostMapping("/items")
-    public ResponseEntity<DefaultResDto<Object>> addCartItem(@RequestBody @Valid CartItemReqDto cartItemReqDto, HttpServletRequest request) {
+    public ResponseEntity<List<CartItemResDto>> addCartItem(@RequestBody @Valid CartItemReqDto cartItemReqDto, HttpServletRequest request) {
         HttpSession session = request.getSession();
 
         log.info(session.getAttribute("cartList"));
@@ -62,13 +63,11 @@ public class CartController {
 
         List<CartItemResDto> updatedCartList = cartService.addCartItem(sessionCartItems, cartItemReqDto);
 
+        log.info(updatedCartList);
+
         session.setAttribute("cartList", updatedCartList);
 
-        return ResponseEntity.status(ADD_CART_ITEM.getHttpStatus())
-                .body(DefaultResDto.noDataBuilder()
-                        .responseCode(ADD_CART_ITEM.name())
-                        .responseMessage(ADD_CART_ITEM.getMessage())
-                        .build());
+        return ResponseEntity.ok(updatedCartList);
     }
 
     @DeleteMapping("/items/{cartID}")
