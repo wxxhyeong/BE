@@ -8,11 +8,11 @@
 
     <resultMap id="portfolioMap" type="com.be.portfolio.domain.PortfolioVO">
         <id column="portfolioID" property="portfolioId"/>
+        <result column="portfolioName" property="portfolioName"/>
         <result column="creationDate" property="creationDate"/>
         <result column="total" property="total"/>
         <result column="expectedReturn" property="expectedReturn"/>
         <result column="riskLevel" property="riskLevel"/>
-        <result column="portfolioName" property="portfolioName"/>
         <result column="memberNum" property="memberNum"/>
         <collection property="portfolioItems" resultMap="portfolioItemMap"/>
     </resultMap>
@@ -24,6 +24,8 @@
         <result column="stockCode" property="stockCode"/>
         <result column="amount" property="amount"/>
         <result column="expectedReturn" property="expectedReturn"/>
+        <result column="riskLevel" property="riskLevel"/>
+        <result column="productType" property="productType"/>
     </resultMap>
 
     <select id="getPortfolio" resultType="com.be.portfolio.domain.PortfolioVO">
@@ -41,12 +43,9 @@
         select * from portfolioitem
         where portfolioID = #{portfolioId}
     </select>
-    <insert id="insertPortfolio">
+    <insert id="insertPortfolio" useGeneratedKeys="true" keyProperty="portfolioId">
         insert into portfolio(portfolioName, creationDate, total, expectedReturn, riskLevel, memberNum)
         values(#{portfolioName}, CURRENT_TIMESTAMP, #{total}, #{expectedReturn}, #{riskLevel}, #{memberNum})
-        <selectKey resultType="Int" keyProperty="portfolioId" keyColumn="portfolioID" order="AFTER">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
     </insert>
     <insert id="insertPortfolioItem">
         insert into portfolioitem(portfolioID, productID, stockCode, amount, expectedReturn, riskLevel, productType)
