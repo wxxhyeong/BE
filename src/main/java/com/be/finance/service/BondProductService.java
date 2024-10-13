@@ -76,7 +76,7 @@ public class BondProductService {
 
         for (int pageNo = 1; pageNo <= totalPages; pageNo++) {
             // 요청 URL
-            String url = bondProductApiUrl + "?serviceKey=" + bondAuthKey + "&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&resultType=json" + "&pageSize=" + numOfRows + "&basDt=20241004";
+            String url = bondProductApiUrl + "?serviceKey=" + bondAuthKey + "&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&resultType=json" + "&pageSize=" + numOfRows + "&basDt=20241010";
             System.out.println("Fetching page: " + pageNo + "form URL: " + url);
 
             // OkHttp 요청 구성

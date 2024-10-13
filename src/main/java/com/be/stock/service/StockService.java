@@ -11,12 +11,14 @@ import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,11 +59,18 @@ public class StockService {
         int pageNo = 1; // 초기 페이지 번호
         int numOfRows = 1000; // 한 페이지에 가져올 데이터 수
         boolean hasNextPage = true; // 다음 페이지가 있는지 여부
+        // 오늘 날짜에서 이틀 전 날짜 계산
+        LocalDate twoDaysAgo = LocalDate.now().minusDays(2);
+
+        // 날짜를 'yyyyMMdd' 형식의 문자열로 변환
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String basDt = twoDaysAgo.format(formatter);
+        System.out.println(basDt);
 
         try {
             while (hasNextPage) {
                 // API 호출 URL
-                String url = StockUrl + "?serviceKey=" + StockKey + "&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&resultType=xml";
+                String url = StockUrl + "?serviceKey=" + StockKey + "&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&resultType=xml" + "&basDt=" + basDt;
                 System.out.println("API 호출 URL: " + url);
 
                 // OkHttp 요청 구성
@@ -142,6 +151,12 @@ public class StockService {
             e.printStackTrace();
             System.out.println("API 호출 중 오류 발생: " + e.getMessage());
         }
+    }
+
+    // 매일 오전 2시에 실행되는 스케줄러 설정
+    @Scheduled(cron = "0 0 2 * * ?")
+    public void updateStockDataByBaseDt() {
+        fetchStock();
     }
 
     // 포트폴리오 구성 시 주식 수익률 계산에 필요한 데이터 json 객체로 반환
