@@ -8,11 +8,11 @@
 
     <resultMap id="portfolioMap" type="com.be.portfolio.domain.PortfolioVO">
         <id column="portfolioID" property="portfolioId"/>
+        <result column="portfolioName" property="portfolioName"/>
         <result column="creationDate" property="creationDate"/>
         <result column="total" property="total"/>
         <result column="expectedReturn" property="expectedReturn"/>
         <result column="riskLevel" property="riskLevel"/>
-        <result column="portfolioName" property="portfolioName"/>
         <result column="memberNum" property="memberNum"/>
         <collection property="portfolioItems" resultMap="portfolioItemMap"/>
     </resultMap>
@@ -24,6 +24,8 @@
         <result column="stockCode" property="stockCode"/>
         <result column="amount" property="amount"/>
         <result column="expectedReturn" property="expectedReturn"/>
+        <result column="riskLevel" property="riskLevel"/>
+        <result column="productType" property="productType"/>
     </resultMap>
 
     <select id="getPortfolio" resultType="com.be.portfolio.domain.PortfolioVO">
