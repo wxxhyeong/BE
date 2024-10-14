@@ -91,15 +91,14 @@ public class Member implements UserDetails {
 
     @Builder(builderMethodName = "registerMemberBuilder" , builderClassName = "registerMemberBuilder")
     public Member(String memberID, String memberName, String email, String password,
-                  String birth, String gender, int preference, int investScore, String regDate) {
+                  String birth, String gender, String regDate) {
         this.memberID = memberID;
         this.memberName = memberName;
         this.email = email;
         this.password = password;
         this.birth = birth;
         this.gender = gender;
-        this.preference = preference;
-        this.investScore = investScore;
+
         this.regDate = regDate;
     }
 }
