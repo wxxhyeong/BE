@@ -58,6 +58,7 @@ public class SavingProductController {
     }
 
     // 적금 상품 검색
+    @GetMapping("/savingSearch")
     public Map<String, Object> searchSavingProducts(
             @RequestParam String keyword,
             @RequestParam(defaultValue = "1") int page,
