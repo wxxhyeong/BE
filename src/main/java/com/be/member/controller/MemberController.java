@@ -3,8 +3,6 @@ package com.be.member.controller;
 
 import com.be.auth.JwtProvider;
 import com.be.auth.JwtUtils;
-import com.be.cart.dto.res.CartItemResDto;
-import com.be.cart.service.CartService;
 import com.be.common.dto.DefaultResDto;
 import com.be.member.domain.Member;
 import com.be.member.dto.req.InvestPreferenceReqDto;
@@ -15,7 +13,6 @@ import com.be.member.dto.req.UpdateMemberPasswordReqDto;
 
 import com.be.member.dto.res.MemberDefaultResDto;
 import com.be.member.service.MemberService;
-import com.be.portfolio.service.PortfolioService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -26,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.List;
 
 import static com.be.common.code.SuccessCode.*;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -38,7 +34,6 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 public class MemberController {
     private final MemberService memberService;
     private final JwtProvider jwtProvider;
-    private final CartService cartService;
     private final JwtUtils jwtUtils;
 
     @PostMapping("/register")
@@ -67,15 +62,6 @@ public class MemberController {
 
         HttpHeaders headers = jwtProvider.generateUserJwt(member.getMemberNum(), member.getRoles());
         MemberDefaultResDto response = new MemberDefaultResDto(member);
-
-        // 로그인 시 장바구니 리스트 세션에 저장(-> cartController로 이동 예정)
-//        HttpSession session = request.getSession();
-//        List<CartItemResDto> cartList = cartService.initCartList(member.getMemberNum());
-//        session.setAttribute("cartList", cartList);
-//
-//        log.info("{}", session);
-//        log.info(session.getAttribute("cartList").toString());
-        //
 
         log.info(headers.toString());
 
