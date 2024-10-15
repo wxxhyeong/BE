@@ -174,14 +174,6 @@ CREATE TABLE `CartItem`
     FOREIGN KEY (`memberNum`) REFERENCES `member` (`member_Num`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE `Insight`
-(
-    `insightID` INT          NOT NULL,
-    `type`      VARCHAR(20)  NULL,
-    `content`   TEXT         NULL,
-    `URL`       VARCHAR(255) NULL
-);
-
 CREATE TABLE AgeGroupProductHits
 (
     hit_num   INT auto_increment primary KEY,
