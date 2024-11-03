@@ -258,8 +258,8 @@ public class BondProductService {
     }
 
     // 전체 채권 리스트 조회
-    public Map<String, Object> getBondProductsList(int page, int pageSize) {
-        List<BondProductVO> bondproducts = bondProductMapper.getBondProductsList();
+    public Map<String, Object> getBondProductsList(int page, int pageSize, String sortField, String sortOrder) {
+        List<BondProductVO> bondproducts = bondProductMapper.getBondProductsList(sortField, sortOrder);
         return paginationService.paginate(bondproducts, page, pageSize);
     }
 

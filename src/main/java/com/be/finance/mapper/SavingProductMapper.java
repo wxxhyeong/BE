@@ -18,13 +18,13 @@ public interface SavingProductMapper {
     void insertSavingProductRate(SavingProductRatesVO rate);
 
     // 예금 데이터 리스트 조회
-    List<SavingProductVO> getDepositProducts();
+    List<SavingProductVO> getDepositProducts(@Param("sortField") String sortField, @Param("sortOrder") String sortOrder);
 
     // 예금 기간별 수익률 리스트 조회
     List<SavingProductRatesVO> getDepositRates();
 
     // 적금 데이터 리스트 조회
-    List<SavingProductVO> getSavingProducts();
+    List<SavingProductVO> getSavingProducts(@Param("sortField") String sortField, @Param("sortOrder") String sortOrder);
 
     // 적금 기간별 수익률 리스트 조회
     List<SavingProductRatesVO> getSavingRates(List<SavingProductVO> productList);

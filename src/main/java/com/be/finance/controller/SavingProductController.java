@@ -36,16 +36,20 @@ public class SavingProductController {
     @GetMapping("/deposit")
     public Map<String, Object> getDepositProducts(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int pageSize) {
-        return savingProductService.getDepositProducts(page, pageSize);
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "kor_co_nm") String sortField,
+            @RequestParam(defaultValue = "asc") String sortOrder) {
+        return savingProductService.getDepositProducts(page, pageSize, sortField, sortOrder);
     }
 
     // 적금 리스트 조회 API
     @GetMapping("/saving")
     public Map<String, Object> getSavingProducts(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int pageSize) {
-        return savingProductService.getSavingProducts(page, pageSize);
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "kor_co_nm") String sortField,
+            @RequestParam(defaultValue = "asc") String sortOrder) {
+        return savingProductService.getSavingProducts(page, pageSize, sortField, sortOrder);
     }
 
     // 예금 상품 검색

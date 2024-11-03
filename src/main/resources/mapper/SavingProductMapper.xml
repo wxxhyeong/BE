@@ -35,14 +35,40 @@
     <select id="getDepositProducts" resultType="com.be.finance.domain.SavingProductVO">
         SELECT *
         FROM SavingsProduct
-        WHERE fin_prdt_nm LIKE '%예금%';
+        WHERE fin_prdt_nm LIKE '%예금%'
+        <if test="sortField != null and sortOrder != null">
+            ORDER BY
+                <choose>
+                    <when test="sortField == 'kor_co_nm'">kor_co_nm</when>
+                    <when test="sortField == 'fin_prdt_nm'">fin_prdt_nm</when>
+                    <otherwise>productId</otherwise>
+                </choose>
+                <choose>
+                    <when test="sortOrder == 'asc'">ASC</when>
+                    <when test="sortOrder == 'desc'">DESC</when>
+                    <otherwise>ASC</otherwise>
+                </choose>
+        </if>
     </select>
 
     <!-- 전체 적금 상품 조회 -->
     <select id="getSavingProducts" resultType="com.be.finance.domain.SavingProductVO">
         SELECT *
         FROM SavingsProduct
-        WHERE fin_prdt_nm LIKE '%적금%';
+        WHERE fin_prdt_nm LIKE '%적금%'
+        <if test="sortField != null and sortOrder != null">
+            ORDER BY
+                <choose>
+                    <when test="sortField == 'kor_co_nm'">kor_co_nm</when>
+                    <when test="sortField == 'fin_prdt_nm'">fin_prdt_nm</when>
+                    <otherwise>productId</otherwise>
+                </choose>
+                <choose>
+                    <when test="sortOrder == 'asc'">ASC</when>
+                    <when test="sortOrder == 'desc'">DESC</when>
+                    <otherwise>ASC</otherwise>
+                </choose>
+        </if>
     </select>
 
     <!-- 예금 상품 금리 정보 조회 (rsrv_type IS NULL) -->
