@@ -72,8 +72,8 @@ public class FundProductService {
     }
 
     // 펀드 리스트 가져오기
-    public Map<String, Object> getFundProductsList(int page, int pageSize) {
-        List<FundProductVO> fundProducts = fundProductMapper.getFundProductsList();
+    public Map<String, Object> getFundProductsList(int page, int pageSize, String sortField, String sortOrder) {
+        List<FundProductVO> fundProducts = fundProductMapper.getFundProductsList(sortField, sortOrder);
         return paginationService.paginate(fundProducts, page, pageSize);
     }
 

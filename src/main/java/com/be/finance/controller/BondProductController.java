@@ -42,9 +42,11 @@ public class BondProductController {
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> getBondProductsList(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int pageSize) {
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "bondIsurNm") String sortField, // 정렬 필드 추가
+            @RequestParam(defaultValue = "asc") String sortOrder) {
         try {
-            Map<String, Object> bondProducts = bondProductService.getBondProductsList(page, pageSize);
+            Map<String, Object> bondProducts = bondProductService.getBondProductsList(page, pageSize, sortField, sortOrder);
             System.out.println("성공");
             return ResponseEntity.ok(bondProducts);
         } catch (Exception e) {
