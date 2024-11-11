@@ -42,7 +42,7 @@ class CartServiceImplTest {
 
         CartItemVO cartVO = cart.toVO();
         CartItemResDto cartResDto = CartItemResDto.of(cartVO);
-        cartResDto.setCartId(cartMapper.addCartItem(cartVO));
+//        cartResDto.setCartId(cartMapper.addCartItem(cartVO));
 
         System.out.println(cartResDto);
     }
@@ -52,8 +52,8 @@ class CartServiceImplTest {
         cartMapper.deleteCartItem(2);
     }
 
-    @Test
-    void checkCartItem() {
-        System.out.println(cartMapper.checkCartItem(1, 1) == null ? "false" : "true");
-    }
+//    @Test
+//    void checkCartItem() {
+//        System.out.println(cartMapper.checkCartItem(1, 1) == null ? "false" : "true");
+//    }
 }

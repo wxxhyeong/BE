@@ -35,7 +35,7 @@ public class CartController {
         HttpSession session = request.getSession();
         List<CartItemResDto> cartList = cartService.initCartList(jwtUtils.extractMemberNum(request));
 
-        log.info(cartList);
+        log.info(cartList); 
 
         session.setAttribute("cartList", cartList);
         return ResponseEntity.ok(cartList);
@@ -70,14 +70,24 @@ public class CartController {
         return ResponseEntity.ok(updatedCartList);
     }
 
-    @DeleteMapping("/items/{cartID}")
-    public void deleteCartItem(@PathVariable int cartID, HttpServletRequest request) {
+    @DeleteMapping("/items/{productID}")
+    public void deleteCartItem(@PathVariable int productID, HttpServletRequest request) {
         HttpSession session = request.getSession();
 
         List<CartItemResDto> cartList = objectMapper.convertValue(session.getAttribute("cartList"),
                 new TypeReference<List<CartItemResDto>>() {});
 
-        session.setAttribute("cartList", cartService.deleteCartItem(cartList, cartID));
+        session.setAttribute("cartList", cartService.deleteCartItem(cartList, productID));
+    }
+
+    @PostMapping("/update")
+    public void updateCartItem(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+
+        List<CartItemResDto> cartList = objectMapper.convertValue(session.getAttribute("cartList"),
+                new TypeReference<List<CartItemResDto>>() {});
+
+        cartService.updateCartItem(cartList, jwtUtils.extractMemberNum(request));
     }
 }
 

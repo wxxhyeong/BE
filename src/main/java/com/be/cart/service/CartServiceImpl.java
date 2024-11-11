@@ -1,5 +1,6 @@
 package com.be.cart.service;
 
+import com.be.cart.domain.CartDataVO;
 import com.be.cart.domain.CartItemVO;
 import com.be.cart.dto.req.CartItemReqDto;
 import com.be.cart.dto.res.CartItemResDto;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.be.common.code.ErrorCode.EXISTING_CART_ITEM;
 
@@ -34,9 +36,9 @@ public class CartServiceImpl implements CartService {
             }
         }
 
-        CartItemVO cartVO = cartItemReqDto.toVO();
-        cartMapper.addCartItem(cartVO);
-        CartItemResDto cartResDto = CartItemResDto.of(cartVO);
+//        CartItemVO cartVO = cartItemReqDto.toVO();
+//        cartMapper.addCartItem(cartVO);
+        CartItemResDto cartResDto = CartItemResDto.of(cartItemReqDto);
 
         sessionCartItems.add(cartResDto);
 
@@ -44,22 +46,44 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<CartItemResDto> deleteCartItem(List<CartItemResDto> cartList, int cartId) {
+    public List<CartItemResDto> deleteCartItem(List<CartItemResDto> cartList, int productId) {
         try {
-
             for(int i = 0; i < cartList.size(); i++) {
-                if(cartList.get(i).getCartId() == cartId) cartList.remove(i);
+                if(cartList.get(i).getProductId() == productId) cartList.remove(i);
             }
 
-            cartMapper.deleteCartItem(cartId);
+//            cartMapper.deleteCartItem(cartId);
 
             return cartList;
-
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("장바구니 삭제 과정에서 에러 발생");
         }
 
         return cartList;
+    }
+
+    @Override
+    public void updateCartItem(List<CartItemResDto> cartList, long memberNum) {
+        List<CartDataVO> updatedCartList = cartList.stream().map(CartItemResDto::toVO).toList();
+        List<CartDataVO> dbCartList = cartMapper.getCartDataList(memberNum);
+
+        for (CartDataVO cartData : updatedCartList) {
+            boolean isInDB = dbCartList.stream()
+                    .anyMatch(dbItem -> dbItem.getProductId() == cartData.getProductId());
+
+            if(!isInDB) {
+                cartMapper.addCartItem(cartData);
+            }
+        }
+
+        for (CartDataVO cartData : dbCartList) {
+            boolean isInSession = updatedCartList.stream()
+                    .anyMatch(cartItem -> cartItem.getProductId() == cartData.getProductId());
+
+            if (!isInSession) {
+                cartMapper.deleteCartItem(cartData.getProductId());
+            }
+        }
     }
 }
