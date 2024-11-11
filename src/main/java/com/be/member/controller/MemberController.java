@@ -60,6 +60,9 @@ public class MemberController {
         Member member = memberService.login(memberLoginReqDto);
         log.info("member Roles = " + member.getRoles().toString());
 
+        HttpSession session = request.getSession();
+        session.setAttribute("memberNum", member.getMemberNum());
+
         HttpHeaders headers = jwtProvider.generateUserJwt(member.getMemberNum(), member.getRoles());
         MemberDefaultResDto response = new MemberDefaultResDto(member);
 
@@ -74,8 +77,6 @@ public class MemberController {
                         .data(response)
                         .build());
     }
-
-
 
     // 투자 성향 점수 업데이트 요청 처리
     @PostMapping("/investPreference")
@@ -122,8 +123,10 @@ public class MemberController {
         HttpSession session = request.getSession(false);
 
         if (session != null) {
-            session.removeAttribute("cartList");
+            log.info("popped!!!!!!!!!!");
             session.invalidate();
+        } else {
+            log.info("asodfnasodf");
         }
         return ResponseEntity.status(USER_LOGOUT.getHttpStatus())
                 .body(DefaultResDto.noDataBuilder()

@@ -1,17 +1,16 @@
 package com.be.cart.service;
 
 import com.be.cart.domain.CartDataVO;
-import com.be.cart.domain.CartItemVO;
 import com.be.cart.dto.req.CartItemReqDto;
 import com.be.cart.dto.res.CartItemResDto;
 import com.be.cart.mapper.CartMapper;
+import com.be.common.event.SessionExpiredEvent;
 import com.be.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.be.common.code.ErrorCode.EXISTING_CART_ITEM;
 
@@ -64,9 +63,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void updateCartItem(List<CartItemResDto> cartList, long memberNum) {
-        List<CartDataVO> updatedCartList = cartList.stream().map(CartItemResDto::toVO).toList();
-        List<CartDataVO> dbCartList = cartMapper.getCartDataList(memberNum);
+    public void updateCartItem(SessionExpiredEvent event) {
+        List<CartDataVO> updatedCartList = event.getCartList().stream().map(CartItemResDto::toVO).toList();
+        List<CartDataVO> dbCartList = cartMapper.getCartDataList(event.getMemberNum());
 
         for (CartDataVO cartData : updatedCartList) {
             boolean isInDB = dbCartList.stream()

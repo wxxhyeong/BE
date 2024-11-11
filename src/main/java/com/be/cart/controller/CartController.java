@@ -4,12 +4,10 @@ import com.be.auth.JwtUtils;
 import com.be.cart.dto.req.CartItemReqDto;
 import com.be.cart.dto.res.CartItemResDto;
 import com.be.cart.service.CartService;
-import com.be.common.dto.DefaultResDto;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +33,7 @@ public class CartController {
         HttpSession session = request.getSession();
         List<CartItemResDto> cartList = cartService.initCartList(jwtUtils.extractMemberNum(request));
 
-        log.info(cartList); 
+        log.info(cartList);
 
         session.setAttribute("cartList", cartList);
         return ResponseEntity.ok(cartList);
@@ -78,16 +76,6 @@ public class CartController {
                 new TypeReference<List<CartItemResDto>>() {});
 
         session.setAttribute("cartList", cartService.deleteCartItem(cartList, productID));
-    }
-
-    @PostMapping("/update")
-    public void updateCartItem(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-
-        List<CartItemResDto> cartList = objectMapper.convertValue(session.getAttribute("cartList"),
-                new TypeReference<List<CartItemResDto>>() {});
-
-        cartService.updateCartItem(cartList, jwtUtils.extractMemberNum(request));
     }
 }
 
