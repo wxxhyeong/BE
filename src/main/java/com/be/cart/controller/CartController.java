@@ -35,6 +35,7 @@ public class CartController {
 
         log.info(cartList);
 
+        session.setAttribute("memberNum", jwtUtils.extractMemberNum(request));
         session.setAttribute("cartList", cartList);
         return ResponseEntity.ok(cartList);
     }

@@ -60,9 +60,6 @@ public class MemberController {
         Member member = memberService.login(memberLoginReqDto);
         log.info("member Roles = " + member.getRoles().toString());
 
-        HttpSession session = request.getSession();
-        session.setAttribute("memberNum", member.getMemberNum());
-
         HttpHeaders headers = jwtProvider.generateUserJwt(member.getMemberNum(), member.getRoles());
         MemberDefaultResDto response = new MemberDefaultResDto(member);
 
@@ -121,10 +118,13 @@ public class MemberController {
     @PostMapping("/logout")
     public ResponseEntity<DefaultResDto<Object>> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
+        log.info("id!!: " + session.getId());
 
         if (session != null) {
+            log.info("memberNum: " + session.getAttribute("memberNum").toString());
             log.info("popped!!!!!!!!!!");
             session.invalidate();
+//            session.getAttribute("memberNum");
         } else {
             log.info("asodfnasodf");
         }
