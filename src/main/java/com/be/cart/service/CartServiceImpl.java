@@ -4,7 +4,6 @@ import com.be.cart.domain.CartDataVO;
 import com.be.cart.dto.req.CartItemReqDto;
 import com.be.cart.dto.res.CartItemResDto;
 import com.be.cart.mapper.CartMapper;
-import com.be.common.event.SessionExpiredEvent;
 import com.be.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,10 +34,7 @@ public class CartServiceImpl implements CartService {
             }
         }
 
-//        CartItemVO cartVO = cartItemReqDto.toVO();
-//        cartMapper.addCartItem(cartVO);
         CartItemResDto cartResDto = CartItemResDto.of(cartItemReqDto);
-
         sessionCartItems.add(cartResDto);
 
         return sessionCartItems;
@@ -63,14 +59,13 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void updateCartItem(SessionExpiredEvent event) {
-        List<CartDataVO> updatedCartList = event.getCartList().stream().map(CartItemResDto::toVO).toList();
-        List<CartDataVO> dbCartList = cartMapper.getCartDataList(event.getMemberNum());
+    public void updateCartItem(List<CartItemResDto> cartList, Long memberNum) {
+        List<CartDataVO> updatedCartList = cartList.stream().map(CartItemResDto::toVO).toList();
+        List<CartDataVO> dbCartList = cartMapper.getCartDataList(memberNum);
 
         for (CartDataVO cartData : updatedCartList) {
             boolean isInDB = dbCartList.stream()
                     .anyMatch(dbItem -> dbItem.getProductId() == cartData.getProductId());
-
             if(!isInDB) {
                 cartMapper.addCartItem(cartData);
             }
@@ -81,7 +76,7 @@ public class CartServiceImpl implements CartService {
                     .anyMatch(cartItem -> cartItem.getProductId() == cartData.getProductId());
 
             if (!isInSession) {
-                cartMapper.deleteCartItem(cartData.getProductId());
+                cartMapper.deleteCartItem(cartData.getCartId());
             }
         }
     }

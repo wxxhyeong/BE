@@ -61,11 +61,6 @@
         FROM cartitem
         WHERE memberNum = #{memberNum}
     </select>
-
-    <!--    <select id="getCartItemList" resultType="com.be.cart.domain.CartItemVO">-->
-<!--        select * from cartitem-->
-<!--        where memberNum = #{memberNum}-->
-<!--    </select>-->
     <insert id="addCartItem" useGeneratedKeys="true" keyProperty="cartId">
         insert into cartitem (productID, memberNum)
         values (#{productId}, #{memberNum})
