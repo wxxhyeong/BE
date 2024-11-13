@@ -1,5 +1,6 @@
 package com.be.cart.dto.res;
 
+import com.be.cart.domain.CartDataVO;
 import com.be.cart.domain.CartItemVO;
 import com.be.cart.dto.req.CartItemReqDto;
 import com.be.portfolio.domain.PortfolioItemVO;
@@ -49,16 +50,11 @@ public class CartItemResDto {
                 .build();
     }
 
-    public static CartItemVO toVO(CartItemResDto cartItemResDto) {
-        return CartItemVO.builder()
+    public static CartDataVO toVO(CartItemResDto cartItemResDto) {
+        return CartDataVO.builder()
                 .cartId(cartItemResDto.getCartId())
                 .productId(cartItemResDto.getProductId())
                 .memberNum(cartItemResDto.getMemberNum())
-                .productType(cartItemResDto.getProductType())
-                .provider(cartItemResDto.getProvider())
-                .productName(cartItemResDto.getProductName())
-                .expectedReturn(cartItemResDto.getExpectedReturn())
-                .rsrvType(cartItemResDto.getRsrvType())
                 .build();
     }
 }

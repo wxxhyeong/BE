@@ -160,16 +160,25 @@ CREATE TABLE `PortfolioItem`
     FOREIGN KEY (`productID`) REFERENCES `product` (`productID`) ON UPDATE CASCADE
 );
 
+# CREATE TABLE `CartItem` -> 기존 cart table
+# (
+#     `cartID`         INT             NOT NULL AUTO_INCREMENT PRIMARY KEY,
+#     `productID`      INT             NOT NULL, -- 상품ID
+#     `memberNum`      BIGINT UNSIGNED NOT NULL, -- 사용자고유번호
+#     `productType`    CHAR(1)         NOT NULL, -- 상품종류
+#     `provider`       VARCHAR(100)    NULL,     -- 제공자
+#     `productName`    VARCHAR(100)    NOT NULL, -- 상품명
+#     `expectedReturn` DECIMAL(5, 2)   NULL,     -- 수익률
+#     `rsrvType`       VARCHAR(10)     NULL,     -- 적립유형
+#     FOREIGN KEY (`productID`) REFERENCES `product` (`productID`) ON DELETE CASCADE ON UPDATE CASCADE,
+#     FOREIGN KEY (`memberNum`) REFERENCES `member` (`member_Num`) ON DELETE CASCADE ON UPDATE CASCADE
+# );
+
 CREATE TABLE `CartItem`
 (
     `cartID`         INT             NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `productID`      INT             NOT NULL, -- 상품ID
     `memberNum`      BIGINT UNSIGNED NOT NULL, -- 사용자고유번호
-    `productType`    CHAR(1)         NOT NULL, -- 상품종류
-    `provider`       VARCHAR(100)    NULL,     -- 제공자
-    `productName`    VARCHAR(100)    NOT NULL, -- 상품명
-    `expectedReturn` DECIMAL(5, 2)   NULL,     -- 수익률
-    `rsrvType`       VARCHAR(10)     NULL,     -- 적립유형
     FOREIGN KEY (`productID`) REFERENCES `product` (`productID`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`memberNum`) REFERENCES `member` (`member_Num`) ON DELETE CASCADE ON UPDATE CASCADE
 );

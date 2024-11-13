@@ -75,8 +75,6 @@ public class MemberController {
                         .build());
     }
 
-
-
     // 투자 성향 점수 업데이트 요청 처리
     @PostMapping("/investPreference")
     public ResponseEntity<String> updateInvestPreference(@RequestBody InvestPreferenceReqDto request, HttpServletRequest servletRequest) {
@@ -120,10 +118,15 @@ public class MemberController {
     @PostMapping("/logout")
     public ResponseEntity<DefaultResDto<Object>> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
+        log.info("id!!: " + session.getId());
 
         if (session != null) {
-            session.removeAttribute("cartList");
+            log.info("memberNum: " + session.getAttribute("memberNum").toString());
+            log.info("popped!!!!!!!!!!");
             session.invalidate();
+//            session.getAttribute("memberNum");
+        } else {
+            log.info("asodfnasodf");
         }
         return ResponseEntity.status(USER_LOGOUT.getHttpStatus())
                 .body(DefaultResDto.noDataBuilder()

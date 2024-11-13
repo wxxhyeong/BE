@@ -10,14 +10,60 @@
         <result column="productID" property="productId"/>
         <result column="memberNum" property="memberNum"/>
     </resultMap>
-
     <select id="getCartItemList" resultType="com.be.cart.domain.CartItemVO">
-        select * from cartitem
-        where memberNum = #{memberNum}
+        SELECT
+            c.cartID,
+            c.productID,
+            c.memberNum,
+            p.productType,
+            CASE
+                WHEN p.productType = 'S' THEN s.kor_co_nm
+                WHEN p.productType = 'B' THEN b.bondIsurNm
+                WHEN p.productType = 'F' THEN f.company_nm
+                END AS provider,
+            CASE
+                WHEN p.productType = 'S' THEN s.fin_prdt_nm
+                WHEN p.productType = 'B' THEN b.isinCdNm
+                WHEN p.productType = 'F' THEN f.product_nm
+                END AS productName,
+            CASE
+                WHEN p.productType = 'S' THEN ANY_VALUE(sr.intr_rate2)
+                WHEN p.productType = 'B' THEN b.bondSrfcInrt
+                WHEN p.productType = 'F' THEN f.yield_12
+                END AS expectedReturn,
+            ANY_VALUE(sr.rsrv_type) AS rsrv_type
+        FROM
+            cartitem c
+                LEFT OUTER JOIN
+            product p ON c.productID = p.productID
+                LEFT OUTER JOIN
+            fundproduct f ON c.productID = f.productID
+                LEFT OUTER JOIN
+            bondproduct b ON c.productID = b.productID
+                LEFT OUTER JOIN
+            savingsproduct s ON c.productID = s.productID
+                LEFT OUTER JOIN
+            savingproductrates sr ON c.productID = sr.productID
+                AND sr.save_trm = 12
+                AND sr.intr_rate2 = (
+                    SELECT MAX(sr2.intr_rate2)
+                    FROM savingproductrates sr2
+                    WHERE sr2.productID = sr.productID
+                      AND sr2.save_trm = 12
+                )
+        WHERE
+            c.memberNum = #{memberNum}
+        GROUP BY
+            c.cartID, c.productID
+    </select>
+    <select id="getCartDataList" resultType="com.be.cart.domain.CartDataVO">
+        SELECT *
+        FROM cartitem
+        WHERE memberNum = #{memberNum}
     </select>
     <insert id="addCartItem" useGeneratedKeys="true" keyProperty="cartId">
-        insert into cartitem (productID, memberNum, productType, provider, productName, expectedReturn, rsrvType)
-        values (#{productId}, #{memberNum}, #{productType}, #{provider}, #{productName}, #{expectedReturn}, #{rsrvType})
+        insert into cartitem (productID, memberNum)
+        values (#{productId}, #{memberNum})
     </insert>
 
     <delete id="deleteCartItem">
