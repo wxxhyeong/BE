@@ -9,4 +9,5 @@ public interface CartService {
     List<CartItemResDto> initCartList(long memberNum);
     List<CartItemResDto> addCartItem(List<CartItemResDto> cartList, CartItemReqDto cartItem);
     List<CartItemResDto> deleteCartItem(List<CartItemResDto> cartList, int cartId);
+    void updateCartItem(List<CartItemResDto> cartList, Long memberNum);
 }

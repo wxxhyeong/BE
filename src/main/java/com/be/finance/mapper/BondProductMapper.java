@@ -12,8 +12,8 @@ public interface BondProductMapper {
     void insertBondProduct(BondProductVO bondProductVO);
     void updateBondProductPrice(BondProductVO bondProductVO);
 
-    // 전체 채권 리스트 조회
-    List<BondProductVO> getBondProductsList();
+    // 전체 채권 리스트 조회 (정렬 추가)
+    List<BondProductVO> getBondProductsList(@Param("sortField") String sortField, @Param("sortOrder") String sortOrder);
 
     // 채권 검색 리스트 조회
     List<BondProductVO> searchBondProducts(@Param("keyword") String keyword);

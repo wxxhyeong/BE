@@ -46,6 +46,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     @Override
     public PortfolioResDto createPortfolio(List<Object> portfolioItems, String portfolioName, long memberNum) {
+        log.info("service portfolio create");
         PortfolioReqDto portfolio = new PortfolioReqDto();
         portfolio.setMemberNum(memberNum);
         portfolio.setPortfolioName(portfolioName);
@@ -54,7 +55,7 @@ public class PortfolioServiceImpl implements PortfolioService {
         PortfolioVO vo = portfolio.toVo();
         portfolioMapper.insertPortfolio(vo);
         int portfolioId = vo.getPortfolioId();
-
+        log.info("@@@@@@@@" + String.valueOf(portfolioId));
         for(PortfolioItemReqDto portfolioItem : portfolio.getPortfolioItems()) {
             portfolioItem.setPortfolioId(portfolioId);
             portfolioMapper.insertPortfolioItem(portfolioItem.toVo());
@@ -63,6 +64,7 @@ public class PortfolioServiceImpl implements PortfolioService {
         PortfolioResDto resDto = PortfolioResDto.of(vo);
         resDto.setPortfolioItems(getPortfolioItems(portfolioId));
         resDto.setPortion(calculatePortion(resDto.getPortfolioItems()));
+        log.info(resDto.toString());
 
         return resDto;
     }

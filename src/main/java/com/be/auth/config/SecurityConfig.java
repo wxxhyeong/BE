@@ -23,7 +23,7 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 @EnableWebSecurity
 @Log4j
-@ComponentScan(basePackages  = {"com.be"})
+@ComponentScan(basePackages = {"com.be"})
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -38,32 +38,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
-                .httpBasic().disable()
-                .csrf().disable()
-                .cors()
-                .and()
-                .sessionManagement()
-
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/**", "/home").permitAll()
-                .antMatchers("/api/hit/**").permitAll()
-                .antMatchers("/api/recentView/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/member/login", "/api/member/register").permitAll()
-//                 테스트
-//                .antMatchers(HttpMethod.GET, "/api/cart", "/api/portfolio/**", "/api/recentView/**").permitAll()
-//                .antMatchers(HttpMethod.POST, "/api/cart", "/api/portfolio/**", "/api/recentView/**").permitAll()
-//                .antMatchers(HttpMethod.DELETE, "/api/cart/**", "/api/portfolio/**").permitAll()
-////
-
-                .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling()
-                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
-
-
+            .httpBasic().disable()
+            .csrf().disable()
+            .cors()
+            .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+            .and()
+            .authorizeRequests()
+            .antMatchers("/**", "/home").permitAll()
+            .antMatchers("/api/hit/**").permitAll()
+            .antMatchers("/api/recentView/**").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/member/login", "/api/member/register").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .exceptionHandling()
+            .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
     }
 
     @Bean

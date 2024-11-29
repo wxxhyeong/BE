@@ -54,9 +54,17 @@ public class FundProductController {
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> getFundProductsList(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int pageSize) {
-        Map<String, Object> fundProducts = fundProductService.getFundProductsList(page, pageSize);
-        return ResponseEntity.ok(fundProducts);
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "company_nm") String sortField,
+            @RequestParam(defaultValue = "asc") String sortOrder) {
+        try {
+            Map<String, Object> fundProducts = fundProductService.getFundProductsList(page, pageSize, sortField, sortOrder);
+            System.out.println("성공");
+            return ResponseEntity.ok(fundProducts);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
     }
 
     // 검색어 기반 펀드 상품 검색

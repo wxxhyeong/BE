@@ -32,6 +32,8 @@ public class PortfolioController {
 
     @PostMapping
     public ResponseEntity<PortfolioResDto> createPortfolio(@RequestBody @Valid List<Object> portfolioItems, @RequestParam String portfolioName, HttpServletRequest request) {
+        log.info("how many request come");
+        log.info(ResponseEntity.ok(portfolioService.createPortfolio(portfolioItems, portfolioName, jwtUtils.extractMemberNum(request))).toString());
         return ResponseEntity.ok(portfolioService.createPortfolio(portfolioItems, portfolioName, jwtUtils.extractMemberNum(request)));
     }
 

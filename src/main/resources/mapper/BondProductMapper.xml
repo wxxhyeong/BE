@@ -65,7 +65,22 @@
 
     <!-- 채권 상품 조회 -->
     <select id="getBondProductsList" resultType="com.be.finance.domain.BondProductVO">
-        SELECT * FROM bond_product
+        SELECT * FROM BondProduct
+        <if test="sortField != null and sortOrder != null">
+            ORDER BY
+                <choose>
+                    <when test="sortField == 'bondIsurNm'">bond_isur_nm</when>
+                    <when test="sortField == 'isinCdNm'">isin_cd_nm</when>
+                    <when test="sortField == 'bondIssuDt'">bond_issu_dt</when>
+                    <when test="sortField == 'bondSrfcInrt'">bond_srfc_inrt</when>
+                    <otherwise>product_id</otherwise>
+                </choose>
+                <choose>
+                    <when test="sortOrder == 'asc'">ASC</when>
+                    <when test="sortOrder == 'desc'">DESC</when>
+                    <otherwise>ASC</otherwise> <!-- 기본 정렬 순서 -->
+                </choose>
+        </if>
     </select>
 
     <!-- 채권 상품 검색 -->

@@ -174,6 +174,15 @@ CREATE TABLE `CartItem`
     FOREIGN KEY (`member_num`) REFERENCES `member` (`member_num`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- CREATE TABLE `CartItem`
+-- (
+--     `cartID`         INT             NOT NULL AUTO_INCREMENT PRIMARY KEY,
+--     `productID`      INT             NOT NULL, -- 상품ID
+--     `memberNum`      BIGINT UNSIGNED NOT NULL, -- 사용자고유번호
+--     FOREIGN KEY (`productID`) REFERENCES `product` (`productID`) ON DELETE CASCADE ON UPDATE CASCADE,
+--     FOREIGN KEY (`memberNum`) REFERENCES `member` (`member_Num`) ON DELETE CASCADE ON UPDATE CASCADE
+-- );
+
 CREATE TABLE AgeGroupProductHits
 (
     hit_num   INT auto_increment primary KEY,

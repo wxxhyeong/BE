@@ -16,6 +16,22 @@
     <!-- 펀드 상품 조회 -->
     <select id="getFundProductsList" resultType="com.be.finance.domain.FundProductVO">
         SELECT * FROM FundProduct
+        <if test="sortField != null and sortOrder != null">
+            ORDER BY
+                <choose>
+                    <when test="sortField == 'company_nm'">company_nm</when>
+                    <when test="sortField == 'product_nm'">product_nm</when>
+                    <when test="sortField == 'fund_type'">fund_type</when>
+                    <when test="sortField == 'risk_level'">RiskLevel</when>
+                    <when test="sortField == 'yield_12'">yield_12</when>
+                    <otherwise>productId</otherwise>
+                </choose>
+                <choose>
+                    <when test="sortOrder == 'asc'">ASC</when>
+                    <when test="sortOrder == 'desc'">DESC</when>
+                    <otherwise>ASC</otherwise>
+                </choose>
+        </if>
     </select>
 
     <!-- 검색어 기반펀드 상품 조회 -->

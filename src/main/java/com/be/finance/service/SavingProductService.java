@@ -196,9 +196,9 @@ public class SavingProductService {
     }
 
     // 예금 리스트
-    public Map<String, Object> getDepositProducts(int page, int pageSize) {
+    public Map<String, Object> getDepositProducts(int page, int pageSize, String sortField, String sortOrder) {
         // 예금 상품 조회
-        List<SavingProductVO> depositProducts = savingProductMapper.getDepositProducts();
+        List<SavingProductVO> depositProducts = savingProductMapper.getDepositProducts(sortField, sortOrder);
 
         Map<String, Object> paginatedProducts = paginationService.paginate(depositProducts, page, pageSize);
 
@@ -255,9 +255,9 @@ public class SavingProductService {
     }
 
     // 전체 적금 리스트
-    public Map<String, Object> getSavingProducts(int page, int pageSize) {
+    public Map<String, Object> getSavingProducts(int page, int pageSize, String sortField, String sortOrder) {
         // 적금 상품 조회
-        List<SavingProductVO> savingProducts = savingProductMapper.getSavingProducts();
+        List<SavingProductVO> savingProducts = savingProductMapper.getSavingProducts(sortField, sortOrder);
 
         Map<String, Object> paginatedProducts = paginationService.paginate(savingProducts, page, pageSize);
 
