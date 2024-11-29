@@ -24,7 +24,7 @@
     </select>
 
     <update id="updateInvestScoreAndPreference">
-        UPDATE Member
+        UPDATE member
         SET invest_score = #{investScore}, preference = #{preference}
         WHERE member_num = #{memberNum}
     </update>
@@ -32,7 +32,7 @@
     <!-- 회원 정보를 member_num을 기준으로 조회 -->
     <select id="findOneByMemberNumInvest" parameterType="long" resultType="Member">
         SELECT member_num, invest_score, preference
-        FROM Member
+        FROM member
         WHERE member_num = #{memberNum}
     </select>
 
@@ -48,7 +48,7 @@
 
     <!-- 사용자의 투자성향 조회 -->
     <select id="findPreferenceByMemberNum" parameterType="long" resultType="int">
-        SELECT preference FROM Member
+        SELECT preference FROM member
         WHERE member_num = #{memberNum}
     </select>
 </mapper>
