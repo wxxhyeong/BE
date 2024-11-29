@@ -7,8 +7,8 @@
 
     <!-- SavingProduct 테이블에 데이터 삽입 -->
     <insert id="insertSavingProduct" parameterType="com.be.finance.domain.SavingProductVO">
-        INSERT INTO SavingsProduct (
-            ProductID, dcls_month, fin_co_no, kor_co_nm, fin_prdt_nm,
+        INSERT INTO saving_product (
+            product_id, dcls_month, fin_co_no, kor_co_nm, fin_prdt_nm,
             join_way, mtrt_int, spcl_cnd, join_deny, join_member, etc_note,
             max_limit, dcls_strt_day, dcls_end_day, hit, fin_prdt_cd
         ) VALUES (
@@ -21,8 +21,8 @@
 
     <!-- SavingProductRates 테이블에 데이터 삽입 -->
     <insert id="insertSavingProductRate" parameterType="com.be.finance.domain.SavingProductRatesVO">
-        INSERT INTO SavingProductRates (
-            ProductID, save_trm, intr_rate_type, intr_rate_type_nm,
+        INSERT INTO saving_product_rate (
+            product_id, save_trm, intr_rate_type, intr_rate_type_nm,
             intr_rate, intr_rate2, rsrv_type, rsrv_type_nm
         ) VALUES (
                      #{productId}, #{saveTrm}, #{intrRateType}, #{intrRateTypeNm},
@@ -34,14 +34,14 @@
     <!-- 전체 예금 상품 조회 -->
     <select id="getDepositProducts" resultType="com.be.finance.domain.SavingProductVO">
         SELECT *
-        FROM SavingsProduct
+        FROM saving_product
         WHERE fin_prdt_nm LIKE '%예금%'
         <if test="sortField != null and sortOrder != null">
             ORDER BY
                 <choose>
                     <when test="sortField == 'kor_co_nm'">kor_co_nm</when>
                     <when test="sortField == 'fin_prdt_nm'">fin_prdt_nm</when>
-                    <otherwise>productId</otherwise>
+                    <otherwise>product_id</otherwise>
                 </choose>
                 <choose>
                     <when test="sortOrder == 'asc'">ASC</when>
@@ -54,14 +54,14 @@
     <!-- 전체 적금 상품 조회 -->
     <select id="getSavingProducts" resultType="com.be.finance.domain.SavingProductVO">
         SELECT *
-        FROM SavingsProduct
+        FROM saving_product
         WHERE fin_prdt_nm LIKE '%적금%'
         <if test="sortField != null and sortOrder != null">
             ORDER BY
                 <choose>
                     <when test="sortField == 'kor_co_nm'">kor_co_nm</when>
                     <when test="sortField == 'fin_prdt_nm'">fin_prdt_nm</when>
-                    <otherwise>productId</otherwise>
+                    <otherwise>product_id</otherwise>
                 </choose>
                 <choose>
                     <when test="sortOrder == 'asc'">ASC</when>
@@ -74,58 +74,58 @@
     <!-- 예금 상품 금리 정보 조회 (rsrv_type IS NULL) -->
     <select id="getDepositRates" resultType="com.be.finance.domain.SavingProductRatesVO">
         SELECT *
-        FROM SavingProductRates
+        FROM saving_product_rate
         WHERE rsrv_type LIKE "NULL";
     </select>
 
     <!-- 적금 상품 금리 정보 조회 (rsrv_type IS NOT NULL) -->
     <select id="getSavingRates" resultType="com.be.finance.domain.SavingProductRatesVO">
         SELECT *
-        FROM SavingProductRates
+        FROM saving_product_rate
         WHERE rsrv_type NOT LIKE "NULL";
     </select>
 
     <!-- 예금 상품 검색 -->
     <select id="searchDepositProducts" resultType="com.be.finance.domain.SavingProductVO">
         SELECT *
-        FROM SavingsProduct
-        WHERE fin_prdt_nm LIKE #{keyword} AND productID IN (SELECT productID
-                                                            FROM SavingProductRates
+        FROM saving_product
+        WHERE fin_prdt_nm LIKE #{keyword} AND product_id IN (SELECT product_id
+                                                            FROM saving_product_rate
                                                             WHERE rsrv_type LIKE "NULL");
     </select>
 
     <!-- 검색된 예금 상품 기간별 수익률 조회 -->
     <select id="searchDepositRatesProducts" resultType="com.be.finance.domain.SavingProductRatesVO">
         SELECT *
-        FROM SavingProductRates
-        WHERE rsrv_type LIKE "NULL" AND productID IN (SELECT productID
-                            FROM SavingsProduct
+        FROM saving_product_rate
+        WHERE rsrv_type LIKE "NULL" AND product_id IN (SELECT product_id
+                            FROM saving_product
                             WHERE fin_prdt_nm LIKE #{keyword});
     </select>
 
     <!-- 적금 상품 검색 -->
     <select id="searchSavingProducts" resultType="com.be.finance.domain.SavingProductVO">
         SELECT *
-        FROM SavingsProduct
-        WHERE fin_prdt_nm LIKE #{keyword} AND productID IN (SELECT productID
-                                                            FROM SavingProductRates
+        FROM saving_product
+        WHERE fin_prdt_nm LIKE #{keyword} AND product_id IN (SELECT product_id
+                                                            FROM saving_product_rate
                                                             WHERE rsrv_type NOT LIKE "NULL");
     </select>
 
     <!-- 검색된 적금 상품 기간별 수익률 조회 -->
     <select id="searchSavingRatesProducts" resultType="com.be.finance.domain.SavingProductRatesVO">
         SELECT *
-        FROM SavingProductRates
-        WHERE rsrv_type NOT LIKE "NULL" AND productID IN (SELECT productID
-                                                          FROM SavingsProduct
+        FROM saving_product_rate
+        WHERE rsrv_type NOT LIKE "NULL" AND product_id IN (SELECT product_id
+                                                          FROM saving_product
                                                           WHERE fin_prdt_nm LIKE #{keyword});
     </select>
 
     <!-- 페이징된 예금 상품 ID를 기반으로 기간별 금리 조회 -->
     <select id="getDepositRatesByProductIds" resultType="com.be.finance.domain.SavingProductRatesVO">
         SELECT *
-        FROM SavingProductRates
-        WHERE productId IN
+        FROM saving_product_rate
+        WHERE product_id IN
         <foreach collection="productIds" item="productId" open="(" separator="," close=")">
             #{productId}
         </foreach>
@@ -134,8 +134,8 @@
     <!-- 페이징된 적금 상품 ID를 기반으로 기간별 금리 조회 -->
     <select id="getSavingRatesByProductIds" resultType="com.be.finance.domain.SavingProductRatesVO">
         SELECT *
-        FROM SavingProductRates
-        WHERE productId IN
+        FROM saving_product_rate
+        WHERE product_id IN
         <foreach collection="productIds" item="productId" open="(" separator="," close=")">
             #{productId}
         </foreach>
@@ -144,8 +144,8 @@
     <!-- 페이징된 예금 상품 ID를 기반으로 기간별 금리 조회 -->
     <select id="searchDepositRatesByProductIds" resultType="com.be.finance.domain.SavingProductRatesVO">
         SELECT *
-        FROM SavingProductRates
-        WHERE productId IN
+        FROM saving_product_rate
+        WHERE product_id IN
         <foreach collection="productIds" item="productId" open="(" separator="," close=")">
             #{productId}
         </foreach>
@@ -154,8 +154,8 @@
     <!-- 페이징된 적금 상품 ID를 기반으로 기간별 금리 조회 -->
     <select id="searchSavingRatesByProductIds" resultType="com.be.finance.domain.SavingProductRatesVO">
         SELECT *
-        FROM SavingProductRates
-        WHERE productId IN
+        FROM saving_product_rate
+        WHERE product_id IN
         <foreach collection="productIds" item="productId" open="(" separator="," close=")">
             #{productId}
         </foreach>
@@ -164,34 +164,34 @@
     <!-- 예금 상품 상세 조회 -->
     <select id="getDepositProductDetail" resultType="com.be.finance.domain.SavingProductVO">
         SELECT *
-        FROM SavingsProduct
-        WHERE productId = #{productId};
+        FROM saving_product
+        WHERE product_id = #{productId};
     </select>
 
     <!-- 예금 상품 기간별 수익률 상세 조회 -->
     <select id="getDepositProductRatesDetail" resultType="com.be.finance.domain.SavingProductRatesVO">
         SELECT *
-        FROM SavingProductRates
-        WHERE productId = #{productId};
+        FROM saving_product_rate
+        WHERE product_id = #{productId};
     </select>
 
     <!-- 적금 상품 상세 조회 -->
     <select id="getSavingProductDetail" resultType="com.be.finance.domain.SavingProductVO">
         SELECT *
-        FROM SavingsProduct
-        WHERE productId = #{productId};
+        FROM saving_product
+        WHERE product_id = #{productId};
     </select>
 
     <!-- 적금 상품 기간별 수익률 상세 조회 -->
     <select id="getSavingProductRatesDetail" resultType="com.be.finance.domain.SavingProductRatesVO">
         SELECT *
-        FROM SavingProductRates
-        WHERE productId = #{productId};
+        FROM saving_product_rate
+        WHERE product_id = #{productId};
     </select>
 
     <select id="findByProductId" resultType="com.be.finance.domain.SavingProductVO">
         SELECT *
-        FROM SavingsProduct
-        WHERE productId = #{productId};
+        FROM saving_product
+        WHERE product_id = #{productId};
     </select>
 </mapper>
