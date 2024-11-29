@@ -8,29 +8,29 @@
     <!-- 상품 ID와 연령대에 따른 조회수 레코드 조회 -->
     <select id="findByAgeGroupAndProductId" parameterType="map" resultType="com.be.hit.domain.AgeGroupProductHits">
         SELECT *
-        FROM AgeGroupProductHits
+        FROM age_group_product_hits
         WHERE age_group = #{ageGroup}
-          AND productID = #{productId}
+          AND product_id = #{productId}
     </select>
 
     <!-- 새로운 조회수 레코드 추가 -->
     <insert id="insert" parameterType="com.be.hit.domain.AgeGroupProductHits">
-        INSERT INTO AgeGroupProductHits (age_group, productID, hit)
+        INSERT INTO age_group_product_hits (age_group, product_id, hit)
         VALUES (#{ageGroup}, #{productId}, #{hitCount})
     </insert>
 
     <!-- 기존 조회수 레코드 업데이트 -->
     <update id="update" parameterType="com.be.hit.domain.AgeGroupProductHits">
-        UPDATE AgeGroupProductHits
+        UPDATE age_group_product_hits
         SET hit = hit + 1
         WHERE age_group = #{ageGroup}
-          AND productID = #{productId}
+          AND product_id = #{productId}
     </update>
 
     <!-- 연령대별 상위 3개 상품 조회 -->
     <select id="findTop3ByAgeGroup" resultType="int">
-        SELECT productID
-        FROM AgeGroupProductHits
+        SELECT product_id
+        FROM age_group_product_hits
         WHERE age_group = #{ageGroup}
         ORDER BY hit DESC
             LIMIT 3;
