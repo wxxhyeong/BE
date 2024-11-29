@@ -6,68 +6,68 @@
 <!-- MyBatis 매퍼 설정 파일 -->
 <mapper namespace="com.be.cart.mapper.CartMapper">
     <resultMap id="cartItemMap" type="com.be.cart.domain.CartItemVO">
-        <id column="cartID" property="cartId"/>
-        <result column="productID" property="productId"/>
-        <result column="memberNum" property="memberNum"/>
+        <id column="cart_id" property="cartId"/>
+        <result column="product_id" property="productId"/>
+        <result column="member_num" property="member_num"/>
     </resultMap>
     <select id="getCartItemList" resultType="com.be.cart.domain.CartItemVO">
         SELECT
-            c.cartID,
-            c.productID,
-            c.memberNum,
-            p.productType,
+            c.cart_id,
+            c.product_id,
+            c.member_num,
+            p.product_type,
             CASE
-                WHEN p.productType = 'S' THEN s.kor_co_nm
-                WHEN p.productType = 'B' THEN b.bondIsurNm
-                WHEN p.productType = 'F' THEN f.company_nm
+                WHEN p.product_type = 'S' THEN s.kor_co_nm
+                WHEN p.product_type = 'B' THEN b.bond_isur_nm
+                WHEN p.product_type = 'F' THEN f.company_nm
                 END AS provider,
             CASE
-                WHEN p.productType = 'S' THEN s.fin_prdt_nm
-                WHEN p.productType = 'B' THEN b.isinCdNm
-                WHEN p.productType = 'F' THEN f.product_nm
-                END AS productName,
+                WHEN p.product_type = 'S' THEN s.fin_prdt_nm
+                WHEN p.product_type = 'B' THEN b.isin_cd_nm
+                WHEN p.product_type = 'F' THEN f.product_nm
+                END AS product_name,
             CASE
-                WHEN p.productType = 'S' THEN ANY_VALUE(sr.intr_rate2)
-                WHEN p.productType = 'B' THEN b.bondSrfcInrt
-                WHEN p.productType = 'F' THEN f.yield_12
+                WHEN p.product_type = 'S' THEN ANY_VALUE(sr.intr_rate2)
+                WHEN p.product_type = 'B' THEN b.bond_srfc_inrt
+                WHEN p.product_type = 'F' THEN f.yield_12
                 END AS expectedReturn,
             ANY_VALUE(sr.rsrv_type) AS rsrv_type
         FROM
-            cartitem c
+            cart_item c
                 LEFT OUTER JOIN
-            product p ON c.productID = p.productID
+            product p ON c.product_id = p.product_id
                 LEFT OUTER JOIN
-            fundproduct f ON c.productID = f.productID
+            fund_product f ON c.product_id = f.product_id
                 LEFT OUTER JOIN
-            bondproduct b ON c.productID = b.productID
+            bond_product b ON c.product_id = b.product_id
                 LEFT OUTER JOIN
-            savingsproduct s ON c.productID = s.productID
+            saving_product s ON c.product_id = s.product_id
                 LEFT OUTER JOIN
-            savingproductrates sr ON c.productID = sr.productID
+            saving_product_rate sr ON c.product_id = sr.product_id
                 AND sr.save_trm = 12
                 AND sr.intr_rate2 = (
                     SELECT MAX(sr2.intr_rate2)
-                    FROM savingproductrates sr2
-                    WHERE sr2.productID = sr.productID
+                    FROM saving_product_rate sr2
+                    WHERE sr2.product_id = sr.product_id
                       AND sr2.save_trm = 12
                 )
         WHERE
-            c.memberNum = #{memberNum}
+            c.member_num = #{memberNum}
         GROUP BY
-            c.cartID, c.productID
+            c.cart_id, c.product_id
     </select>
     <select id="getCartDataList" resultType="com.be.cart.domain.CartDataVO">
         SELECT *
-        FROM cartitem
-        WHERE memberNum = #{memberNum}
+        FROM cart_item
+        WHERE member_num = #{memberNum}
     </select>
     <insert id="addCartItem" useGeneratedKeys="true" keyProperty="cartId">
-        insert into cartitem (productID, memberNum)
+        insert into cart_item (product_id, member_num)
         values (#{productId}, #{memberNum})
     </insert>
 
     <delete id="deleteCartItem">
-        delete from cartitem
-        where cartID = #{cartId}
+        delete from cart_item
+        where cart_id = #{cartId}
     </delete>
 </mapper>

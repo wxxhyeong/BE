@@ -1,5 +1,4 @@
-create database cross_fit;
-USE CROSS_FIT;
+use crossfit_mysql;
 
 create table member
 (
@@ -160,7 +159,7 @@ CREATE TABLE `portfolio_item`
     FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON UPDATE CASCADE
 );
 
-CREATE TABLE `CartItem`
+CREATE TABLE `cart_item`
 (
     `cart_id`         INT             NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `product_id`      INT             NOT NULL, -- 상품ID
@@ -183,7 +182,7 @@ CREATE TABLE `CartItem`
 --     FOREIGN KEY (`memberNum`) REFERENCES `member` (`member_Num`) ON DELETE CASCADE ON UPDATE CASCADE
 -- );
 
-CREATE TABLE AgeGroupProductHits
+CREATE TABLE age_group_product_hits
 (
     hit_num   INT auto_increment primary KEY,
     product_id INT,
@@ -192,13 +191,13 @@ CREATE TABLE AgeGroupProductHits
     FOREIGN KEY (product_id) REFERENCES product (product_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE PreferenceProductHits
+CREATE TABLE preference_product_hits
 (
     hit_num    INT auto_increment PRIMARY KEY,
     product_id  INT,
     preference INT,
     hit        INT NOT NULL,
-    foreign key (product_id) references Product (product_id) ON DELETE CASCADE ON UPDATE CASCADE
+    foreign key (product_id) references product (product_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE youtube
