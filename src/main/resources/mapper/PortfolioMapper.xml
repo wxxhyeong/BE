@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- MyBatis 매퍼 설정 파일 -->
+<mapper namespace="com.be.portfolio.mapper.PortfolioMapper">
+
+    <resultMap id="portfolioMap" type="com.be.portfolio.domain.PortfolioVO">
+        <id column="portfolio_id" property="portfolioId"/>
+        <result column="portfolio_name" property="portfolioName"/>
+        <result column="creation_date" property="creationDate"/>
+        <result column="total" property="total"/>
+        <result column="expected_return" property="expectedReturn"/>
+        <result column="risk_level" property="riskLevel"/>
+        <result column="member_num" property="memberNum"/>
+        <collection property="portfolio_items" resultMap="portfolioItemMap"/>
+    </resultMap>
+
+    <resultMap id="portfolioItemMap" type="com.be.portfolio.domain.PortfolioItemVO">
+        <id column="portfolio_item_id" property="portfolioItemId"/>
+        <result column="portfolio_id" property="portfolioId"/>
+        <result column="product_id" property="productId"/>
+        <result column="stock_code" property="stockCode"/>
+        <result column="amount" property="amount"/>
+        <result column="expected_return" property="expectedReturn"/>
+        <result column="risk_level" property="riskLevel"/>
+        <result column="product_type" property="productType"/>
+    </resultMap>
+
+    <select id="getPortfolio" resultType="com.be.portfolio.domain.PortfolioVO">
+        select * from portfolio
+        where portfolio_id = #{portfolioId}
+    </select>
+    <select id="getAllIds" resultType="java.lang.Integer">
+        select portfolio_id from portfolio;
+    </select>
+    <select id="getPortfolioList" resultType="com.be.portfolio.domain.PortfolioVO">
+        select * from portfolio
+        where member_num = #{memberNum}
+    </select>
+    <select id="getPortfolioItemList" resultType="com.be.portfolio.domain.PortfolioItemVO">
+        select * from portfolio_item
+        where portfolio_id = #{portfolioId}
+    </select>
+    <insert id="insertPortfolio" useGeneratedKeys="true" keyProperty="portfolioId">
+        insert into portfolio(portfolio_name, creation_date, total, expected_return, risk_level, member_num)
+        values(#{portfolioName}, CURRENT_TIMESTAMP, #{total}, #{expectedReturn}, #{riskLevel}, #{memberNum})
+    </insert>
+    <insert id="insertPortfolioItem">
+        insert into portfolioitem(portfolio_id, product_id, stock_code, amount, expected_return, risk_level, product_type)
+        values(#{portfolioId}, #{productId}, #{stockCode}, #{amount}, #{expectedReturn}, #{riskLevel}, #{productType})
+    </insert>
+    <update id="updatePortfolio">
+        update portfolio set total=#{total}, expected_return=#{expectedReturn}, risk_level=#{riskLevel} where portfolio_id=#{portfolioId}
+    </update>
+    <delete id="deletePortfolio">
+        delete from portfolio
+        where portfolio_id = #{portfolioId}
+    </delete>
+    <delete id="deletePortfolioItem">
+        delete from portfolio_item
+        where portfolio_id = #{portfolioId}
+    </delete>
+</mapper>

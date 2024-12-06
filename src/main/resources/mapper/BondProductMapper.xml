@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.be.finance.mapper.BondProductMapper">
+
+    <!-- 펀드 상품 삽입 -->
+<!--    <insert id="insertBondProduct" parameterType="com.be.finance.domain.BondProductVO">-->
+<!--        INSERT INTO BondProduct-->
+<!--        (-->
+<!--            productId, basDt, crno, scrsItmsKcd, isinCd, bondIsurNm, isinCdNm,-->
+<!--            bondIssuDt, bondIssuAmt, bondIssuCurCd, bondIssuCurCdNm, bondExprDt, bondPymtAmt,-->
+<!--            irtChngDcd, irtChngDcdNm, bondSrfcInrt, bondIntTcd, bondIntTcdNm, intPayCyclCtt,-->
+<!--            nxtmCopnDt, kbpScrsItmsKcdNm, niceScrsItmsKcdNm, fnScrsItmsKcdNm, clprPrc-->
+<!--            -->
+<!--        )-->
+<!--        VALUES-->
+<!--            (-->
+<!--                #{productId}, #{basDt}, #{crno}, #{scrsItmsKcd}, #{isinCd}, #{bondIsurNm}, #{isinCdNm},-->
+<!--                #{bondIssuDt}, #{bondIssuAmt}, #{bondIssuCurCd}, #{bondIssuCurCdNm}, #{bondExprDt}, #{bondPymtAmt},-->
+<!--                #{irtChngDcd}, #{irtChngDcdNm}, #{bondSrfcInrt}, #{bondIntTcd}, #{bondIntTcdNm}, #{intPayCyclCtt},-->
+<!--                #{nxtmCopnDt}, #{kbpScrsItmsKcdNm}, #{niceScrsItmsKcdNm}, #{fnScrsItmsKcdNm}, #{clprPrc}-->
+<!--                -->
+<!--            )-->
+<!--    </insert>-->
+    <insert id="insertBondProduct" parameterType="com.be.finance.domain.BondProductVO">
+        INSERT INTO bond_product
+        (
+            product_id, isin_cd, clpr_prc
+        )
+        VALUES
+        (
+            #{productId}, #{isinCd}, #{clprPrc}
+        )
+    </insert>
+
+    <update id="updateBondProductPrice" parameterType="com.be.finance.domain.BondProductVO">
+        UPDATE bond_product
+        SET
+            bas_dt = #{basDt},
+            crno = #{crno},
+            scrs_itms_kcd = #{scrsItmsKcd},
+            bond_isur_nm = #{bondIsurNm},
+            isin_cd_nm = #{isinCdNm},
+            bond_issu_dt = #{bondIssuDt},
+            bond_issu_amt = #{bondIssuAmt},
+            bond_issu_cur_cd = #{bondIssuCurCd},
+            bond_issu_cur_cd_nm = #{bondIssuCurCdNm},
+            bond_expr_dt = #{bondExprDt},
+            bond_pymt_amt = #{bondPymtAmt},
+            irt_chng_dcd = #{irtChngDcd},
+            irt_chng_dcd_nm = #{irtChngDcdNm},
+            bond_srfc_inrt = #{bondSrfcInrt},
+            bond_int_tcd = #{bondIntTcd},
+            bond_int_tcd_nm = #{bondIntTcdNm},
+            int_pay_cycl_ctt = #{intPayCyclCtt},
+            nxtm_copn_dt = #{nxtmCopnDt},
+            kbp_scrs_itms_kcd_nm = #{kbpScrsItmsKcdNm},
+            nice_scrs_itms_kcd_nm = #{niceScrsItmsKcdNm},
+            fn_scrs_itms_kcd_nm = #{fnScrsItmsKcdNm}
+        WHERE
+            isin_cd = #{isinCd};
+    </update>
+
+    <!-- 채권 상품 조회 -->
+    <select id="getBondProductsList" resultType="com.be.finance.domain.BondProductVO">
+        SELECT * FROM BondProduct
+        <if test="sortField != null and sortOrder != null">
+            ORDER BY
+                <choose>
+                    <when test="sortField == 'bondIsurNm'">bond_isur_nm</when>
+                    <when test="sortField == 'isinCdNm'">isin_cd_nm</when>
+                    <when test="sortField == 'bondIssuDt'">bond_issu_dt</when>
+                    <when test="sortField == 'bondSrfcInrt'">bond_srfc_inrt</when>
+                    <otherwise>product_id</otherwise>
+                </choose>
+                <choose>
+                    <when test="sortOrder == 'asc'">ASC</when>
+                    <when test="sortOrder == 'desc'">DESC</when>
+                    <otherwise>ASC</otherwise> <!-- 기본 정렬 순서 -->
+                </choose>
+        </if>
+    </select>
+
+    <!-- 채권 상품 검색 -->
+    <select id="searchBondProducts" resultType="com.be.finance.domain.BondProductVO">
+        SELECT *
+        FROM bond_product
+        WHERE isin_cd_nm LIKE #{keyword}
+    </select>
+
+    <!-- 특정 채권 상품 상세 정보 조회 -->
+    <select id="getBondProductDetail" resultType="com.be.finance.domain.BondProductVO">
+        SELECT *
+        FROM bond_product
+        WHERE productId = #{productId}
+    </select>
+
+    <select id="getNullProductIds" resultType="java.lang.String">
+        SELECT GROUP_CONCAT(product_id) AS deleted_ids
+        FROM bond_product
+        WHERE bas_dt IS NULL;
+    </select>
+
+    <!-- 기본 정보가 Null인 상품 제거 -->
+    <delete id="deleteNullProduct">
+        DELETE FROM bond_product
+        WHERE bas_dt IS NULL;
+    </delete>
+</mapper>
