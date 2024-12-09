@@ -9,10 +9,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/fund-products")  // API 엔드포인트
@@ -50,14 +52,34 @@ public class FundProductController {
 
     // 펀드 리스트 조회 API
     @GetMapping("/list")
-    public List<FundProductVO> getFundProductsList() {
-        return fundProductService.getFundProductsList();  // 펀드 상품 데이터를 가져와서 반환
+    public ResponseEntity<Map<String, Object>> getFundProductsList(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "company_nm") String sortField,
+            @RequestParam(defaultValue = "asc") String sortOrder) {
+        try {
+            Map<String, Object> fundProducts = fundProductService.getFundProductsList(page, pageSize, sortField, sortOrder);
+            System.out.println("성공");
+            return ResponseEntity.ok(fundProducts);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
     }
 
     // 검색어 기반 펀드 상품 검색
     @GetMapping("/search")
-    public ResponseEntity<List<FundProductVO>> searchFundProducts(@RequestParam String keyword) {
-        List<FundProductVO> results = fundProductService.searchFundProducts(keyword);
+    public ResponseEntity<Map<String, Object>> searchFundProducts(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int pageSize) {
+        Map<String, Object> results = fundProductService.searchFundProducts(keyword, page, pageSize);
         return ResponseEntity.ok(results);
+    }
+
+    // 펀드별 상세 페이지
+    @GetMapping("/list/{productId}")
+    public FundProductVO getFundProductDetail(@PathVariable int productId) {
+        return fundProductService.getFundProductDetail(productId);
     }
 }

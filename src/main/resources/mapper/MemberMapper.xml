@@ -6,7 +6,7 @@
 <mapper namespace="com.be.member.mapper.MemberMapper">
     <insert id = "insert" parameterType="Member">
         insert into member(member_id, member_name, email, password, birth,
-                         gender, reg_date)
+                           gender, reg_date)
         values (#{memberID}, #{memberName}, #{email}, #{password}, #{birth},
                 #{gender}, #{regDate});
     </insert>
@@ -23,4 +23,32 @@
         select * from member where member_num = #{memberNum};
     </select>
 
+    <update id="updateInvestScoreAndPreference">
+        UPDATE member
+        SET invest_score = #{investScore}, preference = #{preference}
+        WHERE member_num = #{memberNum}
+    </update>
+
+    <!-- 회원 정보를 member_num을 기준으로 조회 -->
+    <select id="findOneByMemberNumInvest" parameterType="long" resultType="Member">
+        SELECT member_num, invest_score, preference
+        FROM member
+        WHERE member_num = #{memberNum}
+    </select>
+
+    <update id="updatePassword" parameterType="Member">
+        update member set password = #{password} where member_num = #{memberNum};
+    </update>
+
+    <select id="getBirthDateByMemberNum" resultType="java.time.LocalDate">
+        SELECT birth
+        FROM member
+        WHERE member_num = #{memberNum}
+    </select>
+
+    <!-- 사용자의 투자성향 조회 -->
+    <select id="findPreferenceByMemberNum" parameterType="long" resultType="int">
+        SELECT preference FROM member
+        WHERE member_num = #{memberNum}
+    </select>
 </mapper>

@@ -6,8 +6,8 @@ import com.be.cart.dto.res.CartItemResDto;
 import java.util.List;
 
 public interface CartService {
-    List<CartItemResDto> getCartList(int userNum);
-    CartItemResDto addCartItem(CartItemReqDto cart);
-    void deleteCartItem(int cartId);
-    boolean checkCartItem(CartItemReqDto cart);
+    List<CartItemResDto> initCartList(long memberNum);
+    List<CartItemResDto> addCartItem(List<CartItemResDto> cartList, CartItemReqDto cartItem);
+    List<CartItemResDto> deleteCartItem(List<CartItemResDto> cartList, int cartId);
+    void updateCartItem(List<CartItemResDto> cartList, Long memberNum);
 }

@@ -34,13 +34,51 @@ public class SavingProductController {
 
     // 예금 리스트 조회 API
     @GetMapping("/deposit")
-    public Map<String, Object> getDepositProducts() {
-        return savingProductService.getDepositProducts();
+    public Map<String, Object> getDepositProducts(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "kor_co_nm") String sortField,
+            @RequestParam(defaultValue = "asc") String sortOrder) {
+        return savingProductService.getDepositProducts(page, pageSize, sortField, sortOrder);
     }
 
     // 적금 리스트 조회 API
     @GetMapping("/saving")
-    public Map<String, Object> getSavingProducts() {
-        return savingProductService.getSavingProducts();
+    public Map<String, Object> getSavingProducts(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "kor_co_nm") String sortField,
+            @RequestParam(defaultValue = "asc") String sortOrder) {
+        return savingProductService.getSavingProducts(page, pageSize, sortField, sortOrder);
+    }
+
+    // 예금 상품 검색
+    @GetMapping("/depositSearch")
+    public Map<String, Object> searchDepositProducts(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int pageSize) {
+        return savingProductService.searchDepositProducts(keyword, page, pageSize);
+    }
+
+    // 적금 상품 검색
+    @GetMapping("/savingSearch")
+    public Map<String, Object> searchSavingProducts(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int pageSize) {
+        return savingProductService.searchSavingProducts(keyword, page, pageSize);
+    }
+
+    // 예금 상세 페이지
+    @GetMapping("/deposit/{productId}")
+    public Map<String, Object> getDepositProductDetail(@PathVariable int productId) {
+        return savingProductService.getDepositProductDetail(productId);
+    }
+
+    // 적금 상세 페이지
+    @GetMapping("/saving/{productId}")
+    public Map<String, Object> getSavingProductDetail(@PathVariable int productId) {
+        return savingProductService.getSavingProductDetail(productId);
     }
 }

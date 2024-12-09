@@ -2,6 +2,7 @@ package com.be.stock.controller;
 
 import com.be.stock.domain.StockVO;
 import com.be.stock.service.StockService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +25,23 @@ public class StockController {
         return "Stock data fetched successfully";
     }
 
-    // stockCode 또는 stockName으로 검색하는 API (JSON 데이터 반환)
+    // 전체 주식 데이터를 조회하는 API
+    @GetMapping("/all")
+    public List<StockVO> getAllStocks() {
+        return stockService.getAllStocks();
+    }
+
+    // stockCode 또는 stockName으로 검색, 엔드포인트
     @GetMapping("/searchStock")
     public List<StockVO> searchStock(@RequestParam("searchTerm") String searchTerm) {
-        // DB에서 검색어에 맞는 주식 데이터를 조회하여 JSON으로 반환
+        // 주식 데이터를 검색해서 반환
         return stockService.searchStock(searchTerm);
 
+    }
+
+    @GetMapping("/data")
+    public JSONObject searchStock() {
+        // DB에서 검색어에 맞는 주식 데이터를 조회하여 JSON으로 반환
+        return stockService.getStockData("005930");
     }
 }

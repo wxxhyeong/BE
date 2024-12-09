@@ -14,6 +14,7 @@ public enum ErrorCode {
      * 400
      */
     PASSWORD_MATCH_INVALID(BAD_REQUEST, "비밀번호와 비밀번호 재입력이 동일하지 않습니다."),
+    PASSWORD_INVALID(BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
 
     /**
      * 401 Unauthorized
@@ -37,6 +38,7 @@ public enum ErrorCode {
      */
     EXISTING_MEMBER_ID(CONFLICT, "이미 사용중인 ID입니다."),
     EXISTING_EMAIL(CONFLICT, "이미 사용중인 이메일입니다."),
+    EXISTING_CART_ITEM(CONFLICT, "이미 장바구니에 등록된 상품입니다."),
 
     /**
      * 500 Internal server error

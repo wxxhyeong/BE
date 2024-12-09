@@ -34,7 +34,7 @@ class CartServiceImplTest {
         CartItemReqDto cart = new CartItemReqDto();
 
         cart.setProductId(13);
-        cart.setUserNum(1);
+        cart.setMemberNum(1);
         cart.setProductType("S");
         cart.setProvider("삼성");
         cart.setProductName("1펀드");
@@ -42,7 +42,7 @@ class CartServiceImplTest {
 
         CartItemVO cartVO = cart.toVO();
         CartItemResDto cartResDto = CartItemResDto.of(cartVO);
-        cartResDto.setCartId(cartMapper.addCartItem(cartVO));
+//        cartResDto.setCartId(cartMapper.addCartItem(cartVO));
 
         System.out.println(cartResDto);
     }
@@ -52,8 +52,8 @@ class CartServiceImplTest {
         cartMapper.deleteCartItem(2);
     }
 
-    @Test
-    void checkCartItem() {
-        System.out.println(cartMapper.checkCartItem(1, 1) == null ? "false" : "true");
-    }
+//    @Test
+//    void checkCartItem() {
+//        System.out.println(cartMapper.checkCartItem(1, 1) == null ? "false" : "true");
+//    }
 }

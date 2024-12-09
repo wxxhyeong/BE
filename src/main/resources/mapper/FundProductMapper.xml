@@ -7,21 +7,44 @@
 
     <!-- 펀드 상품 삽입 -->
     <insert id="insertFundProduct" parameterType="com.be.finance.domain.FundProductVO">
-        INSERT INTO FundProduct (productID, company_nm, product_nm, yield_1, yield_3, yield_6, yield_12,
-                                 RiskLevel, fund_type, advanced_fee, total_payoff_rate, hit)
+        INSERT INTO fund_product (product_id, company_nm, product_nm, yield_1, yield_3, yield_6, yield_12,
+                                 risk_level, fund_type, advanced_fee, total_payoff_rate, hit)
         VALUES (#{productId}, #{companyNm}, #{productNm}, #{yield1}, #{yield3}, #{yield6}, #{yield12},
                 #{riskLevel}, #{fundType}, #{advancedFee}, #{totalPayoffRate}, #{hit})
     </insert>
 
     <!-- 펀드 상품 조회 -->
     <select id="getFundProductsList" resultType="com.be.finance.domain.FundProductVO">
-        SELECT * FROM FundProduct
+        SELECT * FROM fund_product
+        <if test="sortField != null and sortOrder != null">
+            ORDER BY
+                <choose>
+                    <when test="sortField == 'company_nm'">company_nm</when>
+                    <when test="sortField == 'product_nm'">product_nm</when>
+                    <when test="sortField == 'fund_type'">fund_type</when>
+                    <when test="sortField == 'risk_level'">risk_level</when>
+                    <when test="sortField == 'yield_12'">yield_12</when>
+                    <otherwise>product_id</otherwise>
+                </choose>
+                <choose>
+                    <when test="sortOrder == 'asc'">ASC</when>
+                    <when test="sortOrder == 'desc'">DESC</when>
+                    <otherwise>ASC</otherwise>
+                </choose>
+        </if>
     </select>
 
     <!-- 검색어 기반펀드 상품 조회 -->
     <select id="searchFundProducts" resultType="com.be.finance.domain.FundProductVO">
         SELECT *
-        FROM FundProduct
+        FROM fund_product
         WHERE product_nm LIKE #{keyword}
+    </select>
+
+    <!-- 특정 채권 상품 상세 정보 조회 -->
+    <select id="getFundProductDetail" resultType="com.be.finance.domain.FundProductVO">
+        SELECT *
+        FROM fund_product
+        WHERE product_id = #{product_id}
     </select>
 </mapper>

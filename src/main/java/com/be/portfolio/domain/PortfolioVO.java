@@ -12,12 +12,12 @@ import java.util.List;
 @Builder
 public class PortfolioVO {
     private int portfolioId;
-    private Date creationDate;
-    private int total;
-    private int expectedReturn;
-    private int riskLevel;
     private String portfolioName;
-    private int userNum;
+    private Date creationDate;
+    private double total;
+    private double expectedReturn;
+    private int riskLevel;
+    private long memberNum;
 
     private List<PortfolioItemVO> portfolioItems = new ArrayList<>();
 }

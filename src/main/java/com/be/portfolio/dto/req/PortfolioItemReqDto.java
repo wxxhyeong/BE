@@ -12,22 +12,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class PortfolioItemReqDto {
-    private int portfolioItemId;
     private int portfolioId;
-    private int productId;
+    private Integer productId;
     private String stockCode;
-    private int amount;
+    private double amount;
     private double expectedReturn;
-
-    public PortfolioItemReqDto of(PortfolioItemVO vo) {
-        return vo == null ? null : PortfolioItemReqDto.builder()
-                .portfolioId(vo.getPortfolioId())
-                .productId(vo.getProductId())
-                .stockCode(vo.getStockCode())
-                .amount(vo.getAmount())
-                .expectedReturn(vo.getExpectedReturn())
-                .build();
-    }
+    private int riskLevel;
+    private Character productType;
 
     public static PortfolioItemReqDto of(PortfolioItemResDto resDto) {
         return resDto == null ? null : PortfolioItemReqDto.builder()
@@ -36,6 +27,8 @@ public class PortfolioItemReqDto {
                 .stockCode(resDto.getStockCode())
                 .amount(resDto.getAmount())
                 .expectedReturn(resDto.getExpectedReturn())
+                .riskLevel(resDto.getRiskLevel())
+                .productType(resDto.getProductType())
                 .build();
     }
 
@@ -46,6 +39,8 @@ public class PortfolioItemReqDto {
                 .stockCode(stockCode)
                 .amount(amount)
                 .expectedReturn(expectedReturn)
+                .riskLevel(riskLevel)
+                .productType(productType)
                 .build();
     }
 }

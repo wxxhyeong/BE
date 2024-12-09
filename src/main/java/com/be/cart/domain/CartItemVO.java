@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 public class CartItemVO {
     private int cartId;
     private int productId;
-    private int userNum;
+    private long memberNum;
     private String productType;
     private String provider;
     private String productName;
     private Double expectedReturn;
-    private Double interestRate;
+    private String rsrvType;
 }
