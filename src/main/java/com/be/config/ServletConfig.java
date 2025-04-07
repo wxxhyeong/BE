@@ -28,7 +28,7 @@ public class ServletConfig  implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173")  // Vue 개발 서버의 주소
+                .allowedOrigins("http://54.85.46.9:80")  // Vue 개발 서버의 주소
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
                 .allowCredentials(true);
