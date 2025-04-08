@@ -38,12 +38,12 @@ pipeline {
             steps {
                 sh '''
                 ssh -o StrictHostKeyChecking=no -i ~/.ssh/crossfit-backend.pem ubuntu@54.85.46.9 << EOF
-                docker stop backend || true
-                docker rm backend || true
-                docker pull wxxhyeong/be:latest
-                docker run -d --name backend -p 8080:8080 wxxhyeong/be:latest
-                EOF
-                '''
+docker stop backend || true
+docker rm backend || true
+docker pull wxxhyeong/be:latest
+docker run -d --name backend -p 8080:8080 wxxhyeong/be:latest
+EOF
+'''
             }
         }
     }
