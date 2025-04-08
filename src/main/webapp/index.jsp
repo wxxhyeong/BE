@@ -19,7 +19,7 @@
 <br/>
 <br/>
 <form action="${pageContext.request.contextPath}/api/saving-products/fetch-saveSaving" method="GET">
-  <button type="submit" style="padding: 10px; background-color: lightblue;">API에서 적금 데이터 받아오기</button>
+  <button type="submit" style="padding: 10px; background-color: lightblue;">API에서 적금 데이터 받아올까 말까</button>
 </form>
 <br/>
 <br/>
