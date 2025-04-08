@@ -14,6 +14,7 @@ pipeline {
 
         stage('Gradle Build') {
             steps {
+                sh 'chmod +x ./gradlew'
                 sh './gradlew clean build' // 또는 필요한 태스크
             }
         }
