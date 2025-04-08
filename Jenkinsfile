@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "wxxhyeong/be"
-        TAG = "latest"
+        DOCKER_IMAGE = 'wxxhyeong/be:latest'
     }
 
     stages {
@@ -12,14 +11,25 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Docker Build') {
+
+        stage('Gradle Build') {
             steps {
-                sh 'docker build -t $IMAGE_NAME:$TAG .'
+                sh './gradlew clean build' // 또는 필요한 태스크
             }
         }
+
+        stage('Docker Build') {
+            steps {
+                sh "docker build -t ${DOCKER_IMAGE} ."
+            }
+        }
+
         stage('Docker Push') {
             steps {
-                sh 'docker push $IMAGE_NAME:$TAG'
+                withCredentials([string(credentialsId: 'docker-hub-token', variable: 'DOCKER_TOKEN')]) {
+                    sh "echo $DOCKER_TOKEN | docker login -u wxxhyeong --password-stdin"
+                    sh "docker push ${DOCKER_IMAGE}"
+                }
             }
         }
     }
