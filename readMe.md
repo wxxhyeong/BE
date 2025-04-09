@@ -16,10 +16,38 @@
 ![css3](https://img.shields.io/badge/css3-1572B6.svg?&style=for-the-badge&logo=css3&logoColor=white)
 
 ---
-## Database
-![image](https://github.com/user-attachments/assets/3108e92f-0e6e-4dc9-a90e-8f97b3626644)
+## Intro
+- 프로젝트명 : MVP (My inVestment Portfolio)
+- 주제 : 재테크를 위한 금융 상품 비교·추천 서비스
+- 진행 기간 : 2024년 9월 ~ 2024년 12월
+- 팀원 : 6명 (Backend : 3명, FrontEnd : 3명)
+- 맡은 역할
 
+  - **Team Leader**
+  
+  - **UserService**
+    
+    - 회원 가입 & 로그인 기능 구현
+    - JWT 기반 사용자 인증 및 인가 로직 구현
+      
+  - **Persona ChatBot**
+    
+    - Open AI API를 활용한 ChatBot Service 구현(Flask)
+      
+  - **EC2 배포 환경 구성**
+    
+    - 배포용 EC2와 RDS를 하나의 VPC에서 구성
+    - 배포용 EC2와 구축용 EC2
+      
+  - **CI & CD 자동화 파이프라인 구축**
+    
+    - EC2에 Spring, Vue, Flask를 Docker로 배포 환경 구축
+    - EC2에 Jenkins로 CI & CD 파이프라인 구축
 ---
 ## Architecture
-![image](https://github.com/user-attachments/assets/456eba30-90e3-44d2-8a06-ec0a6068e8f9)
+![image](https://github.com/user-attachments/assets/8d7949bd-7727-4440-a861-d04b744886c9)
+---
+
+## Database
+![image](https://github.com/user-attachments/assets/3108e92f-0e6e-4dc9-a90e-8f97b3626644)
 ---
